@@ -17,3 +17,10 @@ dist
 # Use pnpm
 yarn.lock
 package-lock.json
+
+
+# log
+*-debug.log
+*-error.log
+
+.turbo

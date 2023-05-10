@@ -5,11 +5,13 @@
   "license": "UNLICENSED",
   "description": "Repository managing script",
   "scripts": {
-    "test": "jest",
+    "dev": "ts-node -T src/index.ts",
     "build": "pnpm build:typecheck && pnpm build:bundle && pnpm build:chmod",
     "build:typecheck": "tsc --noEmit",
-    "build:bundle": "esbuild ./src/index.ts --bundle --outfile=../script.js --banner:js=\"#!/usr/bin/env node\"",
-    "build:chmod": "chmod +x ../script.js"
+    "build:bundle": "esbuild ./src/index.ts --bundle --platform=node --outfile=../ppoba --banner:js=\"#!/usr/bin/env node\"",
+    "build:chmod": "chmod +x ../ppoba",
+    "test": "jest",
+    "lint": "eslint ./src/**/*.ts --ext .ts --config ../.eslintrc.js"
   },
   "eslintIgnore": [
     "*.js",
@@ -45,5 +47,13 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "boxen": "^5.1.2",
+    "clipanion": "^3.2.0",
+    "kleur": "^4.1.5",
+    "ora": "^5.4.1",
+    "ts-pattern": "^4.3.0",
+    "typanion": "^3.12.1"
   }
 }

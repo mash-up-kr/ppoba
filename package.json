@@ -7,7 +7,7 @@
     "url": "https://github.com/mash-up-kr/ppoba"
   },
   "scripts": {
-    "configure": "./script.js"
+    "build": "turbo build"
   },
   "license": "UNLICENSED",
   "author": {
@@ -20,5 +20,8 @@
       "email": "nycom13@gmail.com",
       "url": "https://github.com/minidonut"
     }
-  ]
+  ],
+  "devDependencies": {
+    "turbo": "^1.9.3"
+  }
 }
