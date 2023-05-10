@@ -1,0 +1,49 @@
+{
+  "name": "script",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "Repository managing script",
+  "scripts": {
+    "test": "jest",
+    "build": "pnpm build:typecheck && pnpm build:bundle && pnpm build:chmod",
+    "build:typecheck": "tsc --noEmit",
+    "build:bundle": "esbuild ./src/index.ts --bundle --outfile=../script.js --banner:js=\"#!/usr/bin/env node\"",
+    "build:chmod": "chmod +x ../script.js"
+  },
+  "eslintIgnore": [
+    "*.js",
+    "dist"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.test.(ts|js)"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.5",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
+    "esbuild": "^0.17.18",
+    "eslint": "^8.31.0",
+    "jest": "^29.3.1",
+    "jest-mock-extended": "^3.0.4",
+    "prettier": "^2.8.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
