@@ -1,8 +1,8 @@
 import { Command, Option } from 'clipanion';
-import { categories } from './Category';
 import * as t from 'typanion';
+import { categories } from './Category';
+import { checklist } from './CheckList';
 import { Runner } from './Runner';
-import { checkers } from './checkers';
 
 const usage = Command.Usage({
   description: `프로젝트의 설정이 제대로 되어 있는지 확인합니다.`,
@@ -29,6 +29,6 @@ export class ConfigureCommand extends Command {
     if (this.category == null) {
       return console.info(this.cli.usage(ConfigureCommand, { detailed: true }));
     }
-    await new Runner(checkers).run(this.category);
+    await new Runner(checklist).run(this.category);
   }
 }

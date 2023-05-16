@@ -11252,7 +11252,7 @@ var import_clipanion2 = __toESM(require_advanced());
 var import_clipanion = __toESM(require_advanced());
 
 // src/commands/configure/Category.ts
-var categories = ["system", "aws"];
+var categories = ["all", "system", "aws"];
 
 // src/commands/configure/index.ts
 var t3 = __toESM(require_lib());
@@ -11390,15 +11390,15 @@ var O = /* @__PURE__ */ function() {
 var import_ora = __toESM(require_ora());
 var import_boxen = __toESM(require_boxen());
 var Runner = class {
-  constructor(...checkers) {
-    this.checkers = checkers;
+  constructor(checkers2) {
+    this.checkers = checkers2;
   }
   async run(category) {
     const match = (checker) => {
-      if (category) {
-        return checker.category === category;
+      if (category === "all") {
+        return true;
       } else {
-        return false;
+        return checker.category === category;
       }
     };
     for (const checker of this.checkers) {
@@ -11410,28 +11410,86 @@ var Runner = class {
   }
   async runChecker(checker) {
     const spinner = (0, import_ora.default)({ text: checker.title });
+    spinner.start();
     const result = await checker.check();
-    K(result).with({ result: "success" }, () => {
-      spinner.succeed();
+    K(result).with({ result: "success" }, ({ message }) => {
+      spinner.succeed(`${checker.title} - ${message}`);
     }).with({ result: "warning" }, ({ message, diagnotics }) => {
-      spinner.warn();
-      this.reportDiagnotics({ message, diagnotics });
+      spinner.warn(`${checker.title} - ${message}`);
+      this.reportDiagnotics(diagnotics);
     }).with({ result: "failure" }, ({ message, diagnotics }) => {
-      spinner.fail();
-      this.reportDiagnotics({ message, diagnotics });
+      spinner.fail(`${checker.title} - ${message}`);
+      this.reportDiagnotics(diagnotics);
       process.exit(1);
     }).exhaustive();
   }
-  reportDiagnotics({
-    message,
-    diagnotics
-  }) {
-    (0, import_boxen.default)(message, { padding: 1 });
-    diagnotics.forEach((diagnotic) => {
-      console.warn(`- ${diagnotic}`);
-    });
+  reportDiagnotics(diagnotics) {
+    console.info((0, import_boxen.default)(diagnotics.join("\n\n"), { padding: 1, margin: 1 }));
   }
 };
+
+// src/commands/configure/ConfigurationError.ts
+var BaseError = class extends Error {
+  constructor(message, diagnotics = []) {
+    super(message);
+    this.message = message;
+    this.diagnotics = diagnotics;
+  }
+};
+var ConfigurationError = class extends BaseError {
+};
+var ConfigurationWarning = class extends BaseError {
+};
+
+// src/commands/configure/ConfigurationChecker.ts
+function ConfigurationChecker({
+  title,
+  category
+}) {
+  class AbstractChecker {
+    constructor() {
+      this.category = category;
+      this.title = title;
+    }
+    async check() {
+      try {
+        const message = await this._check();
+        return { title, message, result: "success" };
+      } catch (e2) {
+        if (e2 instanceof BaseError) {
+          return {
+            title,
+            result: e2 instanceof ConfigurationError ? "failure" : "warning",
+            message: e2.message,
+            diagnotics: e2.diagnotics
+          };
+        }
+        throw e2;
+      }
+    }
+  }
+  return AbstractChecker;
+}
+
+// src/commands/configure/checkers/NodeVersionChecker.ts
+var NodeVersionChecker = class extends ConfigurationChecker({
+  category: "system",
+  title: "NodeJS v18 \uBC84\uC804\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4"
+}) {
+  async _check() {
+    const versionMessage = `current ${process.version}`;
+    if (process.version.startsWith("v18")) {
+      return versionMessage;
+    }
+    throw new ConfigurationWarning(versionMessage, [
+      "\uB178\uB4DC \uBC84\uC804\uC744 v18\uB85C \uB9DE\uCDB0\uC8FC\uC138\uC694",
+      "https://www.npmjs.com/package/n"
+    ]);
+  }
+};
+
+// src/commands/configure/checkers/index.ts
+var checkers = [new NodeVersionChecker()];
 
 // src/commands/configure/index.ts
 var usage = import_clipanion.Command.Usage({
@@ -11440,11 +11498,11 @@ var usage = import_clipanion.Command.Usage({
 category := ${categories.join(", ")}
   `,
   examples: [
-    [`\uC804\uCCB4 \uC124\uC815 \uD655\uC778`, `$0 configure`],
+    [`\uC804\uCCB4 \uC124\uC815 \uD655\uC778`, `$0 configure all`],
     [`\uC2DC\uC2A4\uD15C \uC124\uC815\uB9CC \uD655\uC778`, `$0 configure system`]
   ]
 });
-var ConfigureCommand = class extends import_clipanion.Command {
+var _ConfigureCommand = class extends import_clipanion.Command {
   constructor() {
     super(...arguments);
     this.category = import_clipanion.Option.String({
@@ -11453,9 +11511,13 @@ var ConfigureCommand = class extends import_clipanion.Command {
     });
   }
   async execute() {
-    new Runner().run(this.category);
+    if (this.category == null) {
+      return console.info(this.cli.usage(_ConfigureCommand, { detailed: true }));
+    }
+    await new Runner(checkers).run(this.category);
   }
 };
+var ConfigureCommand = _ConfigureCommand;
 ConfigureCommand.paths = [[`configure`]];
 ConfigureCommand.usage = usage;
 
