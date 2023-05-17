@@ -11250,12 +11250,142 @@ var import_clipanion2 = __toESM(require_advanced());
 
 // src/commands/configure/index.ts
 var import_clipanion = __toESM(require_advanced());
+var t3 = __toESM(require_lib());
 
 // src/commands/configure/Category.ts
 var categories = ["all", "system", "aws"];
 
-// src/commands/configure/index.ts
-var t3 = __toESM(require_lib());
+// src/utils/sleep.ts
+var sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// src/commands/configure/CheckListError.ts
+var BaseError = class extends Error {
+  constructor(message, diagnotics = []) {
+    super(message);
+    this.message = message;
+    this.diagnotics = diagnotics;
+  }
+};
+var CheckFailureError = class extends BaseError {
+};
+var CheckWarningError = class extends BaseError {
+};
+
+// src/commands/configure/Chekcer.ts
+function createChecker(check) {
+  return {
+    check: async () => {
+      try {
+        const message = await check();
+        return { message, result: "success" };
+      } catch (e2) {
+        if (e2 instanceof BaseError) {
+          return {
+            result: e2 instanceof CheckFailureError ? "failure" : "warning",
+            message: e2.message,
+            diagnotics: e2.diagnotics
+          };
+        }
+        throw e2;
+      }
+    }
+  };
+}
+
+// src/utils/shell.ts
+var import_child_process = require("child_process");
+function shell(parts, ...args) {
+  const command = concatTemplateString(parts, ...args);
+  try {
+    return (0, import_child_process.execSync)(command, { encoding: "utf8" }).trim();
+  } catch (error) {
+    if ("stderr" in error) {
+      return error.stderr.toString();
+    }
+    throw error;
+  }
+}
+shell.orThrow = function(parts, ...args) {
+  const command = concatTemplateString(parts, ...args);
+  return (0, import_child_process.execSync)(command, { encoding: "utf8" }).trim();
+};
+function concatTemplateString(parts, ...args) {
+  let cmd = "";
+  for (let i = 0; i < parts.length; i++) {
+    cmd += parts[i] + (args[i] ?? "");
+  }
+  return cmd;
+}
+
+// src/commands/configure/checkers/AWSChecker.ts
+var AWSChecker = createChecker(async () => {
+  const awsIdentity = shell`aws sts get-caller-identity`;
+  if (awsIdentity.includes("command not found")) {
+    throw new CheckFailureError(`aws-cli\uB97C \uC124\uCE58\uD574\uC8FC\uC138\uC694`, ["https://aws.amazon.com/ko/cli/"]);
+  }
+  if (!awsIdentity.includes("002685347355")) {
+    throw new CheckFailureError(`aws profile\uC744 \uC124\uC815\uD574\uC8FC\uC138\uC694`, [`$ aws configure --profile ppoba`]);
+  }
+  return;
+});
+
+// src/commands/configure/checkers/DirenvChecker.ts
+var DirenvChecker = createChecker(async () => {
+  try {
+    if (shell.orThrow`which direnv`) {
+      return;
+    }
+  } catch (e2) {
+    throw new CheckFailureError(e2.message, ["direnv\uB97C \uC124\uCE58\uD574\uC8FC\uC138\uC694", "https://direnv.net/"]);
+  }
+});
+
+// src/commands/configure/checkers/EnvrcChecker.ts
+var fs = __toESM(require("fs"));
+var EnvrcChecker = createChecker(async () => {
+  if (fs.existsSync("./.envrc")) {
+    return;
+  } else {
+    fs.copyFileSync("./.envrc.template", "./.envrc");
+  }
+});
+
+// src/commands/configure/checkers/NodeVersionChecker.ts
+var NodeVersionChecker = createChecker(async () => {
+  const versionMessage = `current ${process.version}`;
+  if (process.version.startsWith("v18")) {
+    return versionMessage;
+  }
+  throw new CheckWarningError(versionMessage, ["\uB178\uB4DC \uBC84\uC804\uC744 v18\uB85C \uB9DE\uCDB0\uC8FC\uC138\uC694", "https://www.npmjs.com/package/n"]);
+});
+
+// src/commands/configure/checkers/PnpmVersionChecker.ts
+var PnpmVersionChecker = createChecker(async () => {
+  try {
+    const versionString = shell.orThrow`pnpm --version`;
+    if (/^7\./.test(versionString)) {
+      return versionString;
+    }
+    throw new CheckFailureError(versionString, ["pnpm \uBC84\uC804\uC744 7.X\uB85C \uB9DE\uCDB0\uC8FC\uC138\uC694"]);
+  } catch (e2) {
+    throw new CheckFailureError(e2.message, ["pnpm\uC774 \uC81C\uB300\uB85C \uC124\uCE58\uB418\uC5B4\uC788\uB294\uC9C0 \uD655\uC778\uD574\uC8FC\uC138\uC694", "npm -g install pnpm@^7"]);
+  }
+});
+
+// src/commands/configure/CheckList.ts
+var dummyChecker = createChecker(async () => {
+  await sleep(1e3);
+  return;
+});
+var checklist = {
+  "system: \uC2DC\uC2A4\uD15C \uC124\uC815\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": {
+    "NodeJS v18 \uBC84\uC804\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4": NodeVersionChecker,
+    "Pnpm vesion\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": PnpmVersionChecker,
+    "direnv\uAC00 \uC124\uCE58\uB418\uC5B4 \uC788\uB294\uC9C0 \uD655\uC778\uD569\uB2C8\uB2E4": DirenvChecker,
+    ".envrc \uC124\uC815\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": EnvrcChecker
+  },
+  "system: AWS \uC124\uC815\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": AWSChecker
+};
 
 // ../node_modules/.pnpm/ts-pattern@4.3.0/node_modules/ts-pattern/dist/index.js
 var n = Symbol("@ts-pattern/matcher");
@@ -11390,106 +11520,88 @@ var O = /* @__PURE__ */ function() {
 var import_ora = __toESM(require_ora());
 var import_boxen = __toESM(require_boxen());
 var Runner = class {
-  constructor(checkers2) {
-    this.checkers = checkers2;
+  constructor(checklist2) {
+    this.checklist = checklist2;
   }
   async run(category) {
-    const match = (checker) => {
+    const match = (checklistTitle) => {
       if (category === "all") {
         return true;
       } else {
-        return checker.category === category;
+        return checklistTitle.split(":")[0] === category;
       }
     };
-    for (const checker of this.checkers) {
-      if (!match(checker)) {
+    for (const title in this.checklist) {
+      if (!match(title)) {
         continue;
       }
-      await this.runChecker(checker);
+      await this.check(this.parseChecklistorChecker(this.checklist[title]), {
+        title,
+        depth: 0
+      });
     }
   }
-  async runChecker(checker) {
-    const spinner = (0, import_ora.default)({ text: checker.title });
-    spinner.start();
-    const result = await checker.check();
-    K(result).with({ result: "success" }, ({ message }) => {
-      spinner.succeed(`${checker.title} - ${message}`);
-    }).with({ result: "warning" }, ({ message, diagnotics }) => {
-      spinner.warn(`${checker.title} - ${message}`);
-      this.reportDiagnotics(diagnotics);
-    }).with({ result: "failure" }, ({ message, diagnotics }) => {
-      spinner.fail(`${checker.title} - ${message}`);
-      this.reportDiagnotics(diagnotics);
-      process.exit(1);
-    }).exhaustive();
-  }
-  reportDiagnotics(diagnotics) {
-    console.info((0, import_boxen.default)(diagnotics.join("\n\n"), { padding: 1, margin: 1 }));
-  }
-};
-
-// src/commands/configure/ConfigurationError.ts
-var BaseError = class extends Error {
-  constructor(message, diagnotics = []) {
-    super(message);
-    this.message = message;
-    this.diagnotics = diagnotics;
-  }
-};
-var ConfigurationError = class extends BaseError {
-};
-var ConfigurationWarning = class extends BaseError {
-};
-
-// src/commands/configure/ConfigurationChecker.ts
-function ConfigurationChecker({
-  title,
-  category
-}) {
-  class AbstractChecker {
-    constructor() {
-      this.category = category;
-      this.title = title;
+  parseChecklistorChecker(checklistOrChecker) {
+    if (this.isChecker(checklistOrChecker)) {
+      return {
+        checklist: null,
+        checker: checklistOrChecker
+      };
+    } else {
+      return {
+        checklist: checklistOrChecker,
+        checker: null
+      };
     }
-    async check() {
-      try {
-        const message = await this._check();
-        return { title, message, result: "success" };
-      } catch (e2) {
-        if (e2 instanceof BaseError) {
-          return {
-            title,
-            result: e2 instanceof ConfigurationError ? "failure" : "warning",
-            message: e2.message,
-            diagnotics: e2.diagnotics
-          };
+  }
+  async check({
+    checklist: checklist2,
+    checker
+  }, {
+    depth,
+    title
+  }) {
+    if (checker) {
+      let formatResult2 = function(message) {
+        if (message) {
+          return `${title} - ${message}`;
+        } else {
+          return title;
         }
-        throw e2;
+      };
+      var formatResult = formatResult2;
+      const spinner = (0, import_ora.default)({ text: title, indent: depth * 2 });
+      spinner.start();
+      const result = await checker.check();
+      K(result).with({ result: "success" }, ({ message }) => {
+        spinner.succeed(formatResult2(message));
+      }).with({ result: "warning" }, ({ message, diagnotics }) => {
+        spinner.warn(formatResult2(message));
+        this.reportDiagnotics(diagnotics);
+      }).with({ result: "failure" }, ({ message, diagnotics }) => {
+        spinner.fail(formatResult2(message));
+        this.reportDiagnotics(diagnotics);
+        process.exit(1);
+      }).exhaustive();
+    } else {
+      console.log(`\u{1F4CB} ${title}`);
+      for (const title2 in checklist2) {
+        await this.check(this.parseChecklistorChecker(checklist2[title2]), {
+          title: title2,
+          depth: depth + 1
+        });
       }
     }
   }
-  return AbstractChecker;
-}
-
-// src/commands/configure/checkers/NodeVersionChecker.ts
-var NodeVersionChecker = class extends ConfigurationChecker({
-  category: "system",
-  title: "NodeJS v18 \uBC84\uC804\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4"
-}) {
-  async _check() {
-    const versionMessage = `current ${process.version}`;
-    if (process.version.startsWith("v18")) {
-      return versionMessage;
+  reportDiagnotics(diagnotics) {
+    if (diagnotics) {
+      console.info((0, import_boxen.default)(diagnotics.join("\n\n"), { padding: 1, margin: 1 }));
     }
-    throw new ConfigurationWarning(versionMessage, [
-      "\uB178\uB4DC \uBC84\uC804\uC744 v18\uB85C \uB9DE\uCDB0\uC8FC\uC138\uC694",
-      "https://www.npmjs.com/package/n"
-    ]);
+  }
+  isChecker(checklistOrChecker) {
+    return typeof checklistOrChecker.check === "function";
   }
 };
-
-// src/commands/configure/checkers/index.ts
-var checkers = [new NodeVersionChecker()];
 
 // src/commands/configure/index.ts
 var usage = import_clipanion.Command.Usage({
@@ -11514,7 +11626,7 @@ var _ConfigureCommand = class extends import_clipanion.Command {
     if (this.category == null) {
       return console.info(this.cli.usage(_ConfigureCommand, { detailed: true }));
     }
-    await new Runner(checkers).run(this.category);
+    await new Runner(checklist).run(this.category);
   }
 };
 var ConfigureCommand = _ConfigureCommand;

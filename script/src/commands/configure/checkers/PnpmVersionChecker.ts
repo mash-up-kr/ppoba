@@ -1,10 +1,10 @@
+import { shell } from '../../../utils/shell';
 import { CheckFailureError } from '../CheckListError';
 import { createChecker } from '../Chekcer';
-import { execSync } from 'child_process';
 
 export const PnpmVersionChecker = createChecker(async () => {
   try {
-    const versionString = execSync('pnpm --version', { encoding: 'utf8' }).trim();
+    const versionString = shell.orThrow`pnpm --version`;
     if (/^7\./.test(versionString)) {
       return versionString;
     }

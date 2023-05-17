@@ -1,0 +1,51 @@
+{
+  "name": "@ppoba/types",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "esm/index.js",
+  "scripts": {
+    "build": "rm -rf dist esm && tsc -p tsconfig.build.json && tsc -p tsconfig.esm.json",
+    "lint": "eslint . --ext .js,.ts",
+    "start": "ts-node src/index.ts",
+    "start:debug": "node --require ts-node/register --inspect-brk src/index.ts",
+    "test": "NODE_ENV=test jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
+  },
+  "eslintIgnore": [
+    "*.js",
+    "dist"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.test.(ts|js)"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/node": "^20.1.7",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.40.0",
+    "jest": "^29.5.0",
+    "jest-mock-extended": "^3.0.4",
+    "prettier": "^2.8.8",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}

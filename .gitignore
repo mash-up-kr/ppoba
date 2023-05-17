@@ -6,6 +6,7 @@ coverage
 
 # Ignore built ts files
 dist
+esm
 
 # Ignore Desktop Service Store
 .DS_Store

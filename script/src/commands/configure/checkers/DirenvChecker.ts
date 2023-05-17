@@ -1,10 +1,10 @@
-import { execSync } from 'child_process';
+import { shell } from '../../../utils/shell';
 import { CheckFailureError } from '../CheckListError';
 import { createChecker } from '../Chekcer';
 
 export const DirenvChecker = createChecker(async () => {
   try {
-    if (execSync('which direnv', { encoding: 'utf8' }).trim()) {
+    if (shell.orThrow`which direnv`) {
       return;
     }
   } catch (e: any) {
