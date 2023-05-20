@@ -6,9 +6,6 @@
     "type": "git",
     "url": "https://github.com/mash-up-kr/ppoba"
   },
-  "scripts": {
-    "build": "turbo build"
-  },
   "license": "UNLICENSED",
   "author": {
     "name": "anytype",
@@ -21,7 +18,12 @@
       "url": "https://github.com/minidonut"
     }
   ],
+  "scripts": {
+    "build": "turbo build",
+    "test": "turbo test"
+  },
   "devDependencies": {
     "turbo": "^1.9.3"
-  }
+  },
+  "envrc": "b29c9df1a80d56012f884c4b879e2441"
 }

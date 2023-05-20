@@ -11346,7 +11346,7 @@ var EnvrcChecker = createChecker(async () => {
   if (fs.existsSync("./.envrc")) {
     return;
   } else {
-    fs.copyFileSync("./.envrc.template", "./.envrc");
+    fs.writeFileSync("export AWS_PROFILE=ppoba", "./.envrc");
   }
 });
 
@@ -11382,7 +11382,7 @@ var checklist = {
     "NodeJS v18 \uBC84\uC804\uC744 \uC0AC\uC6A9\uD569\uB2C8\uB2E4": NodeVersionChecker,
     "Pnpm vesion\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": PnpmVersionChecker,
     "direnv\uAC00 \uC124\uCE58\uB418\uC5B4 \uC788\uB294\uC9C0 \uD655\uC778\uD569\uB2C8\uB2E4": DirenvChecker,
-    ".envrc \uC124\uC815\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": EnvrcChecker
+    ".envrc\uAC00 \uC788\uB294\uC9C0 \uD655\uC778\uD569\uB2C8\uB2E4": EnvrcChecker
   },
   "system: AWS \uC124\uC815\uC744 \uD655\uC778\uD569\uB2C8\uB2E4": AWSChecker
 };

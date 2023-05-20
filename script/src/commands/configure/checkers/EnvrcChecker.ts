@@ -5,6 +5,6 @@ export const EnvrcChecker = createChecker(async () => {
   if (fs.existsSync('./.envrc')) {
     return;
   } else {
-    fs.copyFileSync('./.envrc.template', './.envrc');
+    fs.writeFileSync('export AWS_PROFILE=ppoba', './.envrc');
   }
 });
