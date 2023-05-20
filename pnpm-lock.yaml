@@ -99,6 +99,7 @@ importers:
 
   packages/service-frontend:
     specifiers:
+      '@ppoba/types': workspace:*
       '@types/node': ^18.11.18
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
@@ -112,6 +113,7 @@ importers:
       tailwindcss: 3.3.2
       typescript: ^5.0.4
     dependencies:
+      '@ppoba/types': link:../types
       '@types/node': 18.16.7
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
@@ -6202,7 +6204,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1_ptntfezbskugjyxb2gsnbidssi
+      ts-node: 10.9.1_vyxhtn3gmap2whkbnrz2avj22a
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6310,7 +6312,7 @@ packages:
       jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0 || ^28.0.0 || ^29.0.0
       typescript: ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
-      jest: 29.5.0_6vogyb6w5dat5dvwaq6uonp3ry
+      jest: 29.5.0_o64cudh4u7red7hklaqj7qxc6i
       ts-essentials: 7.0.3_typescript@5.0.4
       typescript: 5.0.4
     dev: true
