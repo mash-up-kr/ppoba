@@ -6,5 +6,10 @@ export type ApiSuccessResponse<T> = T & {
 
 export type ApiFailureResponse = {
   ok: false;
-  error: string;
+  error: {
+    name: string;
+    clientMessage: string;
+    systemMessage: string;
+    stack?: string;
+  };
 };

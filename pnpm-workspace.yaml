@@ -1,4 +1,6 @@
 packages:
   # all packages in subdirs
-  - 'packages/**'
+  - 'packages/service-backend'
+  - 'packages/service-frontend'
+  - 'packages/types'
   - 'script'

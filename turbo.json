@@ -2,7 +2,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["../script.js"]
+      "outputs": ["../script.js", ".next", "dist", "esm"]
     }
   }
 }
