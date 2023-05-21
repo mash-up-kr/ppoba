@@ -25,3 +25,5 @@ package-lock.json
 *-error.log
 
 .turbo
+
+lambda.zip
