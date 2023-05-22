@@ -1,4 +1,4 @@
-FUNCTION_NAME:=backend-$(SERVICE_ENV)
+FUNCTION_NAME:=backend-$(STAGE)
 
 prepare:
 	pnpm install --frozen-lockfile

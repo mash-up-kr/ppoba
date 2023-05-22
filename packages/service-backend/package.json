@@ -12,7 +12,7 @@
     "dev": "ts-node src/entry.local.ts",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "start:debug": "node --require ts-node/register --inspect-brk src/entry.local.ts",
-    "log:show": "aws logs tail /aws/lambda/namepicker --since 60m"
+    "log:show": "aws logs tail /aws/lambda/backend-dev --since 60m"
   },
   "author": {
     "name": "Karl Saehun Chung",

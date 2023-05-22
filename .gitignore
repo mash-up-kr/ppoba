@@ -27,3 +27,8 @@ package-lock.json
 .turbo
 
 lambda.zip
+
+.open-next
+.sst
+
+cdk.context.json
