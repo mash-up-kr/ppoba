@@ -12,8 +12,8 @@ export default {
     app.stack(function Site({ stack }) {
       const site = new NextjsSite(stack, 'site', {
         customDomain: {
-          domainName: process.env.DOMAIN_NAME,
-          hostedZone: process.env.AWS_HOST_ZONE,
+          domainName: process.env.DOMAIN_NAME!,
+          hostedZone: process.env.AWS_HOST_ZONE!,
         },
         runtime: 'nodejs18.x',
       });
