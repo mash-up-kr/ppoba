@@ -3,4 +3,5 @@ packages:
   - 'packages/service-backend'
   - 'packages/service-frontend'
   - 'packages/types'
+  - 'packages/ui'
   - 'script'

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ppoba/ui": "workspace:*",
     "@ppoba/types": "workspace:*",
     "@types/node": "^18.11.18",
     "@types/react": "18.2.6",
