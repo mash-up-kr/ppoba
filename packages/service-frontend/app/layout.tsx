@@ -1,7 +1,25 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 
-const inter = Inter({ subsets: ['latin'] })
+const pretendardFont = localFont({
+  src: './font/PretendardVariable.woff2',
+  fallback: [
+    'Pretendard',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'system-ui',
+    'Roboto',
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'sans-serif',
+  ],
+})
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,10 +30,10 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+}): JSX.Element {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={pretendardFont.className}>
+      <body className={pretendardFont.className}>{children}</body>
     </html>
   )
 }
