@@ -11,8 +11,9 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@ppoba/ui": "workspace:*",
     "@ppoba/types": "workspace:*",
+    "@ppoba/ui": "workspace:*",
+    "@tanstack/react-query": "^4.29.12",
     "@types/node": "^18.11.18",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
@@ -27,6 +28,7 @@
     "typescript": "^5.0.4"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.29.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.2",
