@@ -1,7 +1,7 @@
+import type { JSX } from 'react'
 import { Hydrate, HydrateProps } from '@tanstack/react-query'
-import React from 'react'
 
-function HydrateClient(props: HydrateProps): React.JSX.Element {
+function HydrateClient(props: HydrateProps): JSX.Element {
   return <Hydrate {...props} />
 }
 
