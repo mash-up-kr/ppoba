@@ -1,28 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { assert } from 'typia';
-import { IdGeneratorService } from '../id-generator/IdGeneratorService';
-import { User, UserModel } from './UserEntity';
 import { notNull } from '../../utils/notNull';
+import { InjectModel, Model, User } from '../../core/database';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly idGeneratorService: IdGeneratorService) {}
+  constructor(
+    @InjectModel.User
+    private readonly userModel: Model['User']
+  ) {}
 
   async create(userDto: Omit<User, 'createdAt' | 'updatedAt'>) {
-    const { cursor: id } = await this.idGeneratorService.generate('User');
-    const userItem = await UserModel.create({
-      id,
+    const userItem = await this.userModel.create({
+      id: userDto.id,
       name: userDto.name,
       gender: userDto.gender,
-      birthday: userDto.birthday,
-      kakaoToken: userDto.kakaoToken,
+      age: userDto.age,
     });
+    console.log(userItem.toJSON());
     return assert<User>(userItem.toJSON());
   }
 
   async getById(id: number): Promise<User | null> {
-    const userItem = await UserModel.get({ id });
+    const userItem = await this.userModel.findOne({ id });
     if (userItem) {
+      console.log(userItem.toJSON());
       return assert<User>(userItem.toJSON());
     } else {
       return null;
