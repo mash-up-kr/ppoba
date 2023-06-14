@@ -1,6 +1,6 @@
-function testQuery(): Promise<{status: 'success'}> {
+function testQuery(): Promise<{ status: 'success' }> {
   console.log('test in next')
   return Promise.resolve({ status: 'success' })
 }
 
-export default testQuery;
+export default testQuery
