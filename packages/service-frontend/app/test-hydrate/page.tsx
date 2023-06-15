@@ -1,10 +1,12 @@
 import type { JSX } from 'react'
+
 import { dehydrate } from '@tanstack/react-query'
 
-import Test from './test.client'
+import getQueryClient from '@/app/getQueryClient'
+import Hydrate from '@/app/hydrate.client'
 import testQuery from '@/src/api'
-import Hydrate from '../hydrate.client'
-import getQueryClient from '../getQueryClient'
+
+import Test from './test.client'
 
 export default async function HydrateTest(): Promise<JSX.Element> {
   const queryClient = getQueryClient()
