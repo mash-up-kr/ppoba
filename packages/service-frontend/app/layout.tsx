@@ -1,4 +1,6 @@
 import './globals.css'
+import type { JSX } from 'react'
+import Provider from './provider.client'
 import localFont from 'next/font/local'
 
 const pretendardFont = localFont({
@@ -33,7 +35,9 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en" className={pretendardFont.className}>
-      <body className={pretendardFont.className}>{children}</body>
+      <Provider>
+        <body className={pretendardFont.className}>{children}</body>
+      </Provider>
     </html>
   )
 }
