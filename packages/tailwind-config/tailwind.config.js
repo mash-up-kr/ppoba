@@ -17,12 +17,12 @@ module.exports = {
             left: 'calc(50% - 10px)',
             'border-radius': '9px 8px 8px 9px / 12px 12px 12px 12px',
           },
-          '45%': {
+          '40%': {
             width: '35px',
             left: 'calc(50% + 15px)',
             'border-radius': '23px 12px 12px 23px / 12px 12px 12px 12px',
           },
-          '55%': {
+          '60%': {
             width: '35px',
             left: 'calc(50% + 24px)',
             'border-radius': '12px 23px 23px 12px / 12px 12px 12px 12px',
