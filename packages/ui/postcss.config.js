@@ -1,6 +1,5 @@
+const baseConfig = require('@ppoba/tailwind-config/postcss.config')
+
 module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+  ...baseConfig
 }
