@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { ToggleButton } from '../components';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -15,13 +16,17 @@ type Story = StoryObj<typeof meta>;
 export const Active: Story = {
   args: {
     value: true,
-    onClick: () => {},
+    onClick: () => {
+      console.log('button clicked');
+    },
   },
 };
 
 export const InActive: Story = {
   args: {
     value: false,
-    onClick: () => {},
+    onClick: () => {
+      console.log('button clicked');
+    },
   },
 };
