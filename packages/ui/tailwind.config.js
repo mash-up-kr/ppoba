@@ -1,10 +1,2 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+module.exports = require('@ppoba/tailwind-config/tailwind.config')

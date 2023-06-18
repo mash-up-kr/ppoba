@@ -3,11 +3,12 @@ import type { JSX } from 'react'
 import Image from 'next/image'
 import { Button } from '@ppoba/ui'
 
+import TestToggleButton from './TestToggleButton'
 
 export default function Home(): JSX.Element {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="bg-green-500">TEST</div>
+      <TestToggleButton />
       <Button className="bg-blue-500 ml-8">Button Test</Button>
       <Button className="bg-red-500 p-3">Button Test</Button>
       <p className="text-3xl font-bold underline text-orange-500">Text</p>
