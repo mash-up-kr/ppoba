@@ -1,8 +1,9 @@
 import type { JSX } from 'react'
-import Image from 'next/image'
 
+import Image from 'next/image'
 import { Button } from '@ppoba/ui'
 import TestToggleButton from './TestToggleButton'
+
 
 export default function Home(): JSX.Element {
   return (

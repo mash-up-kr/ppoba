@@ -1,8 +1,10 @@
 'use client'
 
 import type { JSX } from 'react'
-import Link from 'next/link'
+
 import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
+
 import testQuery from '@/src/api'
 
 interface Props {

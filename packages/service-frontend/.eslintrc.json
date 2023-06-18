@@ -1,5 +1,37 @@
 {
   "extends": ["next/core-web-vitals", "prettier"],
   "ignorePatterns": ["jest.config.js", "jest.setup.js"],
-  "plugins": ["@tanstack/query"]
+  "plugins": ["@tanstack/query", "import"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["parent", "sibling"], "index"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "@ppoba/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@/**",
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "distinctGroup": false
+      }
+    ]
+  }
 }
