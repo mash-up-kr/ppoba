@@ -1,9 +1,8 @@
-import type { JSX } from 'react';
-import React from 'react';
+import type { JSX, PropsWithChildren } from 'react';
 
 type Props = React.ComponentPropsWithoutRef<'button'>;
 
-function Button({ children, className = '', ...props }: React.PropsWithChildren<Props>): JSX.Element {
+function Button({ children, className = '', ...props }: PropsWithChildren<Props>): JSX.Element {
   return (
     <button type="button" className={className} {...props}>
       {children}

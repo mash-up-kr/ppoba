@@ -1,7 +1,9 @@
 import './globals.css'
 import type { JSX } from 'react'
-import Provider from './provider.client'
+
 import localFont from 'next/font/local'
+
+import Provider from './provider.client'
 
 const pretendardFont = localFont({
   src: './font/PretendardVariable.woff2',

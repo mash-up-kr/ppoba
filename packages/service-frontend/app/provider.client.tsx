@@ -1,6 +1,7 @@
 'use client'
 import type { PropsWithChildren, JSX } from 'react'
 import { useState } from 'react'
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function Provider({ children }: PropsWithChildren): JSX.Element {
