@@ -38,7 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={pretendardFont.className}>
       <Provider>
-        <body className={pretendardFont.className}>{children}</body>
+        <body
+          className={`${pretendardFont.className} flex justify-center items-start`}
+        >
+          <div className="max-w-[420px] w-full min-h-screen bg-light">
+            {children}
+          </div>
+        </body>
       </Provider>
     </html>
   )
