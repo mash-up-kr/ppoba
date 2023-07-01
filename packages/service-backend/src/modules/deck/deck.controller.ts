@@ -8,22 +8,22 @@ export class DeckController {
   constructor(private readonly deckService: DeckService) {}
 
   @Post()
-  create(@Body() createDeckDto: CreateDeckDto) {
-    return this.deckService.create(createDeckDto);
+  async createDeck(@Body() createDeckDto: CreateDeckDto) {
+    return await this.deckService.create(createDeckDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.deckService.findOne(id);
+  async findDeck(@Param('id') id: string) {
+    return await this.deckService.findDeck(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
-    return this.deckService.update(id, updateDeckDto);
+  async updateDeck(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
+    return await this.deckService.updateDeck(id, updateDeckDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.deckService.remove(id);
+  async removeDeck(@Param('id') id: string) {
+    return await this.deckService.removeDeck(id);
   }
 }

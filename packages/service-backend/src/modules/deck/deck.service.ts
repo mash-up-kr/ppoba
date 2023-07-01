@@ -1,22 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
+import { DeckRepository } from './deck.repository';
 
 @Injectable()
 export class DeckService {
-  create(createDeckDto: CreateDeckDto) {
-    return 'This action adds a new deck';
+  constructor(private readonly deckRepository: DeckRepository;) {
+  }
+  async create(createDeckDto: CreateDeckDto) {
+    return await this.deckRepository.create();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} deck`;
+  async findDeck(id: string) {
+    return await this.deckRepository.findOne(id);
   }
 
-  update(id: string, updateDeckDto: UpdateDeckDto) {
-    return `This action updates a #${id} deck`;
+  async updateDeck(id: string, updateDeckDto: UpdateDeckDto) {
+    return await this.deckRepository.update(id);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} deck`;
+  async removeDeck(id: string) {
+    return await this.deckRepository.remove(id);
   }
 }
