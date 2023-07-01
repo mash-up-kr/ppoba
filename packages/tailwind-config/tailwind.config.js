@@ -115,54 +115,54 @@ module.exports = {
         '.headline-1': {
           'font-weight': 700,
           'font-size': '28px',
-          'line-height': '39.2px',
-          'letter-spacing': '-2%'
+          'line-height': '140%',
+          'letter-spacing': '-0.56px'
         },
         '.headline-2': {
           'font-weight': 700,
           'font-size': '24px',
-          'line-height': '33.6px',
-          'letter-spacing': '-1%'
+          'line-height': '140%',
+          'letter-spacing': '-0.24%'
         },
         '.headline-3': {
           'font-weight': 700,
           'font-size': '20px',
-          'line-height': '29px',
-          'letter-spacing': '-1%'
+          'line-height': '145%',
+          'letter-spacing': '-0.2%'
         },
         '.headline-4': {
           'font-weight': 700,
           'font-size': '16px',
-          'line-height': '24px',
-          'letter-spacing': '-1%'
+          'line-height': '150%',
+          'letter-spacing': '-0.16px'
         },
         '.headline-5': {
           'font-weight': 700,
           'font-size': '14px',
-          'line-height': '21px',
-          'letter-spacing': '-1%'
+          'line-height': '150%',
+          'letter-spacing': '-0.14px'
         },
 
         // Subtitle
         '.subtitle-1': {
           'font-weight': 500,
           'font-size': '20px',
-          'line-height': '30px',
-          'letter-spacing': '-1%'
+          'line-height': '150%',
+          'letter-spacing': '-0.2px'
         },
         '.subtitle-2': {
           'font-weight': 500,
           'font-size': '16px',
-          'line-height': '24px',
-          'letter-spacing': '-1%'
+          'line-height': '150%',
+          'letter-spacing': '-0.16px'
         },
 
         // Body
         '.body-1': {
           'font-weight': 400,
           'font-size': '16px',
-          'line-height': '24px',
-          'letter-spacing': '-1%'
+          'line-height': '150%',
+          'letter-spacing': '-0.16px'
         },
         '.body-2': {
           'font-weight': 400,
