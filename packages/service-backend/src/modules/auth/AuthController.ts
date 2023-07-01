@@ -15,10 +15,10 @@ export class AuthController {
   }
 
   @Get('/kakao/redirect')
-  async redirect(@Query('code') code: string) {
+  async redirect(@Query('code') code: string, @Query() query: any) {
+    console.log({ query });
     // TODO cookie or hmm
-    const nextUrl = await this.authService.authenticate(code);
     // TODO: redirect to frontend
-    return 'SUCCESS';
+    return await this.authService.authenticate(code);
   }
 }

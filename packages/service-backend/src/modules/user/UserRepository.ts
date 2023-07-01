@@ -17,14 +17,12 @@ export class UserRepository {
       gender: userDto.gender,
       age: userDto.age,
     });
-    console.log(userItem.toJSON());
     return assert<User>(userItem.toJSON());
   }
 
   async getById(id: number): Promise<User | null> {
     const userItem = await this.userModel.findOne({ id });
     if (userItem) {
-      console.log(userItem.toJSON());
       return assert<User>(userItem.toJSON());
     } else {
       return null;

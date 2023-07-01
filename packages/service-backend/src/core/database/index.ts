@@ -1,32 +1,25 @@
 import { Global, Module } from '@nestjs/common';
-import { MongooseModule, SchemaFactory, InjectModel as _InjectModel } from '@nestjs/mongoose';
-import { Model as _Model } from 'mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { env } from '../env';
-import { UserCollection, User, UserDocument } from './User';
+import { User, UserCollection, UserDocument } from './User';
+import { CollectionToModel, collectionToModules } from './utils';
 
-type Model = {
-  User: _Model<UserCollection>;
+type Model = CollectionToModel<typeof collections>;
+
+// 여기에 추가
+const collections = {
+  User: UserCollection,
 };
 
-const InjectModel = {
-  User: _InjectModel(UserCollection.name),
-};
+const { CollectionModule, InjectModel } = collectionToModules(collections);
 
 @Global()
 @Module({
   imports: [
-    MongooseModule.forRoot(env.database.connectionURI, {
-      dbName: 'dev',
-    }),
-    MongooseModule.forFeature([
-      { name: UserCollection.name, schema: SchemaFactory.createForClass(UserCollection) },
-    ]),
+    MongooseModule.forRoot(env.database.connectionURI, { dbName: 'dev' }),
+    CollectionModule,
   ],
-  exports: [
-    MongooseModule.forFeature([
-      { name: UserCollection.name, schema: SchemaFactory.createForClass(UserCollection) },
-    ]),
-  ],
+  exports: [CollectionModule],
 })
 class DatabaseModule {}
 

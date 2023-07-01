@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { nanoid } from 'nanoid';
-import got from 'got';
 import { User } from '../../core/database';
 import { UserRepository } from '../user/UserRepository';
 import { AuthKakaoService } from './AuthKakaoService';
+import { JwtService } from './JWTService';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
     private readonly authKakaoService: AuthKakaoService
   ) {}
@@ -19,7 +20,6 @@ export class AuthService {
     let user: User | null = await this.userRepository.getById(userInfo.id);
 
     if (user == null) {
-      // TODO create JWT
       user = await this.signUp({
         id: String(userInfo.id),
         age: userInfo.kakao_account.age_range,
@@ -31,7 +31,8 @@ export class AuthService {
   }
 
   async signIn(user: User) {
-    return;
+    const token = await this.jwtService.encode(user);
+    return { token };
   }
 
   async signUp(params: { id: string; age: string; gender: string }) {

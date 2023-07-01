@@ -3,10 +3,11 @@ import { UserModule } from '../user/UserModule';
 import { AuthController } from './AuthController';
 import { AuthKakaoService } from './AuthKakaoService';
 import { AuthService } from './AuthService';
+import { JwtService } from './JWTService';
 
 @Module({
   controllers: [AuthController],
   imports: [UserModule],
-  providers: [AuthService, AuthKakaoService],
+  providers: [AuthService, AuthKakaoService, JwtService],
 })
 export class AuthModule {}

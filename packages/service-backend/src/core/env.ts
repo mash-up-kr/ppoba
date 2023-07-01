@@ -29,4 +29,5 @@ export const env = {
     public: assert<string>(process.env.S3_PUBLIC_BUCKET),
     cdn: assert<string>(process.env.S3_CDN_BUCKET),
   },
+  jwtKey: assert<string>(process.env.JWT_KEY),
 };

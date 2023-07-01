@@ -1,5 +1,6 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { TimestampKey } from '../../types';
 
 /**
  * TODO: common으로
@@ -18,8 +19,6 @@ export type User = {
 
   updatedAt: Date;
 };
-
-export type TimestampKey = 'createdAt' | 'updatedAt';
 
 @Schema({ collection: 'User', timestamps: true })
 export class UserCollection implements Omit<User, TimestampKey> {
