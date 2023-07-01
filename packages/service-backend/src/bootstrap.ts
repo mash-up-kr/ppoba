@@ -2,7 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import express, { Express } from 'express';
-import { AppModule } from './app.module';
+import { AppModule } from './AppModule';
 import { setupSwagger } from './core/docs';
 
 export async function bootstrap(): Promise<{ app: NestExpressApplication; instance: Express }> {

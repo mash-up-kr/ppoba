@@ -11363,10 +11363,10 @@ var NodeVersionChecker = createChecker(async () => {
 var PnpmVersionChecker = createChecker(async () => {
   try {
     const versionString = shell.orThrow`pnpm --version`;
-    if (/^7\./.test(versionString)) {
+    if (/^8\./.test(versionString)) {
       return versionString;
     }
-    throw new CheckFailureError(versionString, ["pnpm \uBC84\uC804\uC744 7.X\uB85C \uB9DE\uCDB0\uC8FC\uC138\uC694"]);
+    throw new CheckFailureError(versionString, ["pnpm \uBC84\uC804\uC744 8.X\uB85C \uB9DE\uCDB0\uC8FC\uC138\uC694"]);
   } catch (e2) {
     throw new CheckFailureError(e2.message, ["pnpm\uC774 \uC81C\uB300\uB85C \uC124\uCE58\uB418\uC5B4\uC788\uB294\uC9C0 \uD655\uC778\uD574\uC8FC\uC138\uC694", "npm -g install pnpm@^7"]);
   }
