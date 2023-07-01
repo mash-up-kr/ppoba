@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { DeckService } from './deck.service';
-import { CreateDeckDto } from './dto/create-deck.dto';
-import { UpdateDeckDto } from './dto/update-deck.dto';
+import { DeckService } from './DeckService';
+import { CreateDeckDto } from './dto/CreateDeckDto';
+import { UpdateDeckDto } from './dto/UpdateDeckDto';
 
 @Controller('decks')
 export class DeckController {

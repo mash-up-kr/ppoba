@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDeckDto } from './dto/create-deck.dto';
-import { UpdateDeckDto } from './dto/update-deck.dto';
-import { DeckRepository } from './deck.repository';
+import { CreateDeckDto } from './dto/CreateDeckDto';
+import { UpdateDeckDto } from './dto/UpdateDeckDto';
+import { DeckRepository } from './DeckRepository';
 
 @Injectable()
 export class DeckService {
-  constructor(private readonly deckRepository: DeckRepository;) {
-  }
+  constructor(private readonly deckRepository: DeckRepository) {}
+
   async create(createDeckDto: CreateDeckDto) {
     return await this.deckRepository.create();
   }

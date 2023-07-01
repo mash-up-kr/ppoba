@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { DeckService } from './deck.service';
-import { DeckController } from './deck.controller';
-import { DeckRepository } from './deck.repository';
+import { DeckService } from './DeckService';
+import { DeckController } from './DeckController';
+import { DeckRepository } from './DeckRepository';
 
 @Module({
   controllers: [DeckController],
