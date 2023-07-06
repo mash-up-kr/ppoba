@@ -1,0 +1,24 @@
+## Issue Number
+
+close: #
+
+## Description
+
+> 구현 내용 및 작업한 내용
+
+- [x] 작업 내역 1
+- [x] 작업 내역 2
+
+## To Reviewers
+
+> PR을 볼 때 주의깊게 봐야하거나 말하고 싶은 점
+
+- 전달 사항 1
+- 전달 사항 2
+
+## Checklist
+
+> PR 등록 전 확인한 것
+
+- [ ] PR 제목은 포맷과 내용 둘 다 알맞게 작성되었는가 (e.g., `feat: 로그인 페이지 추가`)
+- [ ] description에 PR에 대해 구체적으로 설명했는가
