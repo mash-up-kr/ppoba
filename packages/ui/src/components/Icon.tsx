@@ -6,6 +6,7 @@ import { ReactComponent as Arrow } from '../assets/icons/Arrow.svg';
 import { ReactComponent as Back } from '../assets/icons/Back.svg';
 import { ReactComponent as Bookmark } from '../assets/icons/Bookmark.svg';
 import { ReactComponent as Cardcount } from '../assets/icons/Cardcount.svg';
+import { ReactComponent as Check } from '../assets/icons/Check.svg';
 import { ReactComponent as Close } from '../assets/icons/Close.svg';
 import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as Go } from '../assets/icons/Go.svg';
@@ -28,6 +29,7 @@ const ICONS = {
   back: Back,
   bookmark: Bookmark,
   cardcount: Cardcount,
+  check: Check,
   close: Close,
   deckAdd: DeckAdd,
   go: Go,
@@ -50,15 +52,17 @@ type IconProps = {
   type: IconType;
   width?: number | string;
   height?: number | string;
+  className?: string;
 };
 
-function Icon({ type, width, height }: IconProps): JSX.Element {
+function Icon({ type, width, height, className }: IconProps): JSX.Element {
   const SVGIcon = ICONS[type];
 
   return (
     <SVGIcon
       width={typeof width === 'number' ? `${width}px` : width}
       height={typeof height === 'number' ? `${height}px` : height}
+      className={className}
     />
   );
 }
