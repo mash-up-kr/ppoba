@@ -22,7 +22,7 @@ function SecondaryButton({ children, size, rightIcon, className = '', ...props }
   return (
     <button
       type="button" className={
-        `flex justify-center items-center ${buttonSize} h-[60px] text-base text-grey-800 font-bold border border-grey-600 rounded-[20px] bg-white
+        `flex justify-center items-center ${buttonSize} h-[60px] text-base text-grey-800 font-bold leading-[150%] tracking-[-0.16px] border border-grey-600 rounded-[20px] bg-white
         hover:text-grey-600 hover:border-grey-400 hover:bg-[#EFEFEF]
         disabled:text-grey-300 disabled:border-grey-200 disabled:bg-white 
         ${disabled ? 'disabled:cursor-not-allowed' : 'cursor-pointer'}
