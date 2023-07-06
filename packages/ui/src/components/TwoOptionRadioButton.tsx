@@ -30,7 +30,7 @@ function TwoOptionRadioButton<T extends string>({ value, options, onClickItem }:
       <button
         type="button"
         onClick={() => onClickItem(options[1])}
-        className={`flex gap-1 justify-center items-center flex-1 relative py-[18px] border-r border-y rounded-r-[20px] bg-white transition-all ${
+        className={`flex gap-1 justify-center items-center flex-1 relative py-[18px] border-r border-y rounded-r-[20px] headline-4 bg-white transition-all ${
           isRightActive ? 'border-l border-grey-500 text-grey-800' : 'border-grey-200 text-grey-200'
         }`}
       >
