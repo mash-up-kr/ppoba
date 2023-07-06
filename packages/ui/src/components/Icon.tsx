@@ -9,9 +9,10 @@ import { ReactComponent as Cardcount } from '../assets/icons/Cardcount.svg';
 import { ReactComponent as Check } from '../assets/icons/Check.svg';
 import { ReactComponent as CheckMarkWhite } from '../assets/icons/Checkmark-White.svg';
 import { ReactComponent as Close } from '../assets/icons/Close.svg';
-import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as DeckAddLight } from '../assets/icons/DeckAdd-Light.svg';
+import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as ExclamationWhite } from '../assets/icons/Exclamation-White.svg';
+import { ReactComponent as GoLight } from '../assets/icons/Go-light.svg';
 import { ReactComponent as Go } from '../assets/icons/Go.svg';
 import { ReactComponent as House } from '../assets/icons/House.svg';
 import { ReactComponent as kakao } from '../assets/icons/kakao.svg';
@@ -39,6 +40,7 @@ const ICONS = {
   deckAddLight: DeckAddLight,
   exclamationWhite: ExclamationWhite,
   go: Go,
+  goLight: GoLight,
   house: House,
   kakao: kakao,
   order: Order,
@@ -52,7 +54,7 @@ const ICONS = {
   welcome: Welcome,
 };
 
-type IconType = keyof typeof ICONS;
+export type IconType = keyof typeof ICONS;
 
 type IconProps = {
   type: IconType;
