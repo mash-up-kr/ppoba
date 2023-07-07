@@ -5,7 +5,7 @@ import { AlertMessage } from '@ppoba/ui'
 import TextCheckBoxTest from './TextCheckBoxTest'
 import TwoOptionButtonTest from './TwoOptionButtonTest'
 
-export default async function ButtonTest(): Promise<JSX.Element> {
+export default function ButtonTest(): JSX.Element {
   return (
     <div className="min-h-screen bg-white">
       <TwoOptionButtonTest />
