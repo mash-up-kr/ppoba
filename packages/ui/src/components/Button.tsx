@@ -13,7 +13,7 @@ type Props = {
 const sizes = {
   small: "w-[151px]",
   medium: "w-[202px]",
-  large: "w-[312px]",
+  large: "w-full",
 };
 
 function Button({ children, size, rightIcon, className = '', ...props }: PropsWithChildren<Props>): JSX.Element {
