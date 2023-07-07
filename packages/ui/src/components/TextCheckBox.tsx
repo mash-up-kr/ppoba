@@ -16,7 +16,11 @@ function TextCheckBox({ text, selected, onClick }: Props): JSX.Element {
       onClick={onClick}
     >
       {text}
-      {selected ? <Icon type="check" width={20} height={20} /> : <Icon type="deckAdd" width={20} height={20} />}
+      {selected ? (
+        <Icon type="checkMarkWhite" width={20} height={20} />
+      ) : (
+        <Icon type="deckAddLight" width={20} height={20} />
+      )}
     </button>
   );
 }

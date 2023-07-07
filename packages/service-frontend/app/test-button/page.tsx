@@ -14,7 +14,7 @@ export default function ButtonTest(): JSX.Element {
       <AlertMessage
         iconWidth={24}
         iconHeight={24}
-        iconType={'alert'}
+        iconType={'exclamationWhite'}
         text={'최대 글자를 넘어서 입력이 안되고 있어 :('}
       />
     </div>

@@ -7,8 +7,11 @@ import { ReactComponent as Back } from '../assets/icons/Back.svg';
 import { ReactComponent as Bookmark } from '../assets/icons/Bookmark.svg';
 import { ReactComponent as Cardcount } from '../assets/icons/Cardcount.svg';
 import { ReactComponent as Check } from '../assets/icons/Check.svg';
+import { ReactComponent as CheckMarkWhite } from '../assets/icons/Checkmark-White.svg';
 import { ReactComponent as Close } from '../assets/icons/Close.svg';
 import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
+import { ReactComponent as DeckAddLight } from '../assets/icons/DeckAdd-Light.svg';
+import { ReactComponent as ExclamationWhite } from '../assets/icons/Exclamation-White.svg';
 import { ReactComponent as Go } from '../assets/icons/Go.svg';
 import { ReactComponent as House } from '../assets/icons/House.svg';
 import { ReactComponent as kakao } from '../assets/icons/kakao.svg';
@@ -30,8 +33,11 @@ const ICONS = {
   bookmark: Bookmark,
   cardcount: Cardcount,
   check: Check,
+  checkMarkWhite: CheckMarkWhite,
   close: Close,
   deckAdd: DeckAdd,
+  deckAddLight: DeckAddLight,
+  exclamationWhite: ExclamationWhite,
   go: Go,
   house: House,
   kakao: kakao,
