@@ -71,7 +71,8 @@ function Icon({ type, width, height, className, onClick }: IconProps): JSX.Eleme
     <SVGIcon
       width={typeof width === 'number' ? `${width}px` : width}
       height={typeof height === 'number' ? `${height}px` : height}
-      className={className}
+      className={`${className} ${onClick ? 'cursor' : 'default'}`}
+      role={onClick ? 'button' : 'img'}
       onClick={onClick}
     />
   );
