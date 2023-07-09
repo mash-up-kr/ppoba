@@ -156,6 +156,12 @@ module.exports = {
           'line-height': '150%',
           'letter-spacing': '-0.16px'
         },
+        '.subtitle-3': {
+          'font-weight': 500,
+          'font-size': '14px',
+          'line-height': '150%',
+          'letter-spacing': '-0.16px'
+        },
 
         // Body
         '.body-1': {
