@@ -21,8 +21,7 @@
   "scripts": {
     "build": "turbo build",
     "test": "turbo test",
-    "deploy:frontend": "pnpm --filter frontend deploy",
-    "deploy:backend": "pnpm --filter backend deploy"
+    "deploy:dev": "turbo deploy:dev"
   },
   "devDependencies": {
     "turbo": "^1.9.3"
