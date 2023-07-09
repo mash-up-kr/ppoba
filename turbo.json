@@ -3,6 +3,9 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["../script.js", ".next", "dist", "esm"]
+    },
+    "deploy:dev": {
+      "dependsOn": ["build"]
     }
   }
 }

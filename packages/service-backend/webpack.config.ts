@@ -14,8 +14,8 @@ module.exports = {
     new webpack.IgnorePlugin({
       checkResource(resource) {
         const lazyImports = [
-          './swagger-ui-bundle.js',
-          './swagger-ui-standalone-preset.js',
+          // './swagger-ui-bundle.js',
+          // './swagger-ui-standalone-preset.js',
           'class-transformer/storage',
           'fastify-swagger',
           '@nestjs/microservices',
@@ -64,18 +64,6 @@ module.exports = {
     ],
   },
 };
-
-declare global {
-  const SOURCE_VERSION: string;
-}
-
-export function getSourceVersion() {
-  try {
-    return SOURCE_VERSION; // Webpack DefinePlugin will fill it
-  } catch {
-    return 'local';
-  }
-}
 
 export function captureSourceVersion() {
   try {

@@ -31,3 +31,15 @@ export const env = {
   },
   jwtKey: assert<string>(process.env.JWT_KEY),
 };
+
+declare global {
+  const SOURCE_VERSION: string;
+}
+
+export function getSourceVersion() {
+  try {
+    return SOURCE_VERSION; // Webpack DefinePlugin will fill it
+  } catch {
+    return 'local';
+  }
+}
