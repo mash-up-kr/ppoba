@@ -6,6 +6,9 @@
     },
     "deploy:dev": {
       "dependsOn": ["build"]
+    },
+    "lint": {
+      "dependsOn": []
     }
   }
 }
