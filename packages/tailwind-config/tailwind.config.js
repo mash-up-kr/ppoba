@@ -122,13 +122,13 @@ module.exports = {
           'font-weight': 700,
           'font-size': '24px',
           'line-height': '140%',
-          'letter-spacing': '-0.24%'
+          'letter-spacing': '-0.24px'
         },
         '.headline-3': {
           'font-weight': 700,
           'font-size': '20px',
           'line-height': '145%',
-          'letter-spacing': '-0.2%'
+          'letter-spacing': ' -0.2px'
         },
         '.headline-4': {
           'font-weight': 700,
