@@ -5,10 +5,8 @@
       "outputs": ["../script.js", ".next", "dist", "esm"]
     },
     "deploy:dev": {
-      "dependsOn": ["^deply:dev"]
+      "dependsOn": ["^deploy:dev"]
     },
-    "lint": {
-      "dependsOn": []
-    }
+    "lint": {}
   }
 }
