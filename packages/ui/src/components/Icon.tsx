@@ -41,6 +41,15 @@ import { ReactComponent as LeafDot } from '../assets/icons/LeafDot.svg';
 import { ReactComponent as LeafDotColor } from '../assets/icons/LeafDotColor.svg';
 import { ReactComponent as LeafNormal } from '../assets/icons/LeafNormal.svg';
 import { ReactComponent as LeafPoint } from '../assets/icons/LeafPoint.svg';
+import { ReactComponent as LeftDown } from '../assets/icons/LeftDown.svg';
+import { ReactComponent as LeftDownBlue } from '../assets/icons/LeftDownBlue.svg';
+import { ReactComponent as LeftDownGreen } from '../assets/icons/LeftDownGreen.svg';
+import { ReactComponent as LeftDownOrange } from '../assets/icons/LeftDownOrange.svg';
+import { ReactComponent as LeftDownPink } from '../assets/icons/LeftDownPink.svg';
+import { ReactComponent as LeftDownPurple } from '../assets/icons/LeftDownPurple.svg';
+import { ReactComponent as LeftDownRed } from '../assets/icons/LeftDownRed.svg';
+import { ReactComponent as LeftDownTeal } from '../assets/icons/LeftDownTeal.svg';
+import { ReactComponent as LeftDownYellow } from '../assets/icons/LeftDownYellow.svg';
 import { ReactComponent as NailColor } from '../assets/icons/NailColor.svg';
 import { ReactComponent as NailDot } from '../assets/icons/NailDot.svg';
 import { ReactComponent as NailDotColor } from '../assets/icons/NailDotColor.svg';
@@ -54,6 +63,15 @@ import { ReactComponent as PlugDotColor } from '../assets/icons/PlugDotColor.svg
 import { ReactComponent as PlugNormal } from '../assets/icons/PlugNormal.svg';
 import { ReactComponent as PlugPoint } from '../assets/icons/PlugPoint.svg';
 import { ReactComponent as Question } from '../assets/icons/Question.svg';
+import { ReactComponent as RightUp } from '../assets/icons/RightUp.svg';
+import { ReactComponent as RightUpBlue } from '../assets/icons/RightUpBlue.svg';
+import { ReactComponent as RightUpGreen } from '../assets/icons/RightUpGreen.svg';
+import { ReactComponent as RightUpOrange } from '../assets/icons/RightUpOrange.svg';
+import { ReactComponent as RightUpPink } from '../assets/icons/RightUpPink.svg';
+import { ReactComponent as RightUpPurple } from '../assets/icons/RightUpPurple.svg';
+import { ReactComponent as RightUpRed } from '../assets/icons/RightUpRed.svg';
+import { ReactComponent as RightUpTeal } from '../assets/icons/RightUpTeal.svg';
+import { ReactComponent as RightUpYellow } from '../assets/icons/RightUpYellow.svg';
 import { ReactComponent as Share } from '../assets/icons/Share.svg';
 import { ReactComponent as Shuffle } from '../assets/icons/Shuffle.svg';
 import { ReactComponent as SproutColor } from '../assets/icons/SproutColor.svg';
@@ -107,6 +125,26 @@ const CARD_ICONS = {
   sproutPoint: SproutPoint,
   sproutDot: SproutDot,
   sproutDotColor: SproutDotColor,
+
+  // arrow
+  leftDown: LeftDown,
+  leftDownBlue: LeftDownBlue,
+  leftDownGreen: LeftDownGreen,
+  leftDownOrange: LeftDownOrange,
+  leftDownPink: LeftDownPink,
+  leftDownPurple: LeftDownPurple,
+  leftDownRed: LeftDownRed,
+  leftDownTeal: LeftDownTeal,
+  leftDownYellow: LeftDownYellow,
+  rightUp: RightUp,
+  rightUpBlue: RightUpBlue,
+  rightUpGreen: RightUpGreen,
+  rightUpOrange: RightUpOrange,
+  rightUpPink: RightUpPink,
+  rightUpPurple: RightUpPurple,
+  rightUpRed: RightUpRed,
+  rightUpTeal: RightUpTeal,
+  rightUpYellow: RightUpYellow,
 };
 
 const ICONS = {
