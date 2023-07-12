@@ -5,6 +5,7 @@ import { ReactComponent as Alert } from '../assets/icons/Alert.svg';
 import { ReactComponent as Arrow } from '../assets/icons/Arrow.svg';
 import { ReactComponent as Back } from '../assets/icons/Back.svg';
 import { ReactComponent as Bookmark } from '../assets/icons/Bookmark.svg';
+import { ReactComponent as CardcountWhite } from '../assets/icons/Cardcount-White.svg';
 import { ReactComponent as Cardcount } from '../assets/icons/Cardcount.svg';
 import { ReactComponent as Check } from '../assets/icons/Check.svg';
 import { ReactComponent as CheckMarkWhite } from '../assets/icons/Checkmark-White.svg';
@@ -13,6 +14,7 @@ import { ReactComponent as DeckAddLight } from '../assets/icons/DeckAdd-Light.sv
 import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as ExclamationWhite } from '../assets/icons/Exclamation-White.svg';
 import { ReactComponent as GoLight } from '../assets/icons/Go-light.svg';
+import { ReactComponent as GoWhite } from '../assets/icons/Go-White.svg';
 import { ReactComponent as Go } from '../assets/icons/Go.svg';
 import { ReactComponent as House } from '../assets/icons/House.svg';
 import { ReactComponent as kakao } from '../assets/icons/kakao.svg';
@@ -33,6 +35,7 @@ const ICONS = {
   back: Back,
   bookmark: Bookmark,
   cardcount: Cardcount,
+  cardcountWhite: CardcountWhite,
   check: Check,
   checkMarkWhite: CheckMarkWhite,
   close: Close,
@@ -40,6 +43,7 @@ const ICONS = {
   deckAddLight: DeckAddLight,
   exclamationWhite: ExclamationWhite,
   go: Go,
+  goWhite: GoWhite,
   goLight: GoLight,
   house: House,
   kakao: kakao,
