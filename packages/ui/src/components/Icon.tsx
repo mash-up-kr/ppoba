@@ -3,6 +3,7 @@ import type { JSX, MouseEventHandler } from 'react';
 import { ReactComponent as Add } from '../assets/icons/Add.svg';
 import { ReactComponent as Alert } from '../assets/icons/Alert.svg';
 import { ReactComponent as Arrow } from '../assets/icons/Arrow.svg';
+import { ReactComponent as BackWhite } from '../assets/icons/Back-White.svg';
 import { ReactComponent as Back } from '../assets/icons/Back.svg';
 import { ReactComponent as Bookmark } from '../assets/icons/Bookmark.svg';
 import { ReactComponent as CardcountWhite } from '../assets/icons/Cardcount-White.svg';
@@ -33,6 +34,7 @@ const ICONS = {
   arrow: Arrow,
   alert: Alert,
   back: Back,
+  backWhite: BackWhite,
   bookmark: Bookmark,
   cardcount: Cardcount,
   cardcountWhite: CardcountWhite,
