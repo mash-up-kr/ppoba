@@ -3,6 +3,8 @@ import { useState, type JSX, useCallback } from 'react'
 
 import { Icon, Button } from '@ppoba/ui'
 
+import { Header } from '@/components'
+
 import GameKeywordBox from './GameKeywordBox'
 
 const INITIAL_KEYWORDS = [
@@ -40,9 +42,10 @@ export default function ConfirmDetailPage(): JSX.Element {
   )
 
   return (
-    <div className="min-h-screen py-[52px] flex flex-col">
+    <div className="min-h-screen flex flex-col">
+      <Header leftIconType="backWhite" className="bg-grey-800" />
       {/* 게임 상세 타이틀 */}
-      <div className="bg-grey-800 h-[166px]">
+      <div className="bg-grey-800 h-[218px] py-[72px]">
         <div className="flex flex-col gap-1 px-[32px] py-[20px]">
           <div className="flex gap-[4.5px]">
             <Icon type="cardcountWhite" width={20} height={20} />

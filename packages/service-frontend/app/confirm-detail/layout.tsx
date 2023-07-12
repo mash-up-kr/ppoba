@@ -1,3 +1,5 @@
+import { Header } from '@/components'
+
 interface Props {
   children: React.ReactNode
 }
