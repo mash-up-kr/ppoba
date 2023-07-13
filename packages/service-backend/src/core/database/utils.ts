@@ -1,6 +1,7 @@
 import { DynamicModule } from '@nestjs/common';
 import { InjectModel as _InjectModel, MongooseModule, SchemaFactory } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 
 export function collectionToModules<T extends Record<string, any>>(
   collectionTable: T
@@ -19,7 +20,7 @@ export function collectionToModules<T extends Record<string, any>>(
   const CollectionModule = MongooseModule.forFeature(
     Object.values(collectionTable).map(collectionCtor => ({
       name: collectionCtor.name,
-      schema: SchemaFactory.createForClass(collectionCtor),
+      schema: SchemaFactory.createForClass(collectionCtor).plugin(softDeletePlugin),
     }))
   );
 
