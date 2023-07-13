@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { JSX, MouseEventHandler } from 'react';
 
 import { ReactComponent as Add } from '../assets/icons/Add.svg';
 import { ReactComponent as Alert } from '../assets/icons/Alert.svg';
@@ -61,16 +61,19 @@ type IconProps = {
   width?: number | string;
   height?: number | string;
   className?: string;
+  onClick?: MouseEventHandler<SVGSVGElement>;
 };
 
-function Icon({ type, width, height, className }: IconProps): JSX.Element {
+function Icon({ type, width, height, className, onClick }: IconProps): JSX.Element {
   const SVGIcon = ICONS[type];
 
   return (
     <SVGIcon
       width={typeof width === 'number' ? `${width}px` : width}
       height={typeof height === 'number' ? `${height}px` : height}
-      className={className}
+      className={`${className} ${onClick ? 'cursor' : 'default'}`}
+      role={onClick ? 'button' : 'img'}
+      onClick={onClick}
     />
   );
 }

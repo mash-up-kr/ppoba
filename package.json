@@ -20,9 +20,9 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "test": "turbo test",
-    "deploy:frontend": "pnpm --filter frontend deploy",
-    "deploy:backend": "pnpm --filter backend deploy"
+    "deploy:dev": "turbo deploy:dev",
+    "lint": "turbo lint",
+    "test": "turbo test"
   },
   "devDependencies": {
     "turbo": "^1.9.3"

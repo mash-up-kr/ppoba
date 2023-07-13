@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { User } from '../../core/database';
 import { UserRepository } from '../user/UserRepository';
 import { AuthKakaoService } from './AuthKakaoService';
-import { JwtService } from './JWTService';
+import { JwtService } from './JwtService';
 
 @Injectable()
 export class AuthService {

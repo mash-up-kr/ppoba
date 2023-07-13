@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+
 import Icon from './Icon';
 import { XOR } from '../utils';
 
