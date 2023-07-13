@@ -15,8 +15,7 @@ export class CardController {
     
     @Post()
     async onCreateCard(@Body() cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>){
-        console.log(cardDto);
-        return this.cardService.create(cardDto);
+        return this.cardService.create(cardDto.content);
     }
     
     @Delete(':id')
