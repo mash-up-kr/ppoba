@@ -8,12 +8,9 @@ export class CardService {
         private readonly cardRepository: CardRepository
     ){}
     
-    async create(params: { id : string, content: string }){
+    async create( content: string ){
         // TODO : auto increment로
-        return await this.cardRepository.create({
-        id: params.id,
-        content: params.id
-      });
+        return await this.cardRepository.create(content);
     }
     
     async deleteCard(id: string) : Promise<Object>{

@@ -10,10 +10,9 @@ export class CardRepository {
         private readonly cardModel: SoftDeleteModel<CardDocument>
       ) {}
       
-    async create(cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>){
+    async create(content: string){
         const cardItem = await this.cardModel.create({
-            id: cardDto.id,
-            content: cardDto.content,
+            content: content,
             deletedAt: null
           });
           console.log(cardItem.toJSON());
