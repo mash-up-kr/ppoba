@@ -14,6 +14,7 @@ import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as ExclamationWhite } from '../assets/icons/Exclamation-White.svg';
 import { ReactComponent as GoLight } from '../assets/icons/Go-light.svg';
 import { ReactComponent as Go } from '../assets/icons/Go.svg';
+import { ReactComponent as Home } from '../assets/icons/Home.svg';
 import { ReactComponent as House } from '../assets/icons/House.svg';
 import { ReactComponent as kakao } from '../assets/icons/kakao.svg';
 import { ReactComponent as Order } from '../assets/icons/Order.svg';
@@ -41,6 +42,7 @@ const ICONS = {
   exclamationWhite: ExclamationWhite,
   go: Go,
   goLight: GoLight,
+  home: Home,
   house: House,
   kakao: kakao,
   order: Order,
