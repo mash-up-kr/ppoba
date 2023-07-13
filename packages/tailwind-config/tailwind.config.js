@@ -1,11 +1,11 @@
-const plugin = require('tailwindcss/plugin')
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   content: [
-    "../ui/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    '../ui/**/*.{js,ts,jsx,tsx}',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './app/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -13,7 +13,7 @@ module.exports = {
         'slide-right-toggle': {
           '0%': {
             width: '24px',
-            left: '50%'
+            left: '50%',
           },
           '20%': {
             width: '14px',
@@ -67,13 +67,13 @@ module.exports = {
           },
           '100%': {
             width: '24px',
-            left: '50%'
+            left: '50%',
           },
         },
       },
       animation: {
         'slide-right-toggle': 'slide-right-toggle 0.4s linear',
-        'slide-left-toggle': 'slide-left-toggle 0.4s linear'
+        'slide-left-toggle': 'slide-left-toggle 0.4s linear',
       },
       colors: {
         grey: {
@@ -88,25 +88,41 @@ module.exports = {
         },
         blue: {
           '01': '#E0E3FF',
-          '02': '#9FA9FF'
+          '02': '#9FA9FF',
         },
         green: {
           '01': '#CFF3E9',
-          '02': '#81E4BB'
+          '02': '#81E4BB',
         },
         yellow: {
           '01': '#FFF4BC',
-          '02': '#FEDB61'
+          '02': '#FEDB61',
         },
         pink: {
           '01': '#FAE4FB',
-          '02': '#F4B9F4'
+          '02': '#F4B9F4',
         },
         alert: {
-          red: '#E65C5C'
+          red: '#E65C5C',
         },
-        light: '#F7F7F7'
-      }
+        teal: {
+          '01': '',
+          '02': '#81E4BB',
+        },
+        purple: {
+          '01': '',
+          '02': '#B073FF',
+        },
+        red: {
+          '01': '',
+          '02': '#FD7B8A',
+        },
+        orange: {
+          '01': '',
+          '02': '#FFA63F',
+        },
+        light: '#F7F7F7',
+      },
     },
   },
   plugins: [
@@ -117,31 +133,31 @@ module.exports = {
           'font-weight': 700,
           'font-size': '28px',
           'line-height': '140%',
-          'letter-spacing': '-0.56px'
+          'letter-spacing': '-0.56px',
         },
         '.headline-2': {
           'font-weight': 700,
           'font-size': '24px',
           'line-height': '140%',
-          'letter-spacing': '-0.24%'
+          'letter-spacing': '-0.24%',
         },
         '.headline-3': {
           'font-weight': 700,
           'font-size': '20px',
           'line-height': '145%',
-          'letter-spacing': '-0.2%'
+          'letter-spacing': '-0.2%',
         },
         '.headline-4': {
           'font-weight': 700,
           'font-size': '16px',
           'line-height': '150%',
-          'letter-spacing': '-0.16px'
+          'letter-spacing': '-0.16px',
         },
         '.headline-5': {
           'font-weight': 700,
           'font-size': '14px',
           'line-height': '150%',
-          'letter-spacing': '-0.14px'
+          'letter-spacing': '-0.14px',
         },
 
         // Subtitle
@@ -149,19 +165,19 @@ module.exports = {
           'font-weight': 500,
           'font-size': '20px',
           'line-height': '150%',
-          'letter-spacing': '-0.2px'
+          'letter-spacing': '-0.2px',
         },
         '.subtitle-2': {
           'font-weight': 500,
           'font-size': '16px',
           'line-height': '150%',
-          'letter-spacing': '-0.16px'
+          'letter-spacing': '-0.16px',
         },
         '.subtitle-3': {
           'font-weight': 500,
           'font-size': '14px',
           'line-height': '150%',
-          'letter-spacing': '-0.16px'
+          'letter-spacing': '-0.16px',
         },
 
         // Body
@@ -169,13 +185,13 @@ module.exports = {
           'font-weight': 400,
           'font-size': '16px',
           'line-height': '150%',
-          'letter-spacing': '-0.16px'
+          'letter-spacing': '-0.16px',
         },
         '.body-2': {
           'font-weight': 400,
           'font-size': '14px',
           'line-height': '160%',
-          'letter-spacing': '-0.5px'
+          'letter-spacing': '-0.5px',
         },
 
         // Caption
@@ -183,10 +199,10 @@ module.exports = {
           'font-size': '12px',
           'font-weight': 400,
           'line-height': '150%',
-          'letter-spacing': '-0.12px'
-        }
-      }
-      addUtilities(designSystemTextStyles)
+          'letter-spacing': '-0.12px',
+        },
+      };
+      addUtilities(designSystemTextStyles);
     }),
   ],
 };
