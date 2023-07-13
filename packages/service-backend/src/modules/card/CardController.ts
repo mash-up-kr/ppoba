@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, Patch } from '@nestjs/common';
 import { CardService } from './CardService';
 import { Card } from '../../core/database';
 
@@ -26,4 +26,9 @@ export class CardController {
         return { message: '카드가 삭제되었습니다.' };
     }
     
+    @Patch(':id')
+    // TODO : updateDto 적용 
+    async updateCard(@Param('id') id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>) {
+        return this.cardService.updateCard(id, cardDto);
+    }
 }

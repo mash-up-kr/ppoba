@@ -1,20 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { assert } from 'typia';
-import { InjectModel, Model, Card } from '../../core/database';
+import { InjectModel, Card, CardDocument } from '../../core/database';
+import { SoftDeleteModel } from 'soft-delete-plugin-mongoose'
 
 @Injectable()
 export class CardRepository {
     constructor(
         @InjectModel.Card
-        private readonly cardModel: Model['Card']
+        private readonly cardModel: SoftDeleteModel<CardDocument>
       ) {}
       
     async create(cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>){
         const cardItem = await this.cardModel.create({
             id: cardDto.id,
             content: cardDto.content,
-            // 여기 수정 
-            deletedAt: new Date()
+            // TODO : null 값 허용 
+            deletedAt: null
           });
           console.log(cardItem.toJSON());
           return assert<Card>(cardItem.toJSON());
@@ -30,9 +31,27 @@ export class CardRepository {
     }
 
     async delete(card: Card){
-      console.log(card)
-      const deletedCard = await this.cardModel.findOneAndDelete({ id: card.id });
+      // TODO : deleteAt 필드만 업데이트 
+      const deletedCard = await this.cardModel.softDelete({ _id : card.id });
       return deletedCard;
     }
     
+    async save(id: string, card: Card) {
+      
+      const cardItem = await this.cardModel.findByIdAndUpdate(
+        id,
+        {
+          content: card.content, // 업데이트할 필드 추가
+          deletedAt: card.deletedAt, // 업데이트할 필드 추가
+        },
+        { new: true } // 업데이트 후의 카드 객체 반환 설정
+      );
+    
+      if (!cardItem) {
+        throw new NotFoundException('카드를 찾을 수 없습니다.');
+      }
+    
+      console.log(cardItem.toJSON());
+      return assert<Card>(cardItem.toJSON());
+    }
 }
