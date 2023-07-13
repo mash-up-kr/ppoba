@@ -3,12 +3,11 @@
   "types": ["vite-plugin-svgr/client"],
   "exclude": ["**/dist/*", "**/esm/*"],
   "compilerOptions": {
-    "lib": ["DOM"],
+    "lib": ["dom", "es2015"],
     "module": "ESNext",
     "target": "ES6",
     "jsx": "react-jsx",
     "outDir": "./dist",
-
     "composite": false,
     "declaration": true,
     "declarationMap": true,

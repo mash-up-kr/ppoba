@@ -9,7 +9,7 @@ export type Card = {
   
     createdAt: Date;
     
-    deletedAt: Date;
+    deletedAt: Date | null;
     
     updatedAt: Date;
 };
@@ -19,15 +19,18 @@ const options: SchemaOptions = {
     collection: 'Card',
   };
   
-export type TimestampKey = 'createdAt' | 'deletedAt' | 'updatedAt';
+export type TimestampKey = 'createdAt' | 'updatedAt';
   
 @Schema(options)
 export class CardCollection implements Omit<Card, TimestampKey> {
     @Prop({unique: true, required: true})
     id: string;
     
-    @Prop({unique: true, required: true})
+    @Prop({required: true})
     content: string;
+    
+    @Prop({required: false, nullable: true})
+    deletedAt: Date;
 }
 
 export type CardDocument = HydratedDocument<CardCollection>;
