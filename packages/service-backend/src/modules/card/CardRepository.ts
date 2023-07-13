@@ -14,7 +14,6 @@ export class CardRepository {
         const cardItem = await this.cardModel.create({
             id: cardDto.id,
             content: cardDto.content,
-            // TODO : null 값 허용 
             deletedAt: null
           });
           console.log(cardItem.toJSON());
@@ -30,9 +29,8 @@ export class CardRepository {
       }
     }
 
-    async delete(card: Card){
-      // TODO : deleteAt 필드만 업데이트 
-      const deletedCard = await this.cardModel.softDelete({ _id : card.id });
+    async delete(card: Card): Promise<Object>{
+      const deletedCard = await this.cardModel.softDelete({ id: card.id });
       return deletedCard;
     }
     

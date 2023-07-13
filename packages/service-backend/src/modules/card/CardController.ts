@@ -20,7 +20,7 @@ export class CardController {
     }
     
     @Delete(':id')
-    async deleteCard(@Param('id') id: string) {
+    async deleteCard(@Param('id') id: string): Promise<Object> {
         console.log(id);
         await this.cardService.deleteCard(id);
         return { message: '카드가 삭제되었습니다.' };

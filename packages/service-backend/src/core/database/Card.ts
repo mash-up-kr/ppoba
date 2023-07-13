@@ -9,7 +9,7 @@ export type Card = {
   
     createdAt: Date;
     
-    deletedAt: Date;
+    deletedAt: Date | null;
     
     updatedAt: Date;
 };
@@ -29,7 +29,7 @@ export class CardCollection implements Omit<Card, TimestampKey> {
     @Prop({required: true})
     content: string;
     
-    @Prop({required: false})
+    @Prop({required: false, nullable: true})
     deletedAt: Date;
 }
 

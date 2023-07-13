@@ -16,7 +16,7 @@ export class CardService {
       });
     }
     
-    async deleteCard(id: string) {
+    async deleteCard(id: string) : Promise<Object>{
         const card = await this.cardRepository.findById(id);
         
         if (!card) {
