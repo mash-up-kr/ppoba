@@ -7,8 +7,8 @@ import { DeckRepository } from './DeckRepository';
 export class DeckService {
   constructor(private readonly deckRepository: DeckRepository) {}
 
-  async create(createDeckDto: CreateDeckDto) {
-    return await this.deckRepository.create();
+  async create(name: string, userId: string): Promise<string> {
+    return await this.deckRepository.create(name, userId);
   }
 
   async findDeck(id: string) {

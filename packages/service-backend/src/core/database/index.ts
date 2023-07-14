@@ -4,6 +4,7 @@ import { env } from '../env';
 import { User, UserCollection, UserDocument } from './User';
 import { Card, CardCollection, CardDocument } from './Card';
 import { CollectionToModel, collectionToModules } from './utils';
+import { Deck, DeckCollection} from "./Deck";
 
 type Model = CollectionToModel<typeof collections>;
 
@@ -11,6 +12,7 @@ type Model = CollectionToModel<typeof collections>;
 const collections = {
   User: UserCollection,
   Card: CardCollection,
+  Deck: DeckCollection
 };
 
 const { CollectionModule, InjectModel } = collectionToModules(collections);
@@ -25,4 +27,4 @@ const { CollectionModule, InjectModel } = collectionToModules(collections);
 })
 class DatabaseModule {}
 
-export { DatabaseModule, InjectModel, Model, User, UserDocument, Card, CardDocument };
+export { DatabaseModule, InjectModel, Model, User, UserDocument, Card, CardDocument, Deck, DeckCollection };
