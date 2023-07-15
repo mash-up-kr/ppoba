@@ -19,15 +19,14 @@ export class CardController {
     }
     
     @Delete(':id')
-    async deleteCard(@Param('id') id: string): Promise<Object> {
+    async deleteCard(@Param('id') id: string): Promise<object> {
         console.log(id);
         await this.cardService.deleteCard(id);
         return { message: '카드가 삭제되었습니다.' };
     }
     
     @Patch(':id')
-    // TODO : updateDto 적용 
-    async updateCard(@Param('id') id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>) {
+    async updateCard(@Param('id') id: string, @Body() cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>) {
         return this.cardService.updateCard(id, cardDto);
     }
 }
