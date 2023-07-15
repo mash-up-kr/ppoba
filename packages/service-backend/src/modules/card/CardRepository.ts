@@ -52,4 +52,10 @@ export class CardRepository {
 
     return updateCard;
   }
+  
+  async findAll(deckId: string){
+    const cards = await this.cardModel.find({ deckId }).exec();
+    
+    return cards;
+  }
 }

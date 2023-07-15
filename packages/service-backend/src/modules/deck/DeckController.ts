@@ -19,6 +19,11 @@ export class DeckController {
     return { result: result };
   }
 
+  @Get(":id/cards")
+  async findCard(@Param('id') id: string): Promise<any> {
+    return await this.deckService.findAll(id);
+  }
+  
   @Patch(':id')
   async updateDeck(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
     return await this.deckService.updateDeck(id, updateDeckDto);
