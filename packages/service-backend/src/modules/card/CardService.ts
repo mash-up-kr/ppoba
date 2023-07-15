@@ -9,11 +9,10 @@ export class CardService {
     ){}
     
     async create( content: string ){
-        // TODO : auto increment로
         return await this.cardRepository.create(content);
     }
     
-    async deleteCard(id: string) : Promise<Object>{
+    async deleteCard(id: string) : Promise<object>{
         const card = await this.cardRepository.findById(id);
         
         if (!card) {
@@ -23,7 +22,8 @@ export class CardService {
         return this.cardRepository.delete(card);
       }
       
-    async updateCard(id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>): Promise<Object> {
+    async updateCard(id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>): Promise<object> {
+
         const card = await this.cardRepository.findById(id);
 
         if (!card) {
