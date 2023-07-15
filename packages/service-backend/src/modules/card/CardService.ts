@@ -23,15 +23,15 @@ export class CardService {
         return this.cardRepository.delete(card);
       }
       
-    async updateCard(id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>) {
+    async updateCard(id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>): Promise<Object> {
         const card = await this.cardRepository.findById(id);
-        
+
         if (!card) {
             throw new NotFoundException('카드를 찾을 수 없습니다.');
         }
 
         Object.assign(card, cardDto);
 
-        return this.cardRepository.save(id, card);
+        return this.cardRepository.update(id, card);
     }
 }
