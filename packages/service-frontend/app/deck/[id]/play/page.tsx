@@ -20,14 +20,11 @@ const cardTypes: CardType[] = [
   'clover',
 ]
 
-const cardVariants = ['normal', 'dark', 'point'] as const
-
 const generateCards = (size: number) => {
   return [...Array(size)].map((_, i) => ({
     id: Math.random().toString() + Math.random().toString(),
     number: i + 1,
-    type: cardTypes[Math.floor(Math.random() * cardTypes.length)],
-    variant: cardVariants[Math.floor(Math.random() * cardVariants.length)],
+    type: cardTypes[i % cardTypes.length],
     text: '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자',
   }))
 }
