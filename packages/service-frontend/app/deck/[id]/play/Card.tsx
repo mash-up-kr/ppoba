@@ -6,57 +6,51 @@ import { CardIcon, CardStyle } from './constant'
 
 export type CardType =
   | 'flower'
-  | 'leaf'
+  | 'feather'
   | 'sprout'
-  | 'duck'
+  | 'turnip'
   | 'plug'
   | 'nail'
-  | 'bird'
+  | 'swallow'
   | 'clover'
-
-export type CardVariantType = 'normal' | 'dark' | 'point'
 
 interface Props {
   type: CardType
-  variant: CardVariantType
+  number: number
+  text?: string
+  isShowBack?: boolean
   className?: string
 }
 
-function Card({ type, variant, className }: Props): JSX.Element {
+function Card({
+  type,
+  className,
+  number,
+  text,
+  isShowBack,
+}: Props): JSX.Element {
   return (
     <div
-      className={`flex justify-center items-center relative w-[270px] h-[360px] px-[9px] rounded-[24px] ${CardStyle[type][variant]} ${className}`}
+      className={`relative w-full h-full flex shrink-0 cursor-pointer text-center absolute w-full h-full box-border rounded-[24px] bg-grey-700 shadow-[4px_4px_20px_rgba(0,0,0,0.16)] ${className}`}
     >
+      <div
+        className={`flex flex-col absolute left-4 top-4 ${CardStyle[type].color}`}
+      >
+        <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
+        <span>{String(number).padStart(2, '0')}</span>
+      </div>
       <Icon
-        type={CardIcon[type][variant].sideIcon}
-        width={60}
-        height={60}
-        className="absolute left-0 top-0"
+        type={CardIcon[type].mainIcon}
+        width={200}
+        height={200}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       />
-      <Icon
-        type={CardIcon[type][variant].rightUp}
-        width={24}
-        height={24}
-        className="absolute right-[19px] top-[25px]"
-      />
-      <Icon
-        type={CardIcon[type][variant].icon}
-        width={252}
-        height={252}
-        className="absolute"
-      />
-      <Icon
-        type={CardIcon[type][variant].leftDown}
-        width={24}
-        height={24}
-        className="absolute left-[19px] bottom-[15px]"
-      />
-      <Icon
-        type={CardIcon[type][variant].sideIcon}
-        width={60}
-        height={60}
-        className="absolute right-0 bottom-0"
-      />
+      <div
+        className={`flex flex-col absolute right-4 bottom-4 rotate-180 ${CardStyle[type].color}`}
+      >
+        <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
+        <span>{String(number).padStart(2, '0')}</span>
+      </div>
     </div>
   )
 }
