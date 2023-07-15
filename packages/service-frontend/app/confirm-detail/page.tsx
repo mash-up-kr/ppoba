@@ -67,7 +67,7 @@ export default function ConfirmDetailPage(): JSX.Element {
         <Button
           size="large"
           rightIcon="goWhite"
-          className="transition-all "
+          className="transition-all"
           disabled={selectedKeywords.length === 0 && !isAdultGame}
         >
           업로드 하자
