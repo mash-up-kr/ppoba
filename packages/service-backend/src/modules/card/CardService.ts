@@ -23,6 +23,7 @@ export class CardService {
       }
       
     async updateCard(id: string, cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>): Promise<object> {
+
         const card = await this.cardRepository.findById(id);
 
         if (!card) {

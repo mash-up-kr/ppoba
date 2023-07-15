@@ -32,7 +32,7 @@ export class CardRepository {
       const deletedCard = await this.cardModel.softDelete({ id: card.id });
       return deletedCard;
     }
-    
+
     async update(id: string, card: Card): Promise<object> {
       const updateCard = await this.cardModel.updateOne(
         { id: id },
