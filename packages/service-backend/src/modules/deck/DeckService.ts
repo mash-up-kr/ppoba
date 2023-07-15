@@ -11,7 +11,7 @@ export class DeckService {
     return await this.deckRepository.create(name, userId);
   }
 
-  async findDeck(id: string) {
+  async findDeck(id: string): Promise<any> {
     return await this.deckRepository.findOne(id);
   }
 
