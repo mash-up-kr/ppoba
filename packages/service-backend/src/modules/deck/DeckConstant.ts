@@ -8,3 +8,10 @@
 // 과거
 // 인간관계
 // 19금 컨텐츠
+
+export enum DeckCategory {
+  secret = '비밀',
+  hobby = '취미',
+  future = '미래',
+  // TODO 지원쓰 나머지 해줘
+}
