@@ -7,6 +7,7 @@ import { Header } from '@/components'
 
 import Card, { CardType } from './Card'
 import { CardStyle } from './constant'
+import EmptyCard from './EmptyCard'
 
 const cardTypes: CardType[] = [
   'flower',
@@ -46,8 +47,8 @@ export default function DeckPlay(): JSX.Element {
   }, [cards, currentIndex])
 
   const handleClickNextButton = useCallback(() => {
-    setCurrentIndex(prev => prev + 1)
-  }, [])
+    setCurrentIndex(prev => Math.min(prev + 1, cards.length))
+  }, [cards.length])
 
   return (
     <>
@@ -64,7 +65,8 @@ export default function DeckPlay(): JSX.Element {
         </div>
 
         {/* 플레이 카드 */}
-        <div className="relative mt-[76px] mx-auto w-[270px] h-[360px] z-30">
+        <div className="relative  mx-auto w-[270px] h-[360px] z-30">
+          {/* 카드가 있는 경우 */}
           {cards.slice(currentIndex, currentIndex + 1).map(card => (
             <Card
               key={card.id}
@@ -75,6 +77,7 @@ export default function DeckPlay(): JSX.Element {
               isShowBack={isShowBack}
             />
           ))}
+          {/* 남은카드가 1개 이상인 경우 */}
           {currentIndex < cards.length - 1 && (
             <div
               className={`absolute w-[255px] h-[340px] top-[-16px] left-1/2 -translate-x-1/2 z-10 rounded-[24px] ${
@@ -82,6 +85,7 @@ export default function DeckPlay(): JSX.Element {
               }`}
             />
           )}
+          {/* 남은카드가 2개 이상인 경우 */}
           {currentIndex < cards.length - 2 && (
             <div
               className={`absolute w-[225px] h-[300px] top-[-32px] left-1/2 -translate-x-1/2 z-0 opacity-60 rounded-[24px] ${
@@ -89,20 +93,31 @@ export default function DeckPlay(): JSX.Element {
               }`}
             />
           )}
+
+          {/* 카드가 없는 경우 */}
+          {cards.length === currentIndex && <EmptyCard />}
         </div>
 
         {/* 버튼 */}
-        <div className="flex gap-[10px] mt-[62px]">
-          <SecondaryButton
-            size="small"
-            rightIcon="shuffle"
-            onClick={handleClickShuffleButton}
-          >
-            섞기
-          </SecondaryButton>
-          <Button size="large" onClick={handleClickNextButton}>
-            다음 카드 보기
-          </Button>
+        <div className="flex gap-[10px] justify-center">
+          {cards.length === currentIndex ? (
+            // 남은 카드가 없는 경우
+            <Button size="medium">리스트로 가기</Button>
+          ) : (
+            <>
+              {/* 카드가 남은 경우 */}
+              <SecondaryButton
+                size="small"
+                rightIcon="shuffle"
+                onClick={handleClickShuffleButton}
+              >
+                섞기
+              </SecondaryButton>
+              <Button size="large" onClick={handleClickNextButton}>
+                다음 카드 보기
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </>
