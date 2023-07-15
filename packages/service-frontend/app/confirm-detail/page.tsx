@@ -63,7 +63,7 @@ export default function ConfirmDetailPage(): JSX.Element {
         onClickAdult={() => setIsAdultGame(prev => !prev)}
       />
       {/* 게임 업로드 */}
-      <div className="w-full px-[24px] absolute bottom-[16px]">
+      <div className="w-full px-[24px] pb-4">
         <Button
           size="large"
           rightIcon="goWhite"
