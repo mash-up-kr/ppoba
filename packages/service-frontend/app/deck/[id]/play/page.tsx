@@ -36,15 +36,18 @@ export default function DeckPlay(): JSX.Element {
 
   const handleClickShuffleButton = useCallback(() => {
     // currentIndex부터 마지막카드까지만 섞는다.
-    // 이때
+    // 이때 currentIndex는 0으로 처음 시작으로 바꾼다
     const nextCards = [...cards]
       .slice(currentIndex)
       .sort(() => (Math.random() > 0.5 ? 1 : -1))
     setCard(nextCards)
+    setCurrentIndex(0)
+    setIsShowBack(false)
   }, [cards, currentIndex])
 
   const handleClickNextButton = useCallback(() => {
     setCurrentIndex(prev => Math.min(prev + 1, cards.length))
+    setIsShowBack(false)
   }, [cards.length])
 
   return (
@@ -72,6 +75,7 @@ export default function DeckPlay(): JSX.Element {
               text={card.text}
               className="z-30"
               isShowBack={isShowBack}
+              onClick={() => setIsShowBack(prev => !prev)}
             />
           ))}
           {/* 남은카드가 1개 이상인 경우 */}
