@@ -1,4 +1,4 @@
-import ContentWrapper from '@/app/components/common/ContentWrapper'
+import { ContentWrapper } from '@/app/components/common'
 
 interface Props {
   children: React.ReactNode

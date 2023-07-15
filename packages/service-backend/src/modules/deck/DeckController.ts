@@ -8,13 +8,15 @@ export class DeckController {
   constructor(private readonly deckService: DeckService) {}
 
   @Post()
-  async createDeck(@Body() createDeckDto: CreateDeckDto) {
-    return await this.deckService.create(createDeckDto);
+  async createDeck(@Body() createDeckDto: CreateDeckDto): Promise<any> {
+    const result = await this.deckService.create(createDeckDto.name, createDeckDto.userId);
+    return { result: { deck_id: result } };
   }
 
-  @Get(':id')
-  async findDeck(@Param('id') id: string) {
-    return await this.deckService.findDeck(id);
+  @Get('/:id')
+  async findDeck(@Param('id') id: string): Promise<any> {
+    const result = await this.deckService.findDeck(id);
+    return { result: result };
   }
 
   @Patch(':id')

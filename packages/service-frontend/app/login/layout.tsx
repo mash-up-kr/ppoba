@@ -1,13 +1,9 @@
-import ContentWrapper from '@/app/components/common/ContentWrapper'
+import { ContentWrapper } from '../components/common'
 
 interface Props {
   children: React.ReactNode
 }
 
 export default function Layout({ children }: Props): JSX.Element {
-  return (
-    <>
-      <ContentWrapper>{children}</ContentWrapper>
-    </>
-  )
+  return <ContentWrapper>{children}</ContentWrapper>
 }

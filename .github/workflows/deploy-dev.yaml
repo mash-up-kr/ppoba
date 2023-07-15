@@ -5,11 +5,12 @@ on:
     branches: ['master']
 
 env:
-  AWS_DEFAULT_REGION: 'ap-northeast-2'
+  AWS_REGION: 'ap-northeast-2'
   AWS_HOST_ZONE: ${{ secrets.AWS_HOST_ZONE }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   DOMAIN_NAME: ${{ secrets.DEV_DOMAIN_NAME }}
+  S3_PRIVATE_BUCKET: ${{ secrets.S3_PRIVATE_BUCKET }}
 
 jobs:
   deploy-dev:
@@ -39,9 +40,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Build
-        run: pnpm build
 
       - name: Deploy development
         run: pnpm deploy:dev

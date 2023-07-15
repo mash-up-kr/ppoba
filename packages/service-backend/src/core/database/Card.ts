@@ -1,15 +1,15 @@
 import { Prop, Schema, SchemaOptions } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 export type Card = {
-    // todo : AutoCreate
     id: string;
   
     content: string;
   
     createdAt: Date;
     
-    deletedAt: Date;
+    deletedAt: Date | null;
     
     updatedAt: Date;
 };
@@ -19,15 +19,18 @@ const options: SchemaOptions = {
     collection: 'Card',
   };
   
-export type TimestampKey = 'createdAt' | 'deletedAt' | 'updatedAt';
+export type TimestampKey = 'createdAt' | 'updatedAt';
   
 @Schema(options)
 export class CardCollection implements Omit<Card, TimestampKey> {
-    @Prop({unique: true, required: true})
+    @Prop({default: uuidv4, unique: true})
     id: string;
     
-    @Prop({unique: true, required: true})
+    @Prop({required: true, unique: false})
     content: string;
+    
+    @Prop({required: false, nullable: true})
+    deletedAt: Date;
 }
 
 export type CardDocument = HydratedDocument<CardCollection>;

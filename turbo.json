@@ -5,7 +5,8 @@
       "outputs": ["../script.js", ".next", "dist", "esm"]
     },
     "deploy:dev": {
-      "dependsOn": ["build"]
-    }
+      "dependsOn": ["^deploy:dev"]
+    },
+    "lint": {}
   }
 }

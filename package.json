@@ -20,8 +20,9 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "test": "turbo test",
-    "deploy:dev": "turbo deploy:dev"
+    "deploy:dev": "turbo deploy:dev",
+    "lint": "turbo lint",
+    "test": "turbo test"
   },
   "devDependencies": {
     "turbo": "^1.9.3"

@@ -1,10 +1,9 @@
 import type { JSX } from 'react'
 
-import { Icon } from '@ppoba/ui'
-
 import GameCardList from '@/app/components/marketplace/game/GameCardList'
 
 import GameCardListTitle from './components/marketplace/game/GameCardListTitle'
+import LoginHeader from './LoginHeader'
 
 const TEST_GAME_LIST = [
   {
@@ -33,6 +32,8 @@ const TEST_GAME_LIST = [
 export default function Home(): JSX.Element {
   return (
     <main>
+      <LoginHeader />
+
       {/* 내가 만든 영역 */}
       <section>
         <GameCardList
