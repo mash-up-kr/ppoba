@@ -1,3 +1,4 @@
+import { Game } from './Game'
 import GameCard from './GameCard'
 
 interface Props {
@@ -29,7 +30,7 @@ export default function GameCardList({
 
       {/* 게임 목록 영역 - HORIZONTAL */}
       {orientation === 'horizontal' && (
-        <div className="overflow-x-auto w-full snap-x snap-mandatory flex gap-[10px] scroll-px-[24px] px-[24px]">
+        <div className="overflow-x-auto w-full snap-x snap-mandatory flex gap-[10px] scroll-px-[24px] px-[24px] scrollbar-hide touch-pan-x">
           {games.map(game => (
             <GameCard
               key={game.id}

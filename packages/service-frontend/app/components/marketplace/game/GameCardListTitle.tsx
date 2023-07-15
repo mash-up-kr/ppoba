@@ -3,6 +3,8 @@
 import { Icon } from '@ppoba/ui'
 import { IconType } from '@ppoba/ui/dist/src/components/Icon'
 
+import { GameCardListHeaderType } from './Game'
+
 interface Props {
   headerType: GameCardListHeaderType
   label: string
