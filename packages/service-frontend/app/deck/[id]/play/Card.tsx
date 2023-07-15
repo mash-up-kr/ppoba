@@ -48,7 +48,7 @@ function Card({
             <Icon type={CardIcon[type].normalSideIcon} width={24} height={24} />
             <span>{String(number).padStart(2, '0')}</span>
           </div>
-          <div className="absolute w-[calc(100%-80px)] break-keep left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 headline-2 text-center text-black">
+          <div className="absolute px-[40px] break-keep left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 headline-2 text-center text-black">
             {text}
           </div>
           <div
