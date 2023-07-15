@@ -35,6 +35,7 @@ export default function Home(): JSX.Element {
       <LoginHeader />
 
       {/* 내가 만든 영역 */}
+      {/* Red - Pink - Green - Blue - Orange - Yellow - Teal - Purple */}
       <section>
         <GameCardList
           orientation="horizontal"
@@ -51,6 +52,7 @@ export default function Home(): JSX.Element {
       </section>
 
       {/* 덱 영역 */}
+      {/* Purple - Teal - Yellow - Orange - Blue - Green - Pink - Red */}
       <section>
         <GameCardList
           orientation="vertical"
