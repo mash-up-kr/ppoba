@@ -1,17 +1,11 @@
-// TODO change type to enum deck model category schema property
-// 비밀
-// 가치관
-// 취미
-// 특이취향
-// 연애∙결혼
-// 미래
-// 과거
-// 인간관계
-// 19금 컨텐츠
-
 export enum DeckCategory {
   secret = '비밀',
   hobby = '취미',
   future = '미래',
-  // TODO 지원쓰 나머지 해줘
+  values = '가치관',
+  peculiarTaste = '특이취향',
+  loveMarriage = '연애∙결혼',
+  past = '과거',
+  relationships = '인간관계',
+  adultContent = '19금 컨텐츠'
 }

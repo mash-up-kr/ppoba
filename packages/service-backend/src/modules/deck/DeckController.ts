@@ -9,7 +9,7 @@ export class DeckController {
 
   @Post()
   async createDeck(@Body() createDeckDto: CreateDeckDto): Promise<any> {
-    const result = await this.deckService.create(createDeckDto.name, createDeckDto.userId);
+    const result = await this.deckService.create(createDeckDto.name, createDeckDto.userId, createDeckDto.category);
     return { result: { deck_id: result } };
   }
 
