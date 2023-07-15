@@ -2,16 +2,18 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { InjectModel } from '../../core/database';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { DeckDocument } from '../../core/database/Deck';
+import { DeckCategory } from './DeckConstant';
 
 @Injectable()
 export class DeckRepository {
   constructor(@InjectModel.Deck private readonly deckModel: SoftDeleteModel<DeckDocument>) {}
 
-  async create(name: string, userId: string): Promise<string> {
+  async create(name: string, userId: string, category: DeckCategory[]): Promise<string> {
     try {
       const deck = await this.deckModel.create({
         name,
         userId,
+        category
       });
       return deck.id;
     } catch (error) {

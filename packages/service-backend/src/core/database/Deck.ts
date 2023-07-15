@@ -2,12 +2,13 @@ import {HydratedDocument} from "mongoose";
 import {Prop, Schema} from "@nestjs/mongoose";
 import {TimestampKey} from "../../types";
 import {v4 as uuidv4} from "uuid";
+import { DeckCategory } from '../../modules/deck/DeckConstant';
 
 export type Deck = {
     id : string;
     name : string
     // TODO category m:n relation
-    category : string
+    category : DeckCategory[],
     // TODO card 1:n relation and aggregate card count
     cardIds : string[]
     // TODO card 1:n relation and aggregate card count
@@ -32,7 +33,7 @@ export class DeckCollection implements Omit<Deck, TimestampKey> {
 
     // NOTE : select category flow is decision card list
     @Prop({ optional: true })
-    category: string;
+    category: DeckCategory[]
 
     @Prop({ optional: true })
     totalCardCount: number;
