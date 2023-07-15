@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CardRepository } from './CardRepository';
 import { Card } from '../../core/database';
+import { createCardDto } from './dto/createCardDto';
 
 @Injectable()
 export class CardService {
   constructor(private readonly cardRepository: CardRepository) {}
 
-  async create(cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>[]): Promise<boolean> {
-    return await this.cardRepository.create(cardDto);
+  async create(cardDto: createCardDto[], deckId: string): Promise<boolean> {
+    return await this.cardRepository.create(cardDto, deckId);
   }
 
   async deleteCard(id: string): Promise<object> {

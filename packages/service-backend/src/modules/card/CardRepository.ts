@@ -2,6 +2,8 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { assert } from 'typia';
 import { InjectModel, Card, CardDocument } from '../../core/database';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { CreateDeckDto } from '../deck/dto/CreateDeckDto';
+import { createCardDto } from './dto/createCardDto';
 
 @Injectable()
 export class CardRepository {
@@ -10,14 +12,12 @@ export class CardRepository {
     private readonly cardModel: SoftDeleteModel<CardDocument>
   ) {}
 
-  async create(
-    cardDtoList: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>[]
-  ): Promise<boolean> {
+  async create(cardDtoList: createCardDto[], deckId: string): Promise<boolean> {
     try {
       await Promise.all(
         cardDtoList.map(async (cardDto, index) => {
           try {
-            await this.cardModel.create({ content: cardDto.content, deckId: cardDto.deckId });
+            await this.cardModel.create({ content: cardDto.content, deckId: deckId });
           } catch (error) {
             throw new InternalServerErrorException(
               `error create card row ${index} \n reason is : error: ${error}`
