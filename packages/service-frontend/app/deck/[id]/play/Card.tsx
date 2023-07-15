@@ -2,7 +2,7 @@ import type { JSX } from 'react'
 
 import { Icon } from '@ppoba/ui'
 
-import { CardIcon } from './constant'
+import { CardIcon, CardStyle } from './constant'
 
 export type CardType =
   | 'flower'
@@ -31,26 +31,26 @@ function Card({
 }: Props): JSX.Element {
   return (
     <div
-      className={`relative w-[270px] h-[360px] flex shrink-0 cursor-pointer text-center absolute w-full h-full box-border rounded-[24px] bg-grey-700 ${className}`}
+      className={`relative w-full h-full flex shrink-0 cursor-pointer text-center absolute w-full h-full box-border rounded-[24px] bg-grey-700 shadow-[4px_4px_20px_rgba(0,0,0,0.16)] ${className}`}
     >
-      <Icon
-        type={CardIcon[type].colorSideIcon}
-        width={32}
-        height={32}
-        className="absolute left-4 top-4"
-      />
+      <div
+        className={`flex flex-col absolute left-4 top-4 ${CardStyle[type].color}`}
+      >
+        <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
+        <span>{String(number).padStart(2, '0')}</span>
+      </div>
       <Icon
         type={CardIcon[type].mainIcon}
         width={200}
         height={200}
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       />
-      <Icon
-        type={CardIcon[type].colorSideIcon}
-        width={32}
-        height={32}
-        className="absolute right-4 bottom-4"
-      />
+      <div
+        className={`flex flex-col absolute right-4 bottom-4 rotate-180 ${CardStyle[type].color}`}
+      >
+        <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
+        <span>{String(number).padStart(2, '0')}</span>
+      </div>
     </div>
   )
 }
