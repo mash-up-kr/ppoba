@@ -17,21 +17,22 @@ import { ReactComponent as CloverNormal } from '../assets/icons/CloverNormal.svg
 import { ReactComponent as DeckAddLight } from '../assets/icons/DeckAdd-Light.svg';
 import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as ExclamationWhite } from '../assets/icons/Exclamation-White.svg';
+import { ReactComponent as FeatherColor } from '../assets/icons/FeatherColor.svg';
+import { ReactComponent as FeatherDot } from '../assets/icons/FeatherDot.svg';
+import { ReactComponent as FeatherNormal } from '../assets/icons/FeatherNormal.svg';
 import { ReactComponent as FlowerColor } from '../assets/icons/FlowerColor.svg';
 import { ReactComponent as FlowerDot } from '../assets/icons/FlowerDot.svg';
 import { ReactComponent as FlowerNormal } from '../assets/icons/FlowerNormal.svg';
-import { ReactComponent as FeatherColor } from '../assets/icons/FeatherColor.svg';
-import { ReactComponent as FeatherNormal } from '../assets/icons/FeatherNormal.svg';
-import { ReactComponent as FeatherDot } from '../assets/icons/FeatherDot.svg';
 import { ReactComponent as GoLight } from '../assets/icons/Go-light.svg';
 import { ReactComponent as GoWhite } from '../assets/icons/Go-White.svg';
 import { ReactComponent as Go } from '../assets/icons/Go.svg';
 import { ReactComponent as Home } from '../assets/icons/Home.svg';
 import { ReactComponent as House } from '../assets/icons/House.svg';
 import { ReactComponent as kakao } from '../assets/icons/kakao.svg';
+import { ReactComponent as Nail } from '../assets/icons/Nail.svg';
 import { ReactComponent as NailColor } from '../assets/icons/NailColor.svg';
-import { ReactComponent as NailNormal } from '../assets/icons/NailNormal.svg';
 import { ReactComponent as NailDot } from '../assets/icons/NailDot.svg';
+import { ReactComponent as NailNormal } from '../assets/icons/NailNormal.svg';
 import { ReactComponent as Order } from '../assets/icons/Order.svg';
 import { ReactComponent as Pen } from '../assets/icons/Pen.svg';
 import { ReactComponent as PlugColor } from '../assets/icons/PlugColor.svg';
@@ -41,8 +42,8 @@ import { ReactComponent as Question } from '../assets/icons/Question.svg';
 import { ReactComponent as Share } from '../assets/icons/Share.svg';
 import { ReactComponent as Shuffle } from '../assets/icons/Shuffle.svg';
 import { ReactComponent as SproutColor } from '../assets/icons/SproutColor.svg';
-import { ReactComponent as SproutNormal } from '../assets/icons/SproutNormal.svg';
 import { ReactComponent as SproutDot } from '../assets/icons/SproutDot.svg';
+import { ReactComponent as SproutNormal } from '../assets/icons/SproutNormal.svg';
 import { ReactComponent as SwallowColor } from '../assets/icons/SwallowColor.svg';
 import { ReactComponent as SwallowDot } from '../assets/icons/SwallowDot.svg';
 import { ReactComponent as SwallowNormal } from '../assets/icons/SwallowNormal.svg';
@@ -64,6 +65,7 @@ const CARD_ICONS = {
   featherColor: FeatherColor,
   featherNormal: FeatherNormal,
   featherDot: FeatherDot,
+  nail: Nail,
   nailColor: NailColor,
   nailNormal: NailNormal,
   nailDot: NailDot,
