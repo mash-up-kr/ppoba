@@ -1,3 +1,10 @@
+import { Header } from '@/components'
+
 export default function DeckDetail(): JSX.Element {
-  return <div className="pt-[52px] text-black">Deck Detail Page</div>
+  return (
+    <div>
+      <Header title="로그인" className="justify-end" />
+      <div className="pt-[52px] text-black">Deck Detail Page</div>
+    </div>
+  )
 }
