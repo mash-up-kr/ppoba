@@ -37,26 +37,23 @@ export default function CreateDeck(): JSX.Element {
           >
             {DUMMY_DATA.map((data, idx) => (
               <SwiperSlide key={data}>
-                {({ isActive }) => {
-                  console.log(isActive, idx)
-                  return (
-                    <div className='pt-[50px] pb-[50px]'>
-                      <div className={
-                        `flex flex-col items-center justify-between px-[35px] pt-[40px] pb-[16px] rounded-[24px]
-                          ${bgColors[idx % bgColors.length]}
-                          ${isActive ? 'transition-all -translate-y-10 shadow-[4px_4px_20px_rgba(0,0,0,0.10)]' : 'opacity-30'}`}
-                      >
-                        <textarea
-                          value={text} onChange={(e) => setText(e.target.value)} placeholder="새로운 카드 내용을 입력해줘" maxLength={50}
-                          className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none`}
-                        />
-                        <button className='p-[14px] bg-white/20 rounded-full'>
-                          <Icon type='trash' width={24} height={24} />
-                        </button>
-                      </div>
+                {({ isActive }) => (
+                  <div className='pt-[50px] pb-[50px]'>
+                    <div className={
+                      `flex flex-col items-center justify-between px-[35px] pt-[40px] pb-[16px] rounded-[24px]
+                        ${bgColors[idx % bgColors.length]}
+                        ${isActive ? 'transition-all -translate-y-10 shadow-[4px_4px_20px_rgba(0,0,0,0.10)]' : 'opacity-30'}`}
+                    >
+                      <textarea
+                        value={text} onChange={(e) => setText(e.target.value)} placeholder="새로운 카드 내용을 입력해줘" maxLength={50}
+                        className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none`}
+                      />
+                      <button className='p-[14px] bg-white/20 rounded-full'>
+                        <Icon type='trash' width={24} height={24} />
+                      </button>
                     </div>
-                  )
-                }}
+                  </div>
+                )}
               </SwiperSlide>
             ))}
             <div className="swiper-scrollbar relative bg-grey-100 !w-[calc(100%-48px)] mx-[24px]"></div>
