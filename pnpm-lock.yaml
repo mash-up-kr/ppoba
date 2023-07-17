@@ -243,6 +243,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      swiper:
+        specifier: ^10.0.4
+        version: 10.0.4
       tailwindcss:
         specifier: 3.3.2
         version: 3.3.2
@@ -17840,6 +17843,11 @@ packages:
     dependencies:
       express: 4.18.2
       swagger-ui-dist: 4.18.3
+    dev: false
+
+  /swiper@10.0.4:
+    resolution: {integrity: sha512-DlNR3KiaVkPep6RraZ2tNr7lvyuzELuR+4NZr4wO42t0UworIO3DxDlz8b5Q3uUioh7cJad99EdRJLkPF+r8Ag==}
+    engines: {node: '>= 4.7.0'}
     dev: false
 
   /symbol-observable@4.0.0:
