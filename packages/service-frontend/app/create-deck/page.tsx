@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useRef } from 'react'
 
-import { Scrollbar } from 'swiper/modules'
+import { Scrollbar } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Button, Icon, SecondaryButton } from '@ppoba/ui'
 
