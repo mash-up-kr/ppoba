@@ -1,14 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDeckDto } from './dto/CreateDeckDto';
 import { UpdateDeckDto } from './dto/UpdateDeckDto';
 import { DeckRepository } from './DeckRepository';
+import { DeckCategory } from './DeckConstant';
+import { CardRepository } from '../card/CardRepository'
 
 @Injectable()
 export class DeckService {
-  constructor(private readonly deckRepository: DeckRepository) {}
+  constructor(
+    private readonly deckRepository: DeckRepository,
+    private readonly cardRepository: CardRepository
+    ) {}
 
-  async create(name: string, userId: string): Promise<string> {
-    return await this.deckRepository.create(name, userId);
+  async create(name: string, userId: string, category: DeckCategory[]): Promise<string> {
+    return await this.deckRepository.create(name, userId, category);
   }
 
   async findDeck(id: string): Promise<any> {
@@ -21,5 +25,9 @@ export class DeckService {
 
   async removeDeck(id: string) {
     return await this.deckRepository.remove(id);
+  }
+  
+  async findAll(id: string){
+    return await this.cardRepository.findAll(id);
   }
 }

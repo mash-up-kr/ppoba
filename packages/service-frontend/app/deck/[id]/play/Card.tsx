@@ -1,4 +1,5 @@
-import type { JSX } from 'react'
+'use client'
+import type { JSX, MouseEventHandler } from 'react'
 
 import { Icon } from '@ppoba/ui'
 
@@ -20,6 +21,7 @@ interface Props {
   text?: string
   isShowBack?: boolean
   className?: string
+  onClick: MouseEventHandler<HTMLDivElement>
 }
 
 function Card({
@@ -28,29 +30,56 @@ function Card({
   number,
   text,
   isShowBack,
+  onClick,
 }: Props): JSX.Element {
   return (
     <div
-      className={`relative w-full h-full flex shrink-0 cursor-pointer text-center absolute w-full h-full box-border rounded-[24px] bg-grey-700 shadow-[4px_4px_20px_rgba(0,0,0,0.16)] ${className}`}
+      role="button"
+      className={`relative w-full h-full flex shrink-0 cursor-pointer text-center absolute w-full h-full box-border rounded-[24px] shadow-[4px_4px_20px_rgba(0,0,0,0.16)] ${
+        isShowBack ? CardStyle[type].background : 'bg-grey-700'
+      } ${className}`}
+      onClick={onClick}
     >
-      <div
-        className={`flex flex-col absolute left-4 top-4 ${CardStyle[type].color}`}
-      >
-        <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
-        <span>{String(number).padStart(2, '0')}</span>
-      </div>
-      <Icon
-        type={CardIcon[type].mainIcon}
-        width={200}
-        height={200}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
-      <div
-        className={`flex flex-col absolute right-4 bottom-4 rotate-180 ${CardStyle[type].color}`}
-      >
-        <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
-        <span>{String(number).padStart(2, '0')}</span>
-      </div>
+      {isShowBack ? (
+        <>
+          <div
+            className={`flex flex-col gap-[2px] absolute left-5 top-5 text-grey-700`}
+          >
+            <Icon type={CardIcon[type].normalSideIcon} width={24} height={24} />
+            <span>{String(number).padStart(2, '0')}</span>
+          </div>
+          <div className="absolute px-[40px] break-keep left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 headline-2 text-center text-black">
+            {text}
+          </div>
+          <div
+            className={`flex flex-col gap-[2px] absolute right-5 bottom-5 text-grey-700`}
+          >
+            <Icon type={CardIcon[type].normalSideIcon} width={24} height={24} />
+            <span>{String(number).padStart(2, '0')}</span>
+          </div>
+        </>
+      ) : (
+        <>
+          <div
+            className={`flex flex-col absolute left-4 top-4 ${CardStyle[type].color}`}
+          >
+            <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
+            <span>{String(number).padStart(2, '0')}</span>
+          </div>
+          <Icon
+            type={CardIcon[type].mainIcon}
+            width={200}
+            height={200}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+          <div
+            className={`flex flex-col absolute right-4 bottom-4 rotate-180 ${CardStyle[type].color}`}
+          >
+            <Icon type={CardIcon[type].colorSideIcon} width={32} height={32} />
+            <span>{String(number).padStart(2, '0')}</span>
+          </div>
+        </>
+      )}
     </div>
   )
 }

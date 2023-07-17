@@ -1,5 +1,14 @@
-//TODO class validator package를 사용해서 유효성 검사를 해야한다.
+import { IsString, IsEnum, ArrayNotEmpty } from 'class-validator';
+import { DeckCategory } from '../DeckConstant';
+
 export class CreateDeckDto {
-    name: string;
-    userId: string;
+  @IsString()
+  name: string;
+
+  @IsString()
+  userId: string;
+
+  @ArrayNotEmpty()
+  @IsEnum(DeckCategory, { each: true })
+  category: DeckCategory[];
 }

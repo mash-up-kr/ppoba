@@ -7,6 +7,7 @@ import { Header } from '@/app/components/common'
 
 import Card, { CardType } from './Card'
 import { CardStyle } from './constant'
+import EmptyCard from './EmptyCard'
 
 const cardTypes: CardType[] = [
   'flower',
@@ -19,14 +20,11 @@ const cardTypes: CardType[] = [
   'clover',
 ]
 
-const cardVariants = ['normal', 'dark', 'point'] as const
-
 const generateCards = (size: number) => {
   return [...Array(size)].map((_, i) => ({
     id: Math.random().toString() + Math.random().toString(),
     number: i + 1,
-    type: cardTypes[Math.floor(Math.random() * cardTypes.length)],
-    variant: cardVariants[Math.floor(Math.random() * cardVariants.length)],
+    type: cardTypes[i % cardTypes.length],
     text: '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자',
   }))
 }
@@ -38,16 +36,19 @@ export default function DeckPlay(): JSX.Element {
 
   const handleClickShuffleButton = useCallback(() => {
     // currentIndex부터 마지막카드까지만 섞는다.
-    // 이때
+    // 이때 currentIndex는 0으로 처음 시작으로 바꾼다
     const nextCards = [...cards]
       .slice(currentIndex)
       .sort(() => (Math.random() > 0.5 ? 1 : -1))
     setCard(nextCards)
+    setCurrentIndex(0)
+    setIsShowBack(false)
   }, [cards, currentIndex])
 
   const handleClickNextButton = useCallback(() => {
-    setCurrentIndex(prev => prev + 1)
-  }, [])
+    setCurrentIndex(prev => Math.min(prev + 1, cards.length))
+    setIsShowBack(false)
+  }, [cards.length])
 
   return (
     <>
@@ -64,7 +65,8 @@ export default function DeckPlay(): JSX.Element {
         </div>
 
         {/* 플레이 카드 */}
-        <div className="relative mt-[76px] mx-auto w-[270px] h-[360px] z-30">
+        <div className="relative  mx-auto w-[270px] h-[360px] z-30">
+          {/* 카드가 있는 경우 */}
           {cards.slice(currentIndex, currentIndex + 1).map(card => (
             <Card
               key={card.id}
@@ -73,8 +75,10 @@ export default function DeckPlay(): JSX.Element {
               text={card.text}
               className="z-30"
               isShowBack={isShowBack}
+              onClick={() => setIsShowBack(prev => !prev)}
             />
           ))}
+          {/* 남은카드가 1개 이상인 경우 */}
           {currentIndex < cards.length - 1 && (
             <div
               className={`absolute w-[255px] h-[340px] top-[-16px] left-1/2 -translate-x-1/2 z-10 rounded-[24px] ${
@@ -82,6 +86,7 @@ export default function DeckPlay(): JSX.Element {
               }`}
             />
           )}
+          {/* 남은카드가 2개 이상인 경우 */}
           {currentIndex < cards.length - 2 && (
             <div
               className={`absolute w-[225px] h-[300px] top-[-32px] left-1/2 -translate-x-1/2 z-0 opacity-60 rounded-[24px] ${
@@ -89,20 +94,31 @@ export default function DeckPlay(): JSX.Element {
               }`}
             />
           )}
+
+          {/* 카드가 없는 경우 */}
+          {cards.length === currentIndex && <EmptyCard />}
         </div>
 
         {/* 버튼 */}
-        <div className="flex gap-[10px] mt-[62px]">
-          <SecondaryButton
-            size="small"
-            rightIcon="shuffle"
-            onClick={handleClickShuffleButton}
-          >
-            섞기
-          </SecondaryButton>
-          <Button size="large" onClick={handleClickNextButton}>
-            다음 카드 보기
-          </Button>
+        <div className="flex gap-[10px] justify-center">
+          {cards.length === currentIndex ? (
+            // 남은 카드가 없는 경우
+            <Button size="medium">리스트로 가기</Button>
+          ) : (
+            <>
+              {/* 카드가 남은 경우 */}
+              <SecondaryButton
+                size="small"
+                rightIcon="shuffle"
+                onClick={handleClickShuffleButton}
+              >
+                섞기
+              </SecondaryButton>
+              <Button size="large" onClick={handleClickNextButton}>
+                다음 카드 보기
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </>
