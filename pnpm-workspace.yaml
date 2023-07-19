@@ -4,5 +4,6 @@ packages:
   - 'packages/service-frontend'
   - 'packages/types'
   - 'packages/ui'
+  - 'packages/api'
   - 'packages/tailwind-config'
   - 'script'

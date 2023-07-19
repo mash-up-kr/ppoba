@@ -2,10 +2,18 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["../script.js", ".next", "dist", "esm"]
+      "outputs": ["dist", "esm"]
+    },
+    "script#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["../ppoba"]
+    },
+    "frontend#build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next", ".open-next"]
     },
     "deploy:dev": {
-      "dependsOn": ["^deploy:dev"]
+      "dependsOn": ["build"]
     },
     "lint": {}
   }

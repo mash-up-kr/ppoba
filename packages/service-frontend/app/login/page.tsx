@@ -3,8 +3,11 @@
 import Lottie from 'lottie-react'
 
 import loginLottie from '@/public/lottie/loginLottie.json'
+import { useLogin } from './hooks'
 
 export default function Login(): JSX.Element {
+  const { handleLoginClick } = useLogin()
+
   return (
     <div className="min-h-screen px-[16px] py-[80px] flex flex-col justify-between">
       <h1 className="text-black headline-1">
@@ -18,7 +21,10 @@ export default function Login(): JSX.Element {
       </div>
 
       <div className="">
-        <button className="w-full bg-[#FEE500] headline-4 text-black opacity-85 py-[18px]">
+        <button
+          onClick={handleLoginClick}
+          className="w-full bg-[#FEE500] headline-4 text-black opacity-85 py-[18px]"
+        >
           카카오로 시작하기
         </button>
       </div>

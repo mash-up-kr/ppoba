@@ -9,4 +9,10 @@ export class MetricController {
       sha: getSourceVersion(),
     };
   }
+
+  // TODO: test controller로 옮기기
+  @Get('/exception-test')
+  async throwError() {
+    throw new Error('exception test');
+  }
 }

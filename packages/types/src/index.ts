@@ -8,14 +8,11 @@ export type ApiFailureResponse = {
   ok: false;
   error: {
     name: string; // 소문자 snake_case로 통일. 'invalid_password' | 'bad_arguments' | 'authentication_required' 등등
-    clientMessage: string;
-    systemMessage: string;
+    message: string;
     stack?: string;
   };
 };
 
 export const DEFAULT_CLIENT_MESSAGE = '서비스를 일시적으로 사용할 수 없습니다. 잠시 후에 다시 시도해주세요.';
-
-export const DEFAULT_SYSTEM_MESSAGE = '알 수 없는 에러가 발생했습니다.';
 
 export const DEFAULT_ERROR_NAME = 'unknown';

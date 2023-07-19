@@ -13,7 +13,7 @@ export class DeckRepository {
       const deck = await this.deckModel.create({
         name,
         userId,
-        category
+        category,
       });
       return deck.id;
     } catch (error) {
