@@ -54,6 +54,7 @@ interface Props {
     type: CardType
     text: string
   }[]
+  isShowBack: boolean
   currentIndex: number
   onDragEnd: (
     event: MouseEvent | TouchEvent | PointerEvent,
@@ -61,14 +62,17 @@ interface Props {
   ) => void
   onClickPrevCard: VoidFunction
   onClickNextCard: VoidFunction
+  onClickCurrentCard: VoidFunction
 }
 
 function TaroCardList({
   cards,
+  isShowBack,
   currentIndex,
   onDragEnd,
   onClickPrevCard,
   onClickNextCard,
+  onClickCurrentCard,
 }: Props): JSX.Element {
   return (
     <>
@@ -115,9 +119,10 @@ function TaroCardList({
                 >
                   <Card
                     type={card?.type}
-                    number={card?.number}
                     text={card?.text}
-                    onClick={() => {}}
+                    number={card?.number}
+                    isShowBack={isShowBack}
+                    onClick={onClickCurrentCard}
                   />
                 </motion.div>
               )}

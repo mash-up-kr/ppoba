@@ -16,7 +16,7 @@ export default function TaroPlayPage(): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isShowBack, setIsShowBack] = useState(false)
   const [cards, setCard] = useState(generateCards(5))
-  const [currentIndex, setCurrentIndex] = useState(1)
+  const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
 
   const calculateNewX = useCallback(
     () => -currentIndex * (containerRef.current?.clientWidth || 0),
@@ -41,26 +41,39 @@ export default function TaroPlayPage(): JSX.Element {
   }
 
   const handleClickShuffleButton = useCallback(() => {
+    if (isShowBack) {
+      return
+    }
     const nextCards = [...cards].sort(() => (Math.random() > 0.5 ? 1 : -1))
     setCard(nextCards)
-    setIsShowBack(false)
     setCurrentIndex(INITIAL_INDEX)
-  }, [cards])
+  }, [cards, isShowBack])
 
   const handleClickNextButton = useCallback(() => {
-    const nextCards = [...cards].filter(
-      (_, index) => index !== currentIndex - 1,
-    )
+    const nextCards = [...cards].filter((_, index) => index !== currentIndex)
     setCard(nextCards)
     setIsShowBack(false)
+    if (nextCards.length === 1) {
+      // 카드가 1장이 남으면 0번째 인덱스로 초기화한다.
+      setCurrentIndex(INITIAL_INDEX)
+    }
   }, [cards, currentIndex])
 
   const handleClickPrevCard = useCallback(() => {
+    if (isShowBack) {
+      return
+    }
     setCurrentIndex(prev => Math.max(0, prev - 1))
-  }, [])
+  }, [isShowBack])
   const handleClickNextCard = useCallback(() => {
+    if (isShowBack) {
+      return
+    }
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
-  }, [cards.length])
+  }, [cards.length, isShowBack])
+  const handleClickCurrentCard = useCallback(() => {
+    setIsShowBack(true)
+  }, [])
 
   return (
     <>
@@ -81,10 +94,12 @@ export default function TaroPlayPage(): JSX.Element {
         >
           <TaroCardList
             cards={cards}
+            isShowBack={isShowBack}
             currentIndex={currentIndex}
             onDragEnd={handleDragEnd}
             onClickPrevCard={handleClickPrevCard}
             onClickNextCard={handleClickNextCard}
+            onClickCurrentCard={handleClickCurrentCard}
           />
         </motion.div>
 
