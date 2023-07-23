@@ -53,9 +53,9 @@ export default function TaroPlayPage(): JSX.Element {
     const nextCards = [...cards].filter((_, index) => index !== currentIndex)
     setCard(nextCards)
     setIsShowBack(false)
-    if (nextCards.length === 1) {
-      // 카드가 1장이 남으면 0번째 인덱스로 초기화한다.
-      setCurrentIndex(INITIAL_INDEX)
+    if (nextCards.length >= currentIndex) {
+      // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
+      setCurrentIndex(nextCards.length - 1)
     }
   }, [cards, currentIndex])
 
