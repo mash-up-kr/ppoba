@@ -74,7 +74,7 @@ export default function TaroPlayPage(): JSX.Element {
       const nextCards = [...cards].filter((_, index) => index !== currentIndex)
       setCard(nextCards)
       setIsShowBack(false)
-      if (nextCards.length >= currentIndex) {
+      if (nextCards.length <= currentIndex) {
         // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
         setCurrentIndex(nextCards.length - 1)
       }
