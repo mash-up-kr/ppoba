@@ -18,6 +18,7 @@ export default function TaroPlayPage(): JSX.Element {
   const [isShowBack, setIsShowBack] = useState(false)
   const [cards, setCard] = useState(generateCards(24))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
+  const [isExitAnimation, setIsExitAnimation] = useState(false)
 
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
@@ -74,17 +75,30 @@ export default function TaroPlayPage(): JSX.Element {
 
   const handleClickNextButton = useCallback(() => {
     if (isShowBack) {
-      const nextCards = [...cards].filter((_, index) => index !== currentIndex)
-      setCard(nextCards)
-      setIsShowBack(false)
-      if (nextCards.length <= currentIndex) {
-        // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
-        setCurrentIndex(nextCards.length - 1)
-      }
+      handleClickNextCard()
+      setIsExitAnimation(true)
     } else {
       handleClickNextCard()
     }
-  }, [cards, currentIndex, handleClickNextCard, isShowBack])
+  }, [handleClickNextCard, isShowBack])
+
+  useEffect(() => {
+    // exit용 애니메이션
+    if (isExitAnimation) {
+      setTimeout(() => {
+        setIsShowBack(false)
+        setIsExitAnimation(false)
+        const nextCards = [...cards].filter(
+          (_, index) => index !== currentIndex,
+        )
+        setCard(nextCards)
+        if (nextCards.length <= currentIndex) {
+          // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
+          setCurrentIndex(nextCards.length - 1)
+        }
+      }, 300)
+    }
+  }, [cards, currentIndex, isExitAnimation])
 
   return (
     <>
@@ -106,6 +120,7 @@ export default function TaroPlayPage(): JSX.Element {
           >
             <TaroCardList
               cards={cards}
+              isExitAnimation={isExitAnimation}
               isShowBack={isShowBack}
               currentIndex={currentIndex}
               onDragEnd={handleDragEnd}

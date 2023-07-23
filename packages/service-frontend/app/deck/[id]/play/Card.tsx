@@ -21,7 +21,7 @@ interface Props {
   text?: string
   isShowBack?: boolean
   className?: string
-  onClick: MouseEventHandler<HTMLDivElement>
+  onClick?: MouseEventHandler<HTMLDivElement>
 }
 
 function Card({

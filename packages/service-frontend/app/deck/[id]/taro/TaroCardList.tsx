@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import { PanInfo, motion } from 'framer-motion'
+import { AnimatePresence, PanInfo, motion } from 'framer-motion'
 
 import type { CardType } from '../play/Card'
 import Card from '../play/Card'
@@ -50,6 +50,7 @@ interface Props {
   }[]
   isShowBack: boolean
   currentIndex: number
+  isExitAnimation: boolean
   onDragEnd: (
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
@@ -63,11 +64,14 @@ function TaroCardList({
   cards,
   isShowBack,
   currentIndex,
+  isExitAnimation,
   onDragEnd,
   onClickPrevCard,
   onClickNextCard,
   onClickCurrentCard,
 }: Props): JSX.Element {
+  const currentCard = cards[currentIndex]
+
   return (
     <>
       {cards.map((card, index) => {
@@ -148,6 +152,24 @@ function TaroCardList({
           )
         )
       })}
+      <AnimatePresence>
+        {isExitAnimation && (
+          <motion.div
+            className={`flex w-[270px] h-[360px] absolute z-30 duration-150 opacity-100`}
+            exit={{
+              top: -300,
+              opacity: 0,
+            }}
+          >
+            <Card
+              type={currentCard.type}
+              number={currentCard.number}
+              text={currentCard.text}
+              isShowBack={true}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
