@@ -13,6 +13,11 @@ export class AuthService {
     private readonly authKakaoService: AuthKakaoService
   ) {}
 
+  async decode(token: string) {
+    const user = await this.jwtService.decode(token);
+    return user;
+  }
+
   async authenticate(code: string) {
     const tokens = await this.authKakaoService.getOAuthToken(code);
     const userInfo = await this.authKakaoService.getUserInfo(tokens.access_token);
@@ -30,13 +35,12 @@ export class AuthService {
     return await this.signIn(user);
   }
 
-  async signIn(user: User) {
+  private async signIn(user: User) {
     const token = await this.jwtService.encode(user);
     return { token };
   }
 
-  async signUp(params: { id: string; age: string; gender: string }) {
-    // TODO auto increment로
+  private async signUp(params: { id: string; age: string; gender: string }) {
     return await this.userRepository.create({
       name: '익명' + nanoid(),
       id: params.id,

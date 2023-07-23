@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { assert } from 'typia';
-import { InjectModel, Card, CardDocument } from '../../core/database';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { assert } from 'typia';
+import { Card, CardDocument, InjectModel } from '../../core/database';
 import { CardList } from './dto/createCardDto';
 
 @Injectable()
@@ -52,10 +52,10 @@ export class CardRepository {
 
     return updateCard;
   }
-  
-  async findAll(deckId: string){
+
+  async findAll(deckId: string) {
     const cards = await this.cardModel.find({ deckId }).exec();
-    
+
     return cards;
   }
 }
