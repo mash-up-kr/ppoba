@@ -41,5 +41,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build
+        run: pnpm build
+
       - name: Deploy development
         run: pnpm deploy:dev
