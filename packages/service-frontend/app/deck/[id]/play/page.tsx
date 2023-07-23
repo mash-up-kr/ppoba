@@ -9,7 +9,6 @@ import { Header } from '@/components'
 import Card, { CardType } from './Card'
 import { CardStyle } from './constant'
 import EmptyCard from './EmptyCard'
-import TaroCardList from '../taro/TaroCardList'
 
 const cardTypes: CardType[] = [
   'flower',
@@ -33,7 +32,6 @@ export const generateCards = (size: number) => {
 
 export default function DeckPlay(): JSX.Element {
   const searchParams = useSearchParams()
-  const animationOption = searchParams.get('option') ?? 'default'
 
   const [isShowBack, setIsShowBack] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -70,43 +68,39 @@ export default function DeckPlay(): JSX.Element {
         </div>
 
         {/* 플레이 카드 */}
-        {animationOption === 'taro' ? (
-          <TaroCardList cards={cards} />
-        ) : (
-          <div className="relative mx-auto w-[270px] h-[360px] z-30">
-            {/* 카드가 있는 경우 */}
-            {cards.slice(currentIndex, currentIndex + 1).map(card => (
-              <Card
-                key={card.id}
-                number={card.number}
-                type={card.type}
-                text={card.text}
-                className="z-30"
-                isShowBack={isShowBack}
-                onClick={() => setIsShowBack(prev => !prev)}
-              />
-            ))}
-            {/* 남은카드가 1개 이상인 경우 */}
-            {currentIndex < cards.length - 1 && (
-              <div
-                className={`absolute w-[255px] h-[340px] top-[-16px] left-1/2 -translate-x-1/2 z-10 rounded-[24px] ${
-                  CardStyle[cards[currentIndex + 1].type].background
-                }`}
-              />
-            )}
-            {/* 남은카드가 2개 이상인 경우 */}
-            {currentIndex < cards.length - 2 && (
-              <div
-                className={`absolute w-[225px] h-[300px] top-[-32px] left-1/2 -translate-x-1/2 z-0 opacity-60 rounded-[24px] ${
-                  CardStyle[cards[currentIndex + 2].type].background
-                }`}
-              />
-            )}
+        <div className="relative mx-auto w-[270px] h-[360px] z-30">
+          {/* 카드가 있는 경우 */}
+          {cards.slice(currentIndex, currentIndex + 1).map(card => (
+            <Card
+              key={card.id}
+              number={card.number}
+              type={card.type}
+              text={card.text}
+              className="z-30"
+              isShowBack={isShowBack}
+              onClick={() => setIsShowBack(prev => !prev)}
+            />
+          ))}
+          {/* 남은카드가 1개 이상인 경우 */}
+          {currentIndex < cards.length - 1 && (
+            <div
+              className={`absolute w-[255px] h-[340px] top-[-16px] left-1/2 -translate-x-1/2 z-10 rounded-[24px] ${
+                CardStyle[cards[currentIndex + 1].type].background
+              }`}
+            />
+          )}
+          {/* 남은카드가 2개 이상인 경우 */}
+          {currentIndex < cards.length - 2 && (
+            <div
+              className={`absolute w-[225px] h-[300px] top-[-32px] left-1/2 -translate-x-1/2 z-0 opacity-60 rounded-[24px] ${
+                CardStyle[cards[currentIndex + 2].type].background
+              }`}
+            />
+          )}
 
-            {/* 카드가 없는 경우 */}
-            {cards.length === currentIndex && <EmptyCard />}
-          </div>
-        )}
+          {/* 카드가 없는 경우 */}
+          {cards.length === currentIndex && <EmptyCard />}
+        </div>
 
         {/* 버튼 */}
         <div className="flex gap-[10px] justify-center">
