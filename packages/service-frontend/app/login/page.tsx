@@ -3,6 +3,7 @@
 import Lottie from 'lottie-react'
 
 import loginLottie from '@/public/lottie/loginLottie.json'
+
 import { useLogin } from './hooks'
 
 export default function Login(): JSX.Element {

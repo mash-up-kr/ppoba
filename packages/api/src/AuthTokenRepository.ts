@@ -1,9 +1,19 @@
+'use client';
+
 export class AuthTokenRepository {
   private readonly authTokenKey = '@@@ppobaAuthToken';
   private authToken: string | null;
 
   constructor() {
-    this.authToken = window.localStorage.getItem(this.authTokenKey);
+    this.load();
+  }
+
+  load() {
+    if (typeof window === 'undefined') {
+      this.authToken = null;
+    } else {
+      this.authToken = window.localStorage.getItem(this.authTokenKey);
+    }
   }
 
   getToken() {

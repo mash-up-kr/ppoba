@@ -1,7 +1,7 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+
+import { useSearchParams } from 'next/navigation'
 import { api, authTokenRepository } from '@ppoba/api'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 export function useLogin(
   onSuccess: () => void = () => {
@@ -12,11 +12,12 @@ export function useLogin(
     // TODO: 콜백은 프론트분들께 맡기겠습니다.
     alert(`로그인 실패: ${error.name}`)
   },
-) {
+): { handleLoginClick: () => Promise<void> } {
+  useLoginToken()
   useLoginRedirection(onSuccess, onFailure)
   const handleLoginClick = useLoginButton(onSuccess, onFailure)
 
-  return { handleLoginClick }
+  return { handleLoginClick: async () => {} }
 }
 
 function useLoginButton(
@@ -37,6 +38,8 @@ function useLoginButton(
 
     const { loginUrl } = await api.auth.getLoginUrl()
     location.href = loginUrl
+    // 이동했다가 돌아올 때
+    // https://HOST/login?code=qweoiqeu1209283
   }, [onSuccess, onFailure])
 }
 
@@ -44,13 +47,19 @@ function useLoginRedirection(
   onSuccess: () => void,
   onFailure: (error: any) => void,
 ) {
-  const router = useRouter()
-  const code = router.query['code']
+  const searchParams = useSearchParams()
+  const code = searchParams.get('code')
   useEffect(() => {
     if (typeof code === 'string') {
       handleLogin(code).then(onSuccess, onFailure)
     }
   }, [code, onSuccess, onFailure])
+}
+
+function useLoginToken() {
+  useEffect(() => {
+    authTokenRepository.load()
+  }, [])
 }
 
 async function handleLogin(code: string) {

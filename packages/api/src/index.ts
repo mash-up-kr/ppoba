@@ -8,11 +8,24 @@ const client = {
 };
 
 const auth = JSON_APIS({
+  /**
+   * TODO: API에 대한 한줄 주석
+   */
   verify: () => client.session.get<{}>('auth/verify'),
   getLoginUrl: () => client.public.get<{ loginUrl: string }>('auth/kakao/login'),
   getAuthToken: ({ code }: { code: string }) => client.public.get<any>(`auth/kakao/token?code=${code}`),
 });
 
+const card = JSON_APIS({
+  // TODO
+});
+
+const deck = JSON_APIS({
+  // TODO
+});
+
 export const api = {
   auth,
+  card,
+  deck,
 };
