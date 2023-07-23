@@ -7,6 +7,7 @@ import { Button, SecondaryButton } from '@ppoba/ui'
 import { Header } from '@/components'
 
 import TaroCardList from './TaroCardList'
+import EmptyCard from '../play/EmptyCard'
 import { generateCards } from '../play/page'
 
 const INITIAL_INDEX = 0
@@ -18,6 +19,7 @@ export default function TaroPlayPage(): JSX.Element {
   const [cards, setCard] = useState(generateCards(5))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
 
+  // 드래그
   const calculateNewX = useCallback(
     () => -currentIndex * (containerRef.current?.clientWidth || 0),
     [currentIndex],
@@ -40,25 +42,7 @@ export default function TaroPlayPage(): JSX.Element {
     }
   }
 
-  const handleClickShuffleButton = useCallback(() => {
-    if (isShowBack) {
-      return
-    }
-    const nextCards = [...cards].sort(() => (Math.random() > 0.5 ? 1 : -1))
-    setCard(nextCards)
-    setCurrentIndex(INITIAL_INDEX)
-  }, [cards, isShowBack])
-
-  const handleClickNextButton = useCallback(() => {
-    const nextCards = [...cards].filter((_, index) => index !== currentIndex)
-    setCard(nextCards)
-    setIsShowBack(false)
-    if (nextCards.length >= currentIndex) {
-      // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
-      setCurrentIndex(nextCards.length - 1)
-    }
-  }, [cards, currentIndex])
-
+  // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
     if (isShowBack) {
       return
@@ -75,6 +59,30 @@ export default function TaroPlayPage(): JSX.Element {
     setIsShowBack(true)
   }, [])
 
+  // 하단 버튼
+  const handleClickShuffleButton = useCallback(() => {
+    if (isShowBack) {
+      return
+    }
+    const nextCards = [...cards].sort(() => (Math.random() > 0.5 ? 1 : -1))
+    setCard(nextCards)
+    setCurrentIndex(INITIAL_INDEX)
+  }, [cards, isShowBack])
+
+  const handleClickNextButton = useCallback(() => {
+    if (isShowBack) {
+      const nextCards = [...cards].filter((_, index) => index !== currentIndex)
+      setCard(nextCards)
+      setIsShowBack(false)
+      if (nextCards.length >= currentIndex) {
+        // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
+        setCurrentIndex(nextCards.length - 1)
+      }
+    } else {
+      handleClickNextCard()
+    }
+  }, [cards, currentIndex, handleClickNextCard, isShowBack])
+
   return (
     <>
       <Header rightIconType="close" />
@@ -88,20 +96,26 @@ export default function TaroPlayPage(): JSX.Element {
         </div>
 
         {/* 플레이 카드 */}
-        <motion.div
-          ref={containerRef}
-          className="relative w-[270px] mx-auto h-[384px]"
-        >
-          <TaroCardList
-            cards={cards}
-            isShowBack={isShowBack}
-            currentIndex={currentIndex}
-            onDragEnd={handleDragEnd}
-            onClickPrevCard={handleClickPrevCard}
-            onClickNextCard={handleClickNextCard}
-            onClickCurrentCard={handleClickCurrentCard}
-          />
-        </motion.div>
+        {cards.length > 0 ? (
+          <motion.div
+            ref={containerRef}
+            className="relative w-[270px] mx-auto h-[384px]"
+          >
+            <TaroCardList
+              cards={cards}
+              isShowBack={isShowBack}
+              currentIndex={currentIndex}
+              onDragEnd={handleDragEnd}
+              onClickPrevCard={handleClickPrevCard}
+              onClickNextCard={handleClickNextCard}
+              onClickCurrentCard={handleClickCurrentCard}
+            />
+          </motion.div>
+        ) : (
+          <div className="relative mx-auto w-[270px] h-[360px] z-30">
+            <EmptyCard />
+          </div>
+        )}
 
         {/* 버튼 */}
         <div className="relative flex gap-[10px] justify-center px-[24px] z-50">
