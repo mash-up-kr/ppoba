@@ -75,7 +75,10 @@ export default function TaroPlayPage(): JSX.Element {
         </div>
 
         {/* 플레이 카드 */}
-        <motion.div ref={containerRef} className="relative w-full h-full">
+        <motion.div
+          ref={containerRef}
+          className="relative w-[270px] mx-auto h-[384px]"
+        >
           <TaroCardList
             cards={cards}
             currentIndex={currentIndex}

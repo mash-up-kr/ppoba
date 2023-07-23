@@ -8,14 +8,14 @@ import Card from '../play/Card'
 const animateVariants = {
   leftOutSide: {
     top: 100,
-    left: -440,
+    left: -340,
     opacity: '0',
     zIndex: 1,
   },
   leftSide: {
     rotate: '-15deg',
-    top: 40,
-    left: -160,
+    top: 45,
+    left: -230,
     opacity: '0.6',
     zIndex: 10,
   },
@@ -28,14 +28,14 @@ const animateVariants = {
   },
   rightSide: {
     rotate: '15deg',
-    top: 40,
-    left: 310,
+    top: 45,
+    left: 245,
     opacity: '0.6',
     zIndex: 10,
   },
   rightOutSide: {
     top: 100,
-    left: 640,
+    left: 340,
     opacity: '0',
     zIndex: 1,
   },
@@ -81,7 +81,7 @@ function TaroCardList({
               {currentIndex - 1 === index && (
                 <motion.div
                   key={index}
-                  className="flex w-[270px] h-[360px] absolute transition-all ease-out duration-150"
+                  className="flex w-[255px] h-[340px] absolute transition-all ease-out duration-300"
                   variants={animateVariants}
                   initial="leftOutSide"
                   animate="leftSide"
@@ -99,7 +99,7 @@ function TaroCardList({
               {currentIndex === index && (
                 <motion.div
                   key={index}
-                  className="flex w-[270px] h-[360px] mx-auto relative z-30 transition-all ease-[cubic-bezier(0.24,0.89,0.92,0.64)] duration-300"
+                  className="flex w-[270px] h-[360px] absolute z-30 duration-150"
                   drag="x"
                   dragListener={false}
                   dragConstraints={{ left: 0, right: 0 }}
@@ -107,12 +107,17 @@ function TaroCardList({
                   variants={animateVariants}
                   initial={'center'}
                   animate={'center'}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 400,
+                    damping: 30,
+                  }}
                 >
                   <Card
                     type={card?.type}
                     number={card?.number}
                     text={card?.text}
-                    onClick={onClickPrevCard}
+                    onClick={() => {}}
                   />
                 </motion.div>
               )}
@@ -120,7 +125,7 @@ function TaroCardList({
               {currentIndex + 1 === index && (
                 <motion.div
                   key={index}
-                  className="flex w-[270px] h-[360px] absolute transition-all ease-out duration-150"
+                  className="flex w-[255px] h-[340px] absolute transition-all ease-out duration-300"
                   variants={animateVariants}
                   initial="rightOutSide"
                   animate="rightSide"
