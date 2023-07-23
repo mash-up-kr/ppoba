@@ -8,7 +8,7 @@ import { Header } from '@/components'
 
 import TaroCardList from './TaroCardList'
 import EmptyCard from '../play/EmptyCard'
-import { generateCards } from '../play/page'
+import { generateCards } from '../play/generateCard'
 
 const INITIAL_INDEX = 0
 
@@ -16,31 +16,8 @@ export default function TaroPlayPage(): JSX.Element {
   const x = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isShowBack, setIsShowBack] = useState(false)
-  const [cards, setCard] = useState(generateCards(5))
+  const [cards, setCard] = useState(generateCards(24))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
-
-  // 드래그
-  const calculateNewX = useCallback(
-    () => -currentIndex * (containerRef.current?.clientWidth || 0),
-    [currentIndex],
-  )
-
-  const handleDragEnd = (e: Event, dragProps: PanInfo) => {
-    const clientWidth = containerRef.current?.clientWidth || 0
-
-    const { offset, velocity } = dragProps
-
-    if (Math.abs(velocity.y) > Math.abs(velocity.x)) {
-      animate(x, calculateNewX(), { type: 'spring', bounce: 0 })
-      return
-    }
-
-    if (offset.x > clientWidth / 4) {
-      setCurrentIndex(prev => Math.max(prev - 1, 0))
-    } else if (offset.x < -clientWidth / 4) {
-      setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
-    }
-  }
 
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
@@ -58,6 +35,32 @@ export default function TaroPlayPage(): JSX.Element {
   const handleClickCurrentCard = useCallback(() => {
     setIsShowBack(true)
   }, [])
+
+  // 드래그
+  const calculateNewX = useCallback(
+    () => -currentIndex * (containerRef.current?.clientWidth || 0),
+    [currentIndex],
+  )
+
+  const handleDragEnd = useCallback(
+    (e: Event, dragProps: PanInfo) => {
+      const clientWidth = containerRef.current?.clientWidth || 0
+
+      const { offset, velocity } = dragProps
+
+      if (Math.abs(velocity.y) > Math.abs(velocity.x)) {
+        animate(x, calculateNewX(), { type: 'spring', bounce: 0 })
+        return
+      }
+
+      if (offset.x > clientWidth / 4) {
+        handleClickPrevCard()
+      } else if (offset.x < -clientWidth / 4) {
+        handleClickNextCard()
+      }
+    },
+    [calculateNewX, handleClickNextCard, handleClickPrevCard, x],
+  )
 
   // 하단 버튼
   const handleClickShuffleButton = useCallback(() => {

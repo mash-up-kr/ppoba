@@ -1,38 +1,16 @@
 'use client'
 import { useCallback, useState } from 'react'
 
-import { useSearchParams } from 'next/navigation'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/components'
 
-import Card, { CardType } from './Card'
+import Card from './Card'
 import { CardStyle } from './constant'
 import EmptyCard from './EmptyCard'
-
-const cardTypes: CardType[] = [
-  'flower',
-  'feather',
-  'sprout',
-  'turnip',
-  'plug',
-  'nail',
-  'swallow',
-  'clover',
-]
-
-export const generateCards = (size: number) => {
-  return [...Array(size)].map((_, i) => ({
-    id: Math.random().toString() + Math.random().toString(),
-    number: i + 1,
-    type: cardTypes[i % cardTypes.length],
-    text: '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자',
-  }))
-}
+import { generateCards } from './generateCard'
 
 export default function DeckPlay(): JSX.Element {
-  const searchParams = useSearchParams()
-
   const [isShowBack, setIsShowBack] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [cards, setCard] = useState(generateCards(24))
