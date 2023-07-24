@@ -17,7 +17,7 @@ export function useLogin(
   useLoginRedirection(onSuccess, onFailure)
   const handleLoginClick = useLoginButton(onSuccess, onFailure)
 
-  return { handleLoginClick: async () => {} }
+  return { handleLoginClick }
 }
 
 function useLoginButton(
