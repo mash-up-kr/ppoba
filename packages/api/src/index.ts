@@ -13,7 +13,7 @@ const auth = JSON_APIS({
    */
   verify: () => client.session.get<{}>('auth/verify'),
   getLoginUrl: () => client.public.get<{ loginUrl: string }>('auth/kakao/login'),
-  getAuthToken: ({ code }: { code: string }) => client.public.get<any>(`auth/kakao/token?code=${code}`),
+  getAuthToken: ({ code }: { code: string }) => client.public.get<{ token: string }>(`auth/kakao/token?code=${code}`),
 });
 
 const card = JSON_APIS({

@@ -63,6 +63,6 @@ function useLoginToken() {
 }
 
 async function handleLogin(code: string) {
-  const token = await api.auth.getAuthToken({ code })
+  const { token } = await api.auth.getAuthToken({ code })
   authTokenRepository.setToken(token)
 }
