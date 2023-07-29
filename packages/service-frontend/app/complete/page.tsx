@@ -3,8 +3,9 @@
 import Lottie from 'lottie-react'
 import { Button } from '@ppoba/ui'
 
-import { Header } from '@/components'
 import addDeckLottie from '@/public/lottie/addDeckLottie.json'
+
+import { Header } from '../components/common'
 
 export default function DeckCreateCompletePage(): JSX.Element {
   return (
