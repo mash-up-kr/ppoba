@@ -95,7 +95,7 @@ export default function DeckPlay(): JSX.Element {
               >
                 섞기
               </SecondaryButton>
-              <Button size="large" onClick={handleClickNextButton}>
+              <Button size="medium" onClick={handleClickNextButton}>
                 다음 카드 보기
               </Button>
             </>

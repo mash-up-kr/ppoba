@@ -29,3 +29,30 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@layer utilities {
+  .squircle-default {
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+
+  .small-button {
+    clip-path: path(
+      'M0 30C0 7 7 0 30 0H121C144 0 151 7 151 30C151 53 144 60 121 60H30C7 60 0 53 0 30Z'
+    );
+  }
+  .medium-button {
+    clip-path: path(
+      'M0 30C0 7 7 0 30 0H172C195 0 202 7 202 30C202 53 195 60 172 60H30C7 60 0 53 0 30Z'
+    );
+  }
+  .large-button {
+    clip-path: path(
+      'M0 30C0 5 5 0 30 0H282C307 0 312 5 312 30C312 55 307 60 282 60H30C5 60 0 55 0 30Z'
+    );
+  }
+}

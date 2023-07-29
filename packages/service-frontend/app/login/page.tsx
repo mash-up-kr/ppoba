@@ -1,6 +1,7 @@
 'use client'
 
 import Lottie from 'lottie-react'
+import { Button } from '@ppoba/ui'
 
 import loginLottie from '@/public/lottie/loginLottie.json'
 
@@ -22,12 +23,13 @@ export default function Login(): JSX.Element {
       </div>
 
       <div className="">
-        <button
+        <Button
+          size="large"
           onClick={handleLoginClick}
           className="w-full bg-[#FEE500] headline-4 text-black opacity-85 py-[18px]"
         >
           카카오로 시작하기
-        </button>
+        </Button>
       </div>
     </div>
   )
