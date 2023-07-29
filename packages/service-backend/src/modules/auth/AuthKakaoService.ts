@@ -10,6 +10,7 @@ export class AuthKakaoService {
   async getLoginUrl(): Promise<string> {
     let response;
     try {
+      throw new InternalServerErrorException('login url error for test');
       response = await got.get('https://kauth.kakao.com/oauth/authorize', {
         searchParams: {
           client_id: env.kakao.clientId,
