@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Headers, Query } from '@nestjs/common';
 import { AuthKakaoService } from './AuthKakaoService';
 import { AuthService } from './AuthService';
 
@@ -9,16 +9,22 @@ export class AuthController {
     private readonly authService: AuthService
   ) {}
 
-  @Get('/kakao/login')
-  async getLoginUrl() {
-    return await this.authKakaoService.getLoginUrl();
+  @Get('/verify')
+  async verifyToken(@Headers('Authorization') authorizationHeader: string) {
+    const [_, token] = authorizationHeader.split(' ');
+    await this.authService.decode(token);
+    return {};
   }
 
-  @Get('/kakao/redirect')
-  async redirect(@Query('code') code: string, @Query() query: any) {
-    console.log({ query });
-    // TODO cookie or hmm
-    // TODO: redirect to frontend
+  @Get('/kakao/login')
+  async getLoginUrl(): Promise<{ loginUrl: string }> {
+    return {
+      loginUrl: await this.authKakaoService.getLoginUrl(),
+    };
+  }
+
+  @Get('/kakao/token')
+  async getToken(@Query('code') code: string): Promise<{ token: string }> {
     return await this.authService.authenticate(code);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CardRepository } from './CardRepository';
 import { Card } from '../../core/database';
-import { CreateCardDto, CardList } from './dto/createCardDto';
+import { CardRepository } from './CardRepository';
+import { CardList } from './dto/createCardDto';
 
 @Injectable()
 export class CardService {

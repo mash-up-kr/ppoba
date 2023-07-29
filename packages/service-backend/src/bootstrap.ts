@@ -12,7 +12,7 @@ export async function bootstrap(): Promise<{ app: NestExpressApplication; instan
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(instance),
-    { logger }
+    { logger, cors: true }
   );
   app.useGlobalPipes(
     new ValidationPipe({

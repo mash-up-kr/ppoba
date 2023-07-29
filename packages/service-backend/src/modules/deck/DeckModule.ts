@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DeckService } from './DeckService';
+import { CardModule } from '../card/CardModule';
 import { DeckController } from './DeckController';
 import { DeckRepository } from './DeckRepository';
-import { CardRepository } from '../card/CardRepository'
+import { DeckService } from './DeckService';
 
 @Module({
+  imports: [CardModule],
   controllers: [DeckController],
-  providers: [DeckService, DeckRepository, CardRepository],
+  providers: [DeckService, DeckRepository],
 })
 export class DeckModule {}
