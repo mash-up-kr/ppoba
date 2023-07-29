@@ -37,7 +37,7 @@ const deck = JSON_APIS({
   /* deck Creations: Upload a deck of cards */
   // Todo : change to session
   createDeck: ({ createDeckDto }: { createDeckDto: CreateDeckDto }) =>
-    client.public.post<{ deck_id: string }>('decks', createDeckDto),
+    client.public.post<{ result: { deck_id: string } }>('decks', createDeckDto),
   /* get Deck: Get card information by deck id */
   // Todo : change to session
   getDeck: ({ id }: { id: string }) => client.public.get<{ result: Deck | null }>(`decks/id=${id}`),
