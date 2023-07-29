@@ -118,7 +118,7 @@ export class DeckController {
   })
   @Get(':id/cards')
   async findCardListByDeckId(@Param('id') deckId: string): Promise<{ result: Card[] | null }> {
-    const result = await this.deckService.findAll(deckId);
+    const result = await this.deckService.findCardListByDeckId(deckId);
     return { result: result };
   }
 
