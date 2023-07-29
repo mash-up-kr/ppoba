@@ -71,7 +71,7 @@ export class DeckController {
   }
 
   @Get('/user/:userId')
-  async findByUserId(@Param('userId') userId: string): Promise<{ result: Deck[] | null }> {
+  async findByUserId(@Param('userId') userId: string): Promise<{ result: Deck[] | [] }> {
     const result = await this.deckService.findDeckListByUserId(userId);
     return { result: result };
   }

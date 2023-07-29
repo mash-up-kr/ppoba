@@ -31,8 +31,8 @@ export class CardController {
   async updateCard(
     @Param('id') id: string,
     @Body() cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>
-  ): Promise<{ result: boolean }> {
-    const result = await this.cardService.updateCard(id, cardDto);
+  ): Promise<object> {
+    const result = this.cardService.updateCard(id, cardDto);
     return { result: result };
   }
 }

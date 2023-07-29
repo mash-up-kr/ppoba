@@ -50,7 +50,6 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
-    "@ppoba/types": "workspace:* ",
-    "backend": "workspace:*"
+    "@ppoba/types": "workspace:*"
   }
 }

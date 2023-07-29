@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -20,9 +20,6 @@ importers:
       axios:
         specifier: ^1.4.0
         version: 1.4.0
-      backend:
-        specifier: workspace:*
-        version: link:../service-backend
     devDependencies:
       '@types/jest':
         specifier: ^29.5.1
