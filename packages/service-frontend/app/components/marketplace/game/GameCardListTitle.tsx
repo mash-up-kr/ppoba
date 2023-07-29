@@ -9,13 +9,15 @@ import { GameCardListHeaderType } from './Game'
 interface Props {
   headerType: GameCardListHeaderType
   label: string
-  className?: string
+  className?: string,
+  onClick?: () => void
 }
 
 export default function GameCardListTitle({
   headerType,
   label,
   className = '',
+  onClick,
 }: Props): JSX.Element {
   const router = useRouter()
 
@@ -31,27 +33,12 @@ export default function GameCardListTitle({
     }
   }
 
-  const handleClickIcon = (headerType: GameCardListHeaderType) => {
-    switch (headerType) {
-      case 'MY_GAME': {
-        console.log('Clicked My Game')
-        return
-      }
-
-      case 'ALL_GAME': {
-        router.push('/create-title')
-        console.log('Clicked All Game')
-        return
-      }
-    }
-  }
-
   return (
     <div
       className={`w-full flex justify-start items-center px-[8px] ${className}`}
     >
       <h1 className="headline-2 text-grey-800 mr-[4px]">{label}</h1>
-      <div role="button" onClick={() => handleClickIcon(headerType)}>
+      <div role="button" onClick={onClick}>
         <Icon type={getIconType(headerType)} width={24} height={24} />
       </div>
     </div>
