@@ -1,9 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DeckService } from './DeckService';
 import { CreateDeckDto } from './dto/CreateDeckDto';
-import { UpdateDeckDto } from './dto/UpdateDeckDto';
-import { Deck, Card } from '../../core/database';
 import { ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Card, Deck } from '@ppoba/types';
 
 @ApiTags('decks')
 @Controller('decks')
@@ -66,14 +65,14 @@ export class DeckController {
   }
 
   @Get()
-  async findAllDeck(): Promise<{ result: Deck[] | null }> {
+  async findAllDeck(): Promise<{ result: Deck[] }> {
     const result = await this.deckService.findAllDeck();
     return { result: result };
   }
 
   @Get('/user/:userId')
   async findByUserId(@Param('userId') userId: string): Promise<{ result: Deck[] | null }> {
-    const result = await this.deckService.findByUserId(userId);
+    const result = await this.deckService.findDeckListByUserId(userId);
     return { result: result };
   }
 
@@ -118,41 +117,41 @@ export class DeckController {
     description: 'deck ID',
   })
   @Get(':id/cards')
-  async findCard(@Param('id') id: string): Promise<{ result: Card[] | null }> {
-    const result = await this.deckService.findAll(id);
+  async findCardListByDeckId(@Param('id') deckId: string): Promise<{ result: Card[] | null }> {
+    const result = await this.deckService.findCardListByDeckId(deckId);
     return { result: result };
   }
 
-  @ApiOperation({ summary: 'Update Deck api', description: 'update deck info' })
-  // Todo : Set schema
-  @ApiCreatedResponse({
-    description: 'Updated Deck Information',
-    schema: {
-      example: {},
-    },
-  })
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'deck ID',
-  })
-  @ApiBody({ type: UpdateDeckDto })
-  @Patch(':id')
-  async updateDeck(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
-    const result = await this.deckService.updateDeck(id, updateDeckDto);
-    return { result: result };
-  }
+  // @ApiOperation({ summary: 'Update Deck api', description: 'update deck info' })
+  // // Todo : Set schema
+  // @ApiCreatedResponse({
+  //   description: 'Updated Deck Information',
+  //   schema: {
+  //     example: {},
+  //   },
+  // })
+  // @ApiParam({
+  //   name: 'id',
+  //   required: true,
+  //   description: 'deck ID',
+  // })
+  // @ApiBody({ type: UpdateDeckDto })
+  // @Patch(':id')
+  // async updateDeck(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
+  //   const result = await this.deckService.updateDeck(id, updateDeckDto);
+  //   return { result: result };
+  // }
 
-  @ApiOperation({ summary: 'Delete Deck api', description: 'delete deck info' })
-  // Todo : Set schema
-  @ApiCreatedResponse({ description: 'update Deck info' })
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'deck ID',
-  })
-  @Delete(':id')
-  async removeDeck(@Param('id') id: string) {
-    return await this.deckService.removeDeck(id);
-  }
+  // @ApiOperation({ summary: 'Delete Deck api', description: 'delete deck info' })
+  // // Todo : Set schema
+  // @ApiCreatedResponse({ description: 'update Deck info' })
+  // @ApiParam({
+  //   name: 'id',
+  //   required: true,
+  //   description: 'deck ID',
+  // })
+  // @Delete(':id')
+  // async removeDeck(@Param('id') id: string) {
+  //   return await this.deckService.removeDeck(id);
+  // }
 }

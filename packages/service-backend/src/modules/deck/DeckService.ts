@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateDeckDto } from './dto/UpdateDeckDto';
 import { DeckRepository } from './DeckRepository';
 import { DeckCategory } from './DeckConstant';
 import { CardRepository } from '../card/CardRepository';
+import { Card, Deck } from '@ppoba/types';
 
 @Injectable()
 export class DeckService {
@@ -19,23 +19,27 @@ export class DeckService {
     return await this.deckRepository.findOne(id);
   }
 
-  async findAllDeck(): Promise<any> {
+  async findAllDeck(): Promise<Deck[]> {
     return await this.deckRepository.findAll();
   }
 
-  async findByUserId(userId: string): Promise<any> {
+  async findDeckListByUserId(userId: string): Promise<Deck[]> {
     return await this.deckRepository.findByUserId(userId);
   }
 
-  async updateDeck(id: string, updateDeckDto: UpdateDeckDto) {
-    return await this.deckRepository.update(id);
+  async findAllCardsByDeckId(deckId: string): Promise<Card[] | []> {
+    return await this.cardRepository.findAll(deckId);
   }
 
-  async removeDeck(id: string) {
-    return await this.deckRepository.remove(id);
-  }
-
-  async findAll(id: string): Promise<any> {
+  async findCardListByDeckId(id: string): Promise<any> {
     return await this.cardRepository.findAll(id);
   }
+
+  // async updateDeck(id: string, updateDeckDto: UpdateDeckDto): Promise<any> {
+  //   return await this.deckRepository.update(id);
+  // }
+
+  // async removeDeck(id: string): Promise<any> {
+  //   return await this.deckRepository.remove(id);
+  // }
 }
