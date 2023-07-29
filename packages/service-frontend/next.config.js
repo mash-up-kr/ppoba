@@ -8,4 +8,4 @@ const nextConfig = {
   transpilePackages: ['@ppoba/ui', '@ppoba/tailwind-config']
 };
 
-module.exports = nextConfig;
+module.exports = nextConfig
