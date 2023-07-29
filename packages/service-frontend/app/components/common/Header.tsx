@@ -4,7 +4,7 @@ import { Icon } from '@ppoba/ui'
 import { IconType } from '@ppoba/ui/dist/src/components/Icon'
 
 type Props = {
-  title?: string
+  title?: string | JSX.Element
   className?: string
   leftIconType?: IconType
   rightIconType?: IconType

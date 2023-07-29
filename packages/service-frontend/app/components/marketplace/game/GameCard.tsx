@@ -23,7 +23,7 @@ export default function GameCard({
   const router = useRouter()
 
   const handleClickCard = () => {
-    router.push(`/deck/${game.id}`)
+    router.push(`/deck/${game.id}?type=${game.type}`)
   }
 
   return (
