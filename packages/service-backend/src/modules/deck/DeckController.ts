@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DeckService } from './DeckService';
+import { Deck } from '../../core/database';
 import { CreateDeckDto } from './dto/CreateDeckDto';
 import { UpdateDeckDto } from './dto/UpdateDeckDto';
+import { Deck, Card } from '../../core/database';
 import { ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('decks')
@@ -13,7 +15,7 @@ export class DeckController {
   @ApiCreatedResponse({
     description: 'Deck ID', schema: {
       example: {
-        "result": {
+        "result" : {
           "deck_id": "7b0cf169-2d3e-4cd9-94ca-a37f4b1a5e52"
         }
       }
@@ -21,9 +23,9 @@ export class DeckController {
   })
   @ApiBody({ type: CreateDeckDto })
   @Post()
-  async createDeck(@Body() createDeckDto: CreateDeckDto): Promise<any> {
+  async createDeck(@Body() createDeckDto: CreateDeckDto): Promise< { result : { deck_id : string }}> {
     const result = await this.deckService.create(createDeckDto.name, createDeckDto.userId, createDeckDto.category);
-    return { result: { deck_id: result } };
+    return { result : { deck_id: result }};
   }
 
   @ApiOperation({ summary: 'Get Deck api', description: 'Get card information by deck id' })
@@ -36,7 +38,7 @@ export class DeckController {
           // Todo check 
           "cardIds": [],
           "category": [
-              "°ú°Å"
+              "ï¿½ï¿½ï¿½ï¿½"
           ],
           "userId": "12345",
           "isDeleted": false,
@@ -54,7 +56,7 @@ export class DeckController {
     description: "deck ID",
   })
   @Get('/:id')
-  async findDeck(@Param('id') id: string): Promise<any> {
+  async findDeck(@Param('id') id: string): Promise<{ result: Deck | null }> {
     const result = await this.deckService.findDeck(id);
     return { result: result };
   }
@@ -95,7 +97,7 @@ export class DeckController {
     description: "deck ID",
   })
   @Get(":id/cards")
-  async findCard(@Param('id') id: string): Promise<any> {
+  async findCard(@Param('id') id: string): Promise<{ result : Card[] | null }> {
     const result = await this.deckService.findAll(id);
     return { result: result };
   }
