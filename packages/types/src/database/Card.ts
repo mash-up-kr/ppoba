@@ -7,7 +7,7 @@ export type Card = {
 
   createdAt: Date;
 
-  deletedAt: Date;
+  deletedAt: Date | null;
 
   updatedAt: Date;
 };
