@@ -23,9 +23,10 @@ const card = JSON_APIS({
   // Todo : change to session
   createCard: ({ createCardDto }: { createCardDto: CreateCardDto }) =>
     client.public.post<{ result: boolean }>('cards', createCardDto),
-  // get card by id
+  /* get List of Cards in deck: Get card information by deck id */
   // Todo : change to session
-  getCards: ({ id }: { id: string }) => client.public.get<{ result: Card[] | null }>(`decks/id=${id}/cards`),
+  getCards: ({ deckId }: { deckId: string }) =>
+    client.public.get<{ result: Card[] | null }>(`decks/id=${deckId}/cards`),
   /* delete card by id */
   // Todo : change to session
   deleteCard: ({ id }: { id: string }) => client.public.delete<{ result: boolean }>(`cards/id=${id}`),
@@ -40,9 +41,12 @@ const deck = JSON_APIS({
     client.public.post<{ deck_id: string }>('decks', createDeckDto),
   /* get Deck: Get card information by deck id */
   // Todo : change to session
-  getDeck: ({ id }: { id: string }) => client.public.get<{ result: Deck | null }>(`decks/id=${id}`),
-  /* get List of Cards in deck: Get card information by deck id */
+  getDeck: ({ deckId }: { deckId: string }) => client.public.get<{ result: Deck | null }>(`decks/id=${deckId}`),
+  /* Get all deck info */
   getAllDeck: () => client.public.get<{ result: Deck[] }>(`decks`),
+  /* Get deck list of user id */
+  getDeckListByUserId: ({ userId }: { userId: string }) =>
+    client.session.get<{ result: Deck[] | null }>(`decks/user/${userId}`),
 });
 
 export const api = {
