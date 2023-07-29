@@ -15,12 +15,54 @@ import { CardIcon, CardStyle } from './play/constant'
 const DEFAULT_DECK_TYPE: CardType = 'nail'
 const DEFAULT_TITLE = '이미지게임가나다라마바사아자차'
 
+const TEST_GAME_DATA = {
+  isAdult: true,
+  chipList: [
+    '비밀',
+    '가치관',
+    '취미',
+    '비밀',
+    '가치관',
+    '취미',
+    '비밀',
+    '가치관',
+    '취미',
+    '비밀',
+    '가치관',
+    '취미',
+  ],
+  cardList: [
+    {
+      id: 0,
+      type: 'nail' as CardType,
+      content:
+        '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마',
+    },
+    {
+      id: 1,
+      type: 'nail' as CardType,
+      content: '김가나다라마바사아자 김가나다라마바사아자 ',
+    },
+    {
+      id: 2,
+      type: 'nail' as CardType,
+      content: '김가나다라마바사아자 김가나다라마바사아자 ',
+    },
+  ],
+}
+
 enum PLAY_TYPE {
-  GENERAL = '일반 뽑기',
+  NORMAL = '일반 뽑기',
   TAROT = '타로 뽑기',
 }
 
-export default function DeckDetail(): JSX.Element {
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+export default function DeckDetail({ params }: Props): JSX.Element {
   const router = useRouter()
 
   // Search Parameter로 Deck Type 전달 받기 -> 없는 경우 Default Type으로 설정
@@ -36,43 +78,16 @@ export default function DeckDetail(): JSX.Element {
   const bgColor = CardStyle[deckType].background
   const deckIcon = CardIcon[deckType].normalSideIcon
 
-  const game = {
-    isAdult: true,
-    chipList: [
-      '비밀',
-      '가치관',
-      '취미',
-      '비밀',
-      '가치관',
-      '취미',
-      '비밀',
-      '가치관',
-      '취미',
-      '비밀',
-      '가치관',
-      '취미',
-    ],
-    cardList: [
-      {
-        id: 0,
-        type: 'nail' as CardType,
-        content:
-          '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마',
-      },
-      {
-        id: 1,
-        type: 'nail' as CardType,
-        content: '김가나다라마바사아자 김가나다라마바사아자 ',
-      },
-      {
-        id: 2,
-        type: 'nail' as CardType,
-        content: '김가나다라마바사아자 김가나다라마바사아자 ',
-      },
-    ],
+  const handleClickPlayButton = () => {
+    switch (playType) {
+      case PLAY_TYPE.NORMAL:
+        router.push(`/deck/${params.id}/normal`)
+        return
+      case PLAY_TYPE.TAROT:
+        router.push(`/deck/${params.id}/tarot`)
+        return
+    }
   }
-
-  console.log(isMainTitleInView)
 
   return (
     <div className="bg-light">
@@ -115,7 +130,7 @@ export default function DeckDetail(): JSX.Element {
 
           {/* Chip List */}
           <div className="mt-[20px] gap-x-[4px] flex flex-wrap gap-y-[8px]">
-            {game.isAdult && (
+            {TEST_GAME_DATA.isAdult && (
               <div className="shrink-0">
                 <GameCategoryChip
                   label="19+"
@@ -124,7 +139,7 @@ export default function DeckDetail(): JSX.Element {
                 />
               </div>
             )}
-            {game.chipList.map((chip, index) => (
+            {TEST_GAME_DATA.chipList.map((chip, index) => (
               <div key={index} className="shrink-0">
                 <GameCategoryChip label={chip} />
               </div>
@@ -136,7 +151,7 @@ export default function DeckDetail(): JSX.Element {
         <div className="pb-[40px]">
           {/* Deck Card List */}
           <div className="flex gap-x-[8px] px-[24px] -mt-[26px] overflow-x-hidden snap-x pb-[24px]">
-            {game.cardList.map(card => {
+            {TEST_GAME_DATA.cardList.map(card => {
               return (
                 <div
                   key={card.id}
@@ -176,7 +191,7 @@ export default function DeckDetail(): JSX.Element {
           <div className="mt-[20px]">
             <TwoOptionRadioButton<PLAY_TYPE | string>
               value={playType}
-              options={[PLAY_TYPE.GENERAL, PLAY_TYPE.TAROT]}
+              options={[PLAY_TYPE.NORMAL, PLAY_TYPE.TAROT]}
               onClickItem={option => setPlayType(option)}
             />
           </div>
@@ -185,7 +200,12 @@ export default function DeckDetail(): JSX.Element {
 
       {/* Bottom Button Section */}
       <div className="fixed bottom-[16px] left-0 w-full px-[24px]">
-        <Button size="large" rightIcon="goWhite" disabled={playType === ''}>
+        <Button
+          size="large"
+          rightIcon="goWhite"
+          disabled={playType === ''}
+          onClick={handleClickPlayButton}
+        >
           플레이하기
         </Button>
       </div>
