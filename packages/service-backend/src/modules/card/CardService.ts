@@ -11,7 +11,7 @@ export class CardService {
     return await this.cardRepository.create(cardList, deckId);
   }
 
-  async deleteCard(id: string): Promise<object> {
+  async deleteCard(id: string): Promise<boolean> {
     const card = await this.cardRepository.findById(id);
 
     if (!card) {
@@ -24,7 +24,7 @@ export class CardService {
   async updateCard(
     id: string,
     cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>
-  ): Promise<object> {
+  ): Promise<boolean> {
     const card = await this.cardRepository.findById(id);
 
     if (!card) {
