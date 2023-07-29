@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { UpdateDeckDto } from './dto/UpdateDeckDto';
 import { DeckRepository } from './DeckRepository';
 import { DeckCategory } from './DeckConstant';
-import { CardRepository } from '../card/CardRepository'
+import { CardRepository } from '../card/CardRepository';
 
 @Injectable()
 export class DeckService {
   constructor(
     private readonly deckRepository: DeckRepository,
     private readonly cardRepository: CardRepository
-    ) {}
+  ) {}
 
   async create(name: string, userId: string, category: DeckCategory[]): Promise<string> {
     return await this.deckRepository.create(name, userId, category);
@@ -19,6 +19,10 @@ export class DeckService {
     return await this.deckRepository.findOne(id);
   }
 
+  async findAllDeck(): Promise<any> {
+    return await this.deckRepository.findAll();
+  }
+
   async updateDeck(id: string, updateDeckDto: UpdateDeckDto) {
     return await this.deckRepository.update(id);
   }
@@ -26,8 +30,8 @@ export class DeckService {
   async removeDeck(id: string) {
     return await this.deckRepository.remove(id);
   }
-  
-  async findAll(id: string){
+
+  async findAll(id: string) {
     return await this.cardRepository.findAll(id);
   }
 }
