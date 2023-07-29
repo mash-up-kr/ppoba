@@ -33,7 +33,7 @@ export default function TaroPlayPage(): JSX.Element {
   const x = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isShowBack, setIsShowBack] = useState(false)
-  const [cards, setCard] = useState(generateCards(2))
+  const [cards, setCard] = useState(generateCards(24))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
 
@@ -113,7 +113,7 @@ export default function TaroPlayPage(): JSX.Element {
           // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
           setCurrentIndex(nextCards.length - 1)
         }
-      }, 150)
+      })
     }
   }, [cards, currentIndex, isExitAnimation])
 
@@ -169,16 +169,14 @@ export default function TaroPlayPage(): JSX.Element {
         <div className="relative flex gap-[10px] justify-center px-[24px] z-50">
           {cards.length === 0 ? (
             // 남은 카드가 없는 경우
-            <AnimatePresence>
-              <motion.div
-                className="relative"
-                variants={animateVariants}
-                initial={'initial'}
-                animate={'animate'}
-              >
-                <Button size="medium">리스트로 가기</Button>
-              </motion.div>
-            </AnimatePresence>
+            <motion.div
+              className="relative"
+              variants={animateVariants}
+              initial={'initial'}
+              animate={'animate'}
+            >
+              <Button size="medium">리스트로 가기</Button>
+            </motion.div>
           ) : (
             <>
               {/* 카드가 남은 경우 */}

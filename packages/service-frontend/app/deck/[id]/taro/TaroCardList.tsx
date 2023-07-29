@@ -7,6 +7,7 @@ import Card from '../play/Card'
 
 const animateVariants = {
   leftOutSide: {
+    rotate: '-30deg',
     top: 100,
     left: -340,
     zIndex: 1,
@@ -30,6 +31,7 @@ const animateVariants = {
     zIndex: 10,
   },
   rightOutSide: {
+    rotate: '30deg',
     top: 100,
     left: 340,
     zIndex: 1,
@@ -71,6 +73,8 @@ function TaroCardList({
   onClickCurrentCard,
 }: Props): JSX.Element {
   const currentCard = cards[currentIndex]
+  const nextCard =
+    currentIndex === cards.length - 1 ? null : cards[currentIndex + 1]
 
   return (
     <>
@@ -103,7 +107,7 @@ function TaroCardList({
               {currentIndex === index && (
                 <motion.div
                   key={index}
-                  className={`flex w-[270px] h-[360px] absolute z-30 duration-150 ${
+                  className={`flex w-[270px] h-[360px] absolute duration-150 ${
                     isShowBack ? 'opacity-100' : 'opacity-[0.98]'
                   }`}
                   drag="x"
@@ -111,7 +115,7 @@ function TaroCardList({
                   dragConstraints={{ left: 0, right: 0 }}
                   onDragEnd={onDragEnd}
                   variants={animateVariants}
-                  initial={'center'}
+                  initial={'rightSide'}
                   animate={'center'}
                   transition={{
                     type: 'spring',
@@ -152,6 +156,8 @@ function TaroCardList({
           )
         )
       })}
+
+      {/* 카드 넘길때 센터에서 슬라이드 업 */}
       <AnimatePresence>
         {isExitAnimation && (
           <motion.div
@@ -170,6 +176,24 @@ function TaroCardList({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 카드 넘길 때 우->센터 애니메이션 */}
+      {/* <AnimatePresence>
+        {isExitAnimation && nextCard && (
+          <motion.div
+            className={`flex w-[270px] h-[360px] absolute duration-150 opacity-80`}
+            variants={animateVariants}
+            initial={'rightSide'}
+            exit={'center'}
+          >
+            <Card
+              type={nextCard.type}
+              number={nextCard.number}
+              text={nextCard.text}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence> */}
     </>
   )
 }
