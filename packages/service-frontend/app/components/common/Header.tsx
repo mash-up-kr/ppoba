@@ -1,7 +1,7 @@
 import type { JSX, MouseEventHandler } from 'react'
 
 import { Icon } from '@ppoba/ui'
-import type { IconType } from '@ppoba/ui/dist/src/components/Icon'
+import { IconType } from '@ppoba/ui/dist/src/components/Icon'
 
 type Props = {
   title?: string
