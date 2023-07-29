@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DeckService } from './DeckService';
+import { Deck } from '../../core/database';
 import { CreateDeckDto } from './dto/CreateDeckDto';
 import { UpdateDeckDto } from './dto/UpdateDeckDto';
 import { Deck, Card } from '../../core/database';
@@ -24,7 +25,7 @@ export class DeckController {
   @Post()
   async createDeck(@Body() createDeckDto: CreateDeckDto): Promise< { result : { deck_id : string }}> {
     const result = await this.deckService.create(createDeckDto.name, createDeckDto.userId, createDeckDto.category);
-    return { result: { deck_id: result } };
+    return { result : { deck_id: result }};
   }
 
   @ApiOperation({ summary: 'Get Deck api', description: 'Get card information by deck id' })
