@@ -21,23 +21,23 @@ const auth = JSON_APIS({
 const card = JSON_APIS({
   /* card Creations */
   createCard: ({ createCardDto }: { createCardDto: CreateCardDto }) =>
-    client.session.post<Promise<{ result: boolean }>>('cards', createCardDto),
+    client.session.post<{ result: boolean }>('cards', createCardDto),
+  // get card by id
+  getCards: ({ id }: { id: string }) => client.session.get<{ result: Card[] | null }>(`decks/id=${id}/cards`),
   /* delete card by id */
   deleteCard: ({ id }: { id: string }) => client.session.delete<Promise<{ result: boolean }>>(`cards/id=${id}`),
 });
 
 /* deck api */
+
 const deck = JSON_APIS({
   /* deck Creations: Upload a deck of cards */
   createDeck: ({ createDeckDto }: { createDeckDto: CreateDeckDto }) =>
-    client.session.post<Promise<{ deck_id: string }>>('decks', createDeckDto),
+    client.session.post<{ deck_id: string }>('decks', createDeckDto),
   /* get Deck: Get card information by deck id */
-  getDeck: ({ id }: { id: string }) => client.session.get<Promise<{ result: Deck | null }>>(`decks/id=${id}`),
+  getDeck: ({ id }: { id: string }) => client.session.get<{ result: Deck | null }>(`decks/id=${id}`),
   /* get List of Cards in deck: Get card information by deck id */
-  getCards: ({ id }: { id: string }) => client.session.get<Promise<{ result: Card[] | null }>>(`decks/id=${id}/cards`),
-  getAllDeck: () => client.public.get<Promise<{ result: Deck[] | null }>>(`decks`),
-  getDeckByUserId: ({ id }: { id: string }) =>
-    client.session.get<Promise<{ result: Deck[] | null }>>(`decks/user/${id}`),
+  getAllDeck: () => client.public.get<{ result: Deck[] }>(`decks`),
 });
 
 export const api = {
