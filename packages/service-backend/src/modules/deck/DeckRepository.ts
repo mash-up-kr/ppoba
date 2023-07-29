@@ -54,6 +54,7 @@ export class DeckRepository {
       throw new InternalServerErrorException(`error: ${error}`);
     }
   }
+
   async update(id: string) {
     return `This action updates a #${id} deck`;
   }
