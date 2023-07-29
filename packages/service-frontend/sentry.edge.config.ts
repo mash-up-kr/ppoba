@@ -6,7 +6,8 @@
 import * as Sentry from '@sentry/nextjs'
 
 function getDSNKey(): string {
-  const DSN = process.env.WEB_SENTRY_DSN || process.env.NEXT_WEB_SENTRY_DSN
+  const DSN =
+    process.env.WEB_SENTRY_DSN || process.env.NEXT_PUBLIC_WEB_SENTRY_DSN
 
   if (!DSN) {
     throw new Error('DSN key not found')
