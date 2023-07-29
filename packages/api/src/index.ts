@@ -35,7 +35,9 @@ const deck = JSON_APIS({
   getDeck: ({ id }: { id: string }) => client.session.get<Promise<{ result: Deck | null }>>(`decks/id=${id}`),
   /* get List of Cards in deck: Get card information by deck id */
   getCards: ({ id }: { id: string }) => client.session.get<Promise<{ result: Card[] | null }>>(`decks/id=${id}/cards`),
-  getAllDeck: () => client.public.get<Promise<{ result: Deck[] }>>(`decks`),
+  getAllDeck: () => client.public.get<Promise<{ result: Deck[] | null }>>(`decks`),
+  getDeckByUserId: ({ id }: { id: string }) =>
+    client.session.get<Promise<{ result: Deck[] | null }>>(`decks/user/${id}`),
 });
 
 export const api = {
