@@ -237,13 +237,13 @@ export default function TaroPlayPage(): JSX.Element {
             <>
               {/* 카드가 남은 경우 */}
               <SecondaryButton
-                size="small"
+                size="medium"
                 rightIcon="shuffle"
                 onClick={handleClickShuffleButton}
               >
                 섞기
               </SecondaryButton>
-              <Button size="large" onClick={handleClickNextButton}>
+              <Button size="medium" onClick={handleClickNextButton}>
                 다음 카드 보기
               </Button>
             </>
