@@ -1,6 +1,7 @@
 'use client'
 import { useState, type JSX, useCallback } from 'react'
 
+import { useRouter } from 'next/navigation'
 import { Icon, Button } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
@@ -23,6 +24,12 @@ export default function ConfirmDetailPage(): JSX.Element {
   const [isAdultGame, setIsAdultGame] = useState<boolean>(false)
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
 
+  const router = useRouter()
+  
+  const handleClick = () => {
+    router.push('/complete')
+  }
+
   const handleClickKeyword = useCallback(
     (keyword: string) => {
       const nextSelectedKeywords = [...selectedKeywords]
@@ -43,7 +50,7 @@ export default function ConfirmDetailPage(): JSX.Element {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header leftIconType="backWhite" className="bg-grey-800" />
+      <Header leftIconType="backWhite" onClickLeftIcon={() => router.back()} className="bg-grey-800" />
       {/* 게임 상세 타이틀 */}
       <div className="bg-grey-800 h-[218px] py-[72px]">
         <div className="flex flex-col gap-1 px-[32px] py-[20px]">
@@ -69,6 +76,7 @@ export default function ConfirmDetailPage(): JSX.Element {
           rightIcon="goWhite"
           className="transition-all"
           disabled={selectedKeywords.length === 0 && !isAdultGame}
+          onClick={handleClick}
         >
           업로드 하자
         </Button>

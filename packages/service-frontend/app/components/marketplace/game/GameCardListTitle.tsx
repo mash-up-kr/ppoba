@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { Icon } from '@ppoba/ui'
 import { IconType } from '@ppoba/ui/dist/src/components/Icon'
 
@@ -16,6 +17,8 @@ export default function GameCardListTitle({
   label,
   className = '',
 }: Props): JSX.Element {
+  const router = useRouter()
+
   const getIconType = (headerType: GameCardListHeaderType): IconType => {
     switch (headerType) {
       case 'MY_GAME': {
@@ -28,7 +31,7 @@ export default function GameCardListTitle({
     }
   }
 
-  const handleClickIcon = (headerType: GameCardListHeaderType): void => {
+  const handleClickIcon = (headerType: GameCardListHeaderType) => {
     switch (headerType) {
       case 'MY_GAME': {
         console.log('Clicked My Game')
@@ -36,6 +39,7 @@ export default function GameCardListTitle({
       }
 
       case 'ALL_GAME': {
+        router.push('/create-title')
         console.log('Clicked All Game')
         return
       }
