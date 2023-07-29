@@ -126,6 +126,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("tailwind-scrollbar-hide"),
     plugin(function ({ addUtilities }) {
       const designSystemTextStyles = {
         // Headline
@@ -139,13 +140,13 @@ module.exports = {
           'font-weight': 700,
           'font-size': '24px',
           'line-height': '140%',
-          'letter-spacing': '-0.24%',
+          'letter-spacing': '-0.24px'
         },
         '.headline-3': {
           'font-weight': 700,
           'font-size': '20px',
           'line-height': '145%',
-          'letter-spacing': '-0.2%',
+          'letter-spacing': ' -0.2px'
         },
         '.headline-4': {
           'font-weight': 700,
@@ -201,6 +202,18 @@ module.exports = {
           'line-height': '150%',
           'letter-spacing': '-0.12px',
         },
+
+        '.caption-bold': {
+          'font-size': '12px',
+          'font-weight': 700,
+          'line-height': '150%',
+          'letter-spacing': '-0.12px',
+        },
+
+        // Hide ScrollBar
+        '.hide-scrollbar': {
+
+        }
       };
       addUtilities(designSystemTextStyles);
     }),
