@@ -31,7 +31,6 @@ export async function bootstrap(): Promise<{ app: NestExpressApplication; instan
   if (env === 'prod' || env === 'dev') {
     Sentry.init({
       dsn: process.env.NODE_SENTRY_DSN,
-      environment: env,
       tracesSampleRate: 1.0,
     });
   }
