@@ -23,6 +23,10 @@ export class DeckService {
     return await this.deckRepository.findAll();
   }
 
+  async findByUserId(userId: string): Promise<any> {
+    return await this.deckRepository.findByUserId(userId);
+  }
+
   async updateDeck(id: string, updateDeckDto: UpdateDeckDto) {
     return await this.deckRepository.update(id);
   }
