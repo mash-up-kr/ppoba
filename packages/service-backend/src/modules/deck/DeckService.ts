@@ -35,7 +35,7 @@ export class DeckService {
     return await this.deckRepository.remove(id);
   }
 
-  async findAll(id: string) {
+  async findAll(id: string): Promise<any> {
     return await this.cardRepository.findAll(id);
   }
 }
