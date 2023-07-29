@@ -34,6 +34,18 @@ export default function TaroPlayPage(): JSX.Element {
     'touch',
   )
 
+  const handleShowingEvent = useCallback(() => {
+    setAlertShow(prev => {
+      if (prev === 'touch') {
+        return 'slide'
+      }
+      if (prev === 'slide') {
+        return 'none'
+      }
+      return 'none'
+    })
+  }, [])
+
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
     if (isShowBack) {
@@ -48,8 +60,9 @@ export default function TaroPlayPage(): JSX.Element {
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
   }, [cards.length, isShowBack])
   const handleClickCurrentCard = useCallback(() => {
+    handleShowingEvent()
     setIsShowBack(true)
-  }, [])
+  }, [handleShowingEvent])
 
   // 드래그
   const calculateNewX = useCallback(
@@ -89,6 +102,7 @@ export default function TaroPlayPage(): JSX.Element {
 
   const handleClickNextButton = useCallback(() => {
     if (isShowBack) {
+      setAlertShow('none')
       handleClickNextCard()
       setIsExitAnimation(true)
     } else {
@@ -160,7 +174,9 @@ export default function TaroPlayPage(): JSX.Element {
 
           {alertShow !== 'none' && (
             <motion.div className="animate-top-down-bounce absolute subtitle-3 whitespace-nowrap w-fit bottom-0 left-1/2 -translate-x-1/2 py-[10px] px-[20px] rounded-[19px] bg-[rgba(16,16,16,0.60)] z-[100] backdrop-blur-sm">
-              터치하면 내용을 볼 수 있어!
+              {alertShow === 'touch'
+                ? '터치하면 내용을 볼 수 있어!'
+                : '옆으로 넘겨서 다음 카드를 볼 수 있어'}
             </motion.div>
           )}
         </div>
