@@ -20,22 +20,27 @@ const auth = JSON_APIS({
 /* card api */
 const card = JSON_APIS({
   /* card Creations */
+  // Todo : change to session
   createCard: ({ createCardDto }: { createCardDto: CreateCardDto }) =>
-    client.session.post<{ result: boolean }>('cards', createCardDto),
+    client.public.post<{ result: boolean }>('cards', createCardDto),
   // get card by id
-  getCards: ({ id }: { id: string }) => client.session.get<{ result: Card[] | null }>(`decks/id=${id}/cards`),
+  // Todo : change to session
+  getCards: ({ id }: { id: string }) => client.public.get<{ result: Card[] | null }>(`decks/id=${id}/cards`),
   /* delete card by id */
-  deleteCard: ({ id }: { id: string }) => client.session.delete<{ result: boolean }>(`cards/id=${id}`),
+  // Todo : change to session
+  deleteCard: ({ id }: { id: string }) => client.public.delete<{ result: boolean }>(`cards/id=${id}`),
 });
 
 /* deck api */
 
 const deck = JSON_APIS({
   /* deck Creations: Upload a deck of cards */
+  // Todo : change to session
   createDeck: ({ createDeckDto }: { createDeckDto: CreateDeckDto }) =>
-    client.session.post<{ deck_id: string }>('decks', createDeckDto),
+    client.public.post<{ deck_id: string }>('decks', createDeckDto),
   /* get Deck: Get card information by deck id */
-  getDeck: ({ id }: { id: string }) => client.session.get<{ result: Deck | null }>(`decks/id=${id}`),
+  // Todo : change to session
+  getDeck: ({ id }: { id: string }) => client.public.get<{ result: Deck | null }>(`decks/id=${id}`),
   /* get List of Cards in deck: Get card information by deck id */
   getAllDeck: () => client.public.get<{ result: Deck[] }>(`decks`),
 });
