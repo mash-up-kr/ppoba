@@ -10,6 +10,20 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
+        'top-down-bounce': {
+          '0%': {
+            transform: 'translate(-50%, -25%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translate(-50%, -0)',
+            'animation-timing-function': 'cubic-bezier(0, 0, 2, 1)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -25%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          }
+        },
         'slide-right-toggle': {
           '0%': {
             width: '24px',
@@ -74,6 +88,7 @@ module.exports = {
       animation: {
         'slide-right-toggle': 'slide-right-toggle 0.4s linear',
         'slide-left-toggle': 'slide-left-toggle 0.4s linear',
+        'top-down-bounce': 'top-down-bounce 1s infinite',
       },
       colors: {
         grey: {

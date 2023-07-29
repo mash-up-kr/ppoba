@@ -5,29 +5,10 @@ import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
 
-import Card, { CardType } from './Card'
+import Card from './Card'
 import { CardStyle } from './constant'
 import EmptyCard from './EmptyCard'
-
-const cardTypes: CardType[] = [
-  'flower',
-  'feather',
-  'sprout',
-  'turnip',
-  'plug',
-  'nail',
-  'swallow',
-  'clover',
-]
-
-const generateCards = (size: number) => {
-  return [...Array(size)].map((_, i) => ({
-    id: Math.random().toString() + Math.random().toString(),
-    number: i + 1,
-    type: cardTypes[i % cardTypes.length],
-    text: '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자',
-  }))
-}
+import { generateCards } from './generateCard'
 
 export default function DeckPlay(): JSX.Element {
   const [isShowBack, setIsShowBack] = useState(false)
@@ -65,7 +46,7 @@ export default function DeckPlay(): JSX.Element {
         </div>
 
         {/* 플레이 카드 */}
-        <div className="relative  mx-auto w-[270px] h-[360px] z-30">
+        <div className="relative mx-auto w-[270px] h-[360px] z-30">
           {/* 카드가 있는 경우 */}
           {cards.slice(currentIndex, currentIndex + 1).map(card => (
             <Card
