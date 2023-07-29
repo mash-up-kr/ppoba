@@ -1,5 +1,5 @@
-import * as Sentry from "@sentry/nextjs";
-import Head from "next/head";
+import * as Sentry from '@sentry/nextjs'
+import Head from 'next/head'
 
 export default function Home() {
   return (
@@ -11,17 +11,17 @@ export default function Home() {
 
       <main
         style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <h1 style={{ fontSize: "4rem", margin: "14px 0" }}>
+        <h1 style={{ fontSize: '4rem', margin: '14px 0' }}>
           <svg
             style={{
-              height: "1em",
+              height: '1em',
             }}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 200 44"
@@ -37,31 +37,31 @@ export default function Home() {
         <button
           type="button"
           style={{
-            padding: "12px",
-            cursor: "pointer",
-            backgroundColor: "#AD6CAA",
-            borderRadius: "4px",
-            border: "none",
-            color: "white",
-            fontSize: "14px",
-            margin: "18px",
+            padding: '12px',
+            cursor: 'pointer',
+            backgroundColor: '#AD6CAA',
+            borderRadius: '4px',
+            border: 'none',
+            color: 'white',
+            fontSize: '14px',
+            margin: '18px',
           }}
           onClick={async () => {
             const transaction = Sentry.startTransaction({
-              name: "Example Frontend Transaction",
-            });
+              name: 'Example Frontend Transaction',
+            })
 
-            Sentry.configureScope((scope) => {
-              scope.setSpan(transaction);
-            });
+            Sentry.configureScope(scope => {
+              scope.setSpan(transaction)
+            })
 
             try {
-              const res = await fetch("/api/sentry-example-api");
+              const res = await fetch('/api/sentry-example-api')
               if (!res.ok) {
-                throw new Error("Sentry Example Frontend Error");
+                throw new Error('Sentry Example Frontend Error')
               }
             } finally {
-              transaction.finish();
+              transaction.finish()
             }
           }}
         >
@@ -69,16 +69,19 @@ export default function Home() {
         </button>
 
         <p>
-          Next, look for the error on the{" "}
-          <a href="https://ppoba-rp.sentry.io/issues/?project=4505610655825920">Issues Page</a>.
+          Next, look for the error on the{' '}
+          <a href="https://ppoba-rp.sentry.io/issues/?project=4505610655825920">
+            Issues Page
+          </a>
+          .
         </p>
-        <p style={{ marginTop: "24px" }}>
-          For more information, see{" "}
+        <p style={{ marginTop: '24px' }}>
+          For more information, see{' '}
           <a href="https://docs.sentry.io/platforms/javascript/guides/nextjs/">
             https://docs.sentry.io/platforms/javascript/guides/nextjs/
           </a>
         </p>
       </main>
     </div>
-  );
+  )
 }
