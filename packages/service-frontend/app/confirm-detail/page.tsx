@@ -3,7 +3,7 @@ import { useState, type JSX, useCallback } from 'react'
 
 import { Icon, Button } from '@ppoba/ui'
 
-import { Header } from '@/components'
+import { Header } from '@/app/components'
 
 import GameKeywordBox from './GameKeywordBox'
 

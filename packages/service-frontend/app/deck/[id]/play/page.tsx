@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 
 import { Button, SecondaryButton } from '@ppoba/ui'
 
-import { Header } from '@/app/components/common'
+import { Header } from '@/app/components'
 
 import Card, { CardType } from './Card'
 import { CardStyle } from './constant'
