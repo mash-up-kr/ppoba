@@ -1,5 +1,8 @@
 import { JSON_APIS } from './apiResponseHandler';
 import { createApiClient } from './clientFactory';
+import { CreateDeckDto } from 'backend/src/modules/deck/dto/CreateDeckDto';
+import { CreateCardDto } from 'backend/src/modules/card/dto/createCardDto';
+import { Deck, Card } from 'backend/src/core/database';
 export { authTokenRepository, AuthTokenRepository, AuthenticationRequiredError } from './AuthTokenRepository';
 
 const client = {
@@ -16,12 +19,24 @@ const auth = JSON_APIS({
   getAuthToken: ({ code }: { code: string }) => client.public.get<{ token: string }>(`auth/kakao/token?code=${code}`),
 });
 
+/* card api */
 const card = JSON_APIS({
-  // TODO
+  /* card Creations */
+  createCard: ({ createCardDto }: { createCardDto: CreateCardDto }) =>
+    client.session.post<Promise<{ result: boolean }>>('cards', createCardDto),
+  /* delete card by id */
+  deleteCard: ({ id }: { id: string }) => client.session.delete<Promise<{ result: boolean }>>(`cards/id=${id}`),
 });
 
+/* deck api */
 const deck = JSON_APIS({
-  // TODO
+  /* deck Creations: Upload a deck of cards */
+  createDeck: ({ createDeckDto }: { createDeckDto: CreateDeckDto }) =>
+    client.session.post<Promise<{ deck_id: string }>>('decks', createDeckDto),
+  /* get Deck: Get card information by deck id */
+  getDeck: ({ id }: { id: string }) => client.session.get<Promise<{ result: Deck | null }>>(`decks/id=${id}`),
+  /* get List of Cards in deck: Get card information by deck id */
+  getCards: ({ id }: { id: string }) => client.session.get<Promise<{ result: Card[] | null }>>(`decks/id=${id}/cards`),
 });
 
 export const api = {

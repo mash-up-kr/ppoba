@@ -3,6 +3,7 @@ import { UpdateDeckDto } from './dto/UpdateDeckDto';
 import { DeckRepository } from './DeckRepository';
 import { DeckCategory } from './DeckConstant';
 import { CardRepository } from '../card/CardRepository'
+import { Deck } from '../../core/database';
 
 @Injectable()
 export class DeckService {
@@ -15,7 +16,7 @@ export class DeckService {
     return await this.deckRepository.create(name, userId, category);
   }
 
-  async findDeck(id: string): Promise<any> {
+  async findDeck(id: string): Promise<Deck | null> {
     return await this.deckRepository.findOne(id);
   }
 
