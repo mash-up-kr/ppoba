@@ -22,7 +22,7 @@ const auth = JSON_APIS({
 
 const card = JSON_APIS({
   createCard: ({ createCardDto }: { createCardDto: CreateCardDto }) => client.session.post<Promise<any>>('cards', createCardDto),
-  deleteCard: ({ id }: { id: string }) => client.session.delete<Promise<any>>(`cards/id=${id}`)
+  deleteCard: ({ id }: { id: string }) => client.session.delete<Promise<{ message : string }>>(`cards/id=${id}`)
 });
 
 /* deck api */
