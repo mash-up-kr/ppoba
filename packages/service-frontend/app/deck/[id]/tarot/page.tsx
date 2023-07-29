@@ -160,7 +160,12 @@ export default function TaroPlayPage(): JSX.Element {
                 onClickNextCard={handleClickNextCard}
                 onClickCurrentCard={handleClickCurrentCard}
               />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+              {alertShow === 'touch' && (
+                <div className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]">
+                  <span className="animate-ping rounded-full w-[20px] border-solid h-[20px] absolute content-[''] bg-alert-red z-[300]" />
+                  <span className="absolute rounded-full w-[20px] h-[20px] border-solid  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 content-[''] bg-alert-red z-[300]" />
+                </div>
+              )}
             </motion.div>
           ) : (
             <motion.div
@@ -174,7 +179,7 @@ export default function TaroPlayPage(): JSX.Element {
           )}
 
           {alertShow !== 'none' && (
-            <motion.div className="animate-top-down-bounce absolute subtitle-3 whitespace-nowrap w-fit bottom-0 left-1/2 -translate-x-1/2 py-[10px] px-[20px] rounded-[19px] bg-[rgba(16,16,16,0.60)] z-[100] backdrop-blur-sm">
+            <motion.div className="animate-top-down-bounce text-white absolute subtitle-3 whitespace-nowrap w-fit bottom-0 left-1/2 -translate-x-1/2 py-[10px] px-[20px] rounded-[19px] bg-[rgba(16,16,16,0.60)] z-[100] backdrop-blur-sm">
               {alertShow === 'touch'
                 ? '터치하면 내용을 볼 수 있어!'
                 : '옆으로 넘겨서 다음 카드를 볼 수 있어'}
