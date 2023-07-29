@@ -1,22 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import got from 'got';
 import { env } from '../../core/env';
 import { notNull } from '../../utils/notNull';
 import { assert } from 'typia';
+import * as Sentry from '@sentry/node';
 
 @Injectable()
 export class AuthKakaoService {
   async getLoginUrl(): Promise<string> {
-    const response = await got.get('https://kauth.kakao.com/oauth/authorize', {
-      searchParams: {
-        client_id: env.kakao.clientId,
-        redirect_uri: env.kakao.redirectURI,
-        response_type: 'code',
-      },
-      followRedirect: false,
-    });
-
-    return notNull(response.headers.location);
+    let response;
+    try {
+      response = await got.get('https://kauth.kakao.com/oauth/authorize', {
+        searchParams: {
+          client_id: env.kakao.clientId,
+          redirect_uri: env.kakao.redirectURI,
+          response_type: 'code',
+        },
+        followRedirect: false,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(`error: ${error.message}`);
+      }
+    }
+    return notNull(response?.headers.location);
   }
 
   async getOAuthToken(code: string) {
