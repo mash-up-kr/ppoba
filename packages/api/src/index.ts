@@ -25,7 +25,7 @@ const card = JSON_APIS({
   // get card by id
   getCards: ({ id }: { id: string }) => client.session.get<{ result: Card[] | null }>(`decks/id=${id}/cards`),
   /* delete card by id */
-  deleteCard: ({ id }: { id: string }) => client.session.delete<Promise<{ result: boolean }>>(`cards/id=${id}`),
+  deleteCard: ({ id }: { id: string }) => client.session.delete<{ result: boolean }>(`cards/id=${id}`),
 });
 
 /* deck api */
