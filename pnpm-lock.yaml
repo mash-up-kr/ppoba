@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -15,11 +15,14 @@ importers:
   packages/api:
     dependencies:
       '@ppoba/types':
-        specifier: workspace:*
+        specifier: 'workspace:* '
         version: link:../types
       axios:
         specifier: ^1.4.0
         version: 1.4.0
+      backend:
+        specifier: workspace:*
+        version: link:../service-backend
     devDependencies:
       '@types/jest':
         specifier: ^29.5.1
