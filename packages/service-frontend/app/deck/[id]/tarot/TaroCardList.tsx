@@ -1,4 +1,6 @@
-import { Fragment } from 'react'
+'use client'
+
+import { Fragment, useEffect, useState } from 'react'
 
 import { AnimatePresence, PanInfo, motion } from 'framer-motion'
 
@@ -6,6 +8,12 @@ import type { CardType } from '../play/Card'
 import Card from '../play/Card'
 
 const animateVariants = {
+  leftOutSideToCenter: {
+    rotate: '-30deg',
+    top: 60,
+    left: -280,
+    zIndex: 100,
+  },
   leftOutSide: {
     rotate: '-30deg',
     top: 100,
@@ -16,7 +24,7 @@ const animateVariants = {
     rotate: '-15deg',
     top: 45,
     left: -230,
-    zIndex: 10,
+    zIndex: 80,
   },
   center: {
     rotate: 0,
@@ -38,7 +46,7 @@ const animateVariants = {
   },
   exit: {
     top: 0,
-    left: 70,
+    left: 0,
     rotate: 0,
   },
 }
@@ -73,8 +81,18 @@ function TaroCardList({
   onClickCurrentCard,
 }: Props): JSX.Element {
   const currentCard = cards[currentIndex]
-  const nextCard =
-    currentIndex === cards.length - 1 ? null : cards[currentIndex + 1]
+  const isRightAnimation = currentIndex >= cards.length - 1 ? false : true
+  const [isShowMain, setIsShowMain] = useState(true)
+
+  useEffect(() => {
+    if (isExitAnimation && isRightAnimation) {
+      setIsShowMain(false)
+
+      setTimeout(() => {
+        setIsShowMain(true)
+      }, 50)
+    }
+  }, [isExitAnimation, isRightAnimation])
 
   return (
     <>
@@ -87,8 +105,8 @@ function TaroCardList({
               {currentIndex - 1 === index && (
                 <motion.div
                   key={index}
-                  className={`flex w-[255px] h-[340px] absolute transition-all ease-out duration-300 ${
-                    isShowBack ? 'opacity-30' : 'opacity-80'
+                  className={`flex w-[255px] h-[340px] absolute transition-all ease-out duration-150 z-[100] ${
+                    isShowBack ? 'opacity-30' : 'opacity-50'
                   }`}
                   variants={animateVariants}
                   initial="leftOutSide"
@@ -103,11 +121,12 @@ function TaroCardList({
                   />
                 </motion.div>
               )}
+
               {/* main */}
-              {currentIndex === index && (
+              {isShowMain && currentIndex === index && (
                 <motion.div
                   key={index}
-                  className={`flex w-[270px] h-[360px] absolute duration-150 ${
+                  className={`flex w-[270px] h-[360px] absolute duration-150 z-[50] ${
                     isShowBack ? 'opacity-100' : 'opacity-[0.98]'
                   }`}
                   drag="x"
@@ -115,7 +134,7 @@ function TaroCardList({
                   dragConstraints={{ left: 0, right: 0 }}
                   onDragEnd={onDragEnd}
                   variants={animateVariants}
-                  initial={'rightSide'}
+                  initial={isRightAnimation ? 'rightSide' : 'leftSide'}
                   animate={'center'}
                   transition={{
                     type: 'spring',
@@ -136,7 +155,7 @@ function TaroCardList({
               {currentIndex + 1 === index && (
                 <motion.div
                   key={index}
-                  className={`flex w-[255px] h-[340px] absolute transition-all ease-out duration-300 ${
+                  className={`flex w-[255px] h-[340px] absolute transition-all ease-out duration-150 z-[30] ${
                     isShowBack ? 'opacity-30' : 'opacity-80'
                   }`}
                   variants={animateVariants}
@@ -176,24 +195,6 @@ function TaroCardList({
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 카드 넘길 때 우->센터 애니메이션 */}
-      {/* <AnimatePresence>
-        {isExitAnimation && nextCard && (
-          <motion.div
-            className={`flex w-[270px] h-[360px] absolute duration-150 opacity-80`}
-            variants={animateVariants}
-            initial={'rightSide'}
-            exit={'center'}
-          >
-            <Card
-              type={nextCard.type}
-              number={nextCard.number}
-              text={nextCard.text}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence> */}
     </>
   )
 }

@@ -28,9 +28,10 @@ export default function TaroPlayPage(): JSX.Element {
   const x = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isShowBack, setIsShowBack] = useState(false)
-  const [cards, setCard] = useState(generateCards(24))
+  const [cards, setCard] = useState(generateCards(5))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
+  const [isShowNotification, setIsShowNotification] = useState(true)
   const [alertShow, setAlertShow] = useState<'touch' | 'slide' | 'none'>(
     'touch',
   )
@@ -52,14 +53,26 @@ export default function TaroPlayPage(): JSX.Element {
     if (isShowBack) {
       return
     }
+    setIsShowNotification(() => {
+      if (alertShow === 'touch') {
+        return false
+      }
+      return true
+    })
     setCurrentIndex(prev => Math.max(0, prev - 1))
-  }, [isShowBack])
+  }, [alertShow, isShowBack])
   const handleClickNextCard = useCallback(() => {
     if (isShowBack) {
       return
     }
+    setIsShowNotification(() => {
+      if (alertShow === 'touch') {
+        return false
+      }
+      return true
+    })
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
-  }, [cards.length, isShowBack])
+  }, [alertShow, cards.length, isShowBack])
   const handleClickCurrentCard = useCallback(() => {
     handleShowingEvent()
     setIsShowBack(true)
@@ -129,6 +142,14 @@ export default function TaroPlayPage(): JSX.Element {
     }
   }, [cards, currentIndex, isExitAnimation])
 
+  useEffect(() => {
+    if (!isShowNotification && alertShow === 'touch') {
+      setTimeout(() => {
+        setIsShowNotification(true)
+      }, 800)
+    }
+  }, [alertShow, isShowNotification])
+
   return (
     <>
       <Header rightIconType="close" />
@@ -161,9 +182,9 @@ export default function TaroPlayPage(): JSX.Element {
                 onClickNextCard={handleClickNextCard}
                 onClickCurrentCard={handleClickCurrentCard}
               />
-              {alertShow === 'touch' && (
+              {isShowNotification && alertShow === 'touch' && (
                 <div className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]">
-                  <span className="animate-ping rounded-full w-[40px] border-solid h-[40px] absolute content-[''] bg-alert-red z-[300]" />
+                  <span className="animate-ping-red rounded-full w-[40px] border-solid h-[40px] absolute content-[''] bg-alert-red z-[300]" />
                   <span className="absolute rounded-full w-[40px] h-[40px] border-solid  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 content-[''] bg-alert-red z-[300]" />
                   <Image
                     src="/touch.png"
@@ -188,7 +209,7 @@ export default function TaroPlayPage(): JSX.Element {
             </motion.div>
           )}
 
-          {alertShow !== 'none' && (
+          {isShowNotification && alertShow !== 'none' && (
             <motion.div className="animate-top-down-bounce text-white absolute subtitle-3 whitespace-nowrap w-fit bottom-0 left-1/2 -translate-x-1/2 py-[10px] px-[20px] rounded-[19px] bg-[rgba(16,16,16,0.60)] z-[100] backdrop-blur-sm">
               {alertShow === 'touch'
                 ? '터치하면 내용을 볼 수 있어!'
