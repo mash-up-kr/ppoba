@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useRef } from 'react'
 
+import { useRouter } from 'next/navigation'
 import { Scrollbar } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Button, Icon, SecondaryButton } from '@ppoba/ui'
@@ -21,9 +22,15 @@ const bgColors: string[] = Object.values(CardStyle).map(
 
 export default function CreateDeck(): JSX.Element {
   const [text, setText] = useState('')
+  const router = useRouter()
+  
+  const handleClick = () => {
+    router.push('/confirm-detail')
+  }
+
   return (
     <div className="min-h-screen flex flex-col justify-between pb-[16px] bg-light">
-      <Header leftIconType="back" title="매시업 이미지 게임" />
+      <Header leftIconType="back" onClickLeftIcon={() => router.back()} title="매시업 이미지 게임" />
       <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] justify-center">
         <div className="mt-[60px] mx-[-24px]">
           <Swiper
@@ -78,7 +85,7 @@ export default function CreateDeck(): JSX.Element {
         <SecondaryButton size="small" className="shrink-0" rightIcon="deckAdd">
           카드
         </SecondaryButton>
-        <Button size="large">덱을 완성했어</Button>
+        <Button size="large" onClick={handleClick}>덱을 완성했어</Button>
       </div>
     </div>
   )
