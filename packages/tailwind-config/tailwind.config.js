@@ -140,7 +140,7 @@ module.exports = {
           '02': '#FD7B8A',
         },
         orange: {
-          '01': '',
+          '01': '#FFE1C6',
           '02': '#FFA63F',
         },
         light: '#F7F7F7',

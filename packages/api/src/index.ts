@@ -1,8 +1,6 @@
 import { JSON_APIS } from './apiResponseHandler';
 import { createApiClient } from './clientFactory';
-import { CreateDeckDto } from 'backend/src/modules/deck/dto/CreateDeckDto';
-import { CreateCardDto } from 'backend/src/modules/card/dto/createCardDto';
-import { Deck, Card } from 'backend/src/core/database';
+import { CreateCardDto, CreateDeckDto, Card, Deck } from '@ppoba/types';
 export { authTokenRepository, AuthTokenRepository, AuthenticationRequiredError } from './AuthTokenRepository';
 
 const client = {
