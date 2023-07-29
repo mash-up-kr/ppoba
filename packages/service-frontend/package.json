@@ -19,6 +19,7 @@
     "@ppoba/api": "workspace:*",
     "@ppoba/types": "workspace:*",
     "@ppoba/ui": "workspace:*",
+    "@sentry/nextjs": "^7.60.1",
     "@tanstack/react-query": "^4.29.12",
     "@types/node": "^18.11.18",
     "@types/react": "18.2.6",
