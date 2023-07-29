@@ -10,11 +10,13 @@ import { ReactComponent as CardcountWhite } from '../assets/icons/Cardcount-Whit
 import { ReactComponent as Cardcount } from '../assets/icons/Cardcount.svg';
 import { ReactComponent as Check } from '../assets/icons/Check.svg';
 import { ReactComponent as CheckMarkWhite } from '../assets/icons/Checkmark-White.svg';
+import { ReactComponent as CloseLight } from '../assets/icons/Close-Light.svg';
 import { ReactComponent as Close } from '../assets/icons/Close.svg';
 import { ReactComponent as CloverColor } from '../assets/icons/CloverColor.svg';
 import { ReactComponent as CloverDot } from '../assets/icons/CloverDot.svg';
 import { ReactComponent as CloverDotGrey } from '../assets/icons/CloverDotGrey.svg';
 import { ReactComponent as CloverNormal } from '../assets/icons/CloverNormal.svg';
+import { ReactComponent as Crop } from '../assets/icons/Crop.svg';
 import { ReactComponent as DeckAddLight } from '../assets/icons/DeckAdd-Light.svg';
 import { ReactComponent as DeckAdd } from '../assets/icons/DeckAdd.svg';
 import { ReactComponent as ExclamationWhite } from '../assets/icons/Exclamation-White.svg';
@@ -37,6 +39,7 @@ import { ReactComponent as NailColor } from '../assets/icons/NailColor.svg';
 import { ReactComponent as NailDot } from '../assets/icons/NailDot.svg';
 import { ReactComponent as NailDotGrey } from '../assets/icons/NailDotGrey.svg';
 import { ReactComponent as NailNormal } from '../assets/icons/NailNormal.svg';
+import { ReactComponent as Note } from '../assets/icons/Note.svg';
 import { ReactComponent as Order } from '../assets/icons/Order.svg';
 import { ReactComponent as Pen } from '../assets/icons/Pen.svg';
 import { ReactComponent as PlugColor } from '../assets/icons/PlugColor.svg';
@@ -111,6 +114,8 @@ const ICONS = {
   check: Check,
   checkMarkWhite: CheckMarkWhite,
   close: Close,
+  closeLight: CloseLight,
+  crop: Crop,
   deckAdd: DeckAdd,
   deckAddLight: DeckAddLight,
   exclamationWhite: ExclamationWhite,
@@ -125,6 +130,7 @@ const ICONS = {
   question: Question,
   share: Share,
   shuffle: Shuffle,
+  note: Note,
   top: Top,
   touch: Touch,
   trash: Trash,
