@@ -84,8 +84,8 @@ export default function NormalPlayPage(): JSX.Element {
     <div className="text-grey-800">
       <Header rightIconType="close" className="h-[60px]" />
 
-      <main className="h-screen flex items-center">
-        <div className="relative w-full flex flex-col items-center justify-end">
+      <main className="min-h-screen flex items-center">
+        <div className="relative w-full flex flex-col items-center justify-center">
           <div>
             <h1 className="headline-2 text-black text-center">
               매시업 이미지 게임
@@ -107,7 +107,7 @@ export default function NormalPlayPage(): JSX.Element {
             덱 셔플중...
           </motion.div>
 
-          <div className="relative w-full h-full pt-[63px] text-center flex justify-center h-[481px]">
+          <div className="relative w-full pt-[63px] text-center flex justify-center h-[481px]">
             <AnimatePresence initial={false}>
               {curIndex === SAMPLE_DATA.length && (
                 <div className="w-full px-[45px]">
