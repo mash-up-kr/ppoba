@@ -1,9 +1,10 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { assert } from 'typia';
-import { Card, CardDocument, InjectModel } from '../../core/database';
+import { CardDocument, InjectModel } from '../../core/database';
 import { CardList } from './dto/createCardDto';
 import * as Sentry from '@sentry/node';
+import { Card } from '@ppoba/types';
 
 @Injectable()
 export class CardRepository {
@@ -82,7 +83,7 @@ export class CardRepository {
     return true;
   }
 
-  async findAll(deckId: string): Promise<Card[] | null> {
+  async findAll(deckId: string): Promise<Card[] | []> {
     try {
       const cardItems = await this.cardModel.find({ deckId }).exec();
       return cardItems.map(cardItem => assert<Card>(cardItem.toJSON()));
