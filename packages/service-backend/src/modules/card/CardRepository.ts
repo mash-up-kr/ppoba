@@ -1,8 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { assert } from 'typia';
 import { Card, CardDocument, InjectModel } from '../../core/database';
 import { CardList } from './dto/createCardDto';
+import * as Sentry from '@sentry/node';
 
 @Injectable()
 export class CardRepository {
@@ -18,6 +19,7 @@ export class CardRepository {
           try {
             await this.cardModel.create({ content: card.content, deckId: deckId });
           } catch (error) {
+            Sentry.captureException(error);
             throw new InternalServerErrorException(
               `error create card row ${index} \n reason is : error: ${error}`
             );
@@ -31,31 +33,65 @@ export class CardRepository {
   }
 
   async findById(id: string): Promise<Card | null> {
-    const cardItem = await this.cardModel.findOne({ id });
-    if (cardItem) {
-      return assert<Card>(cardItem.toJSON());
-    } else {
-      return null;
+    try {
+      const cardItem = await this.cardModel.findOne({ id });
+      if (cardItem) {
+        return assert<Card>(cardItem.toJSON());
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
+        throw new InternalServerErrorException(`error: ${error.message}`);
+      }
     }
+    return null;
   }
 
-  async delete(card: Card): Promise<object> {
-    const deletedCard = await this.cardModel.softDelete({ id: card.id });
-    return deletedCard;
+  async delete(card: Card): Promise<boolean> {
+    let result;
+    try {
+      result = await this.cardModel.softDelete({ id: card.id });
+      if (result.deleted === 0) {
+        throw new NotFoundException(`card id: ${card.id} not found`);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(`error: ${error.message}`);
+      }
+    }
+    return true;
   }
 
-  async update(id: string, card: Card): Promise<object> {
-    const updateCard = await this.cardModel.updateOne(
-      { id: id },
-      { $set: { content: card.content } }
-    );
+  async update(id: string, card: Card): Promise<boolean> {
+    try {
+      const updateCard = await this.cardModel.updateOne(
+        { id: id },
+        { $set: { content: card.content } }
+      );
 
-    return updateCard;
+      if (updateCard.modifiedCount === 0) {
+        throw new NotFoundException(`card id: ${id} not found`);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(`error: ${error.message}`);
+      }
+    }
+    return true;
   }
 
-  async findAll(deckId: string) {
-    const cards = await this.cardModel.find({ deckId }).exec();
-
-    return cards;
+  async findAll(deckId: string): Promise<Card[] | null> {
+    try {
+      const cardItems = await this.cardModel.find({ deckId }).exec();
+      return cardItems.map(cardItem => assert<Card>(cardItem.toJSON()));
+    } catch (error) {
+      Sentry.captureException(error);
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(`error: ${error.message}`);
+      }
+    }
+    return [];
   }
 }

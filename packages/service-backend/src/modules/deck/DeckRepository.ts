@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '../../core/database';
+import { InjectModel, Deck } from '../../core/database';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { DeckDocument } from '../../core/database/Deck';
 import { DeckCategory } from './DeckConstant';
@@ -21,7 +21,7 @@ export class DeckRepository {
     }
   }
 
-  async findOne(id: string): Promise<any> {
+  async findOne(id: string): Promise<Deck | null> {
     try {
       const deck = await this.deckModel.findOne({ id });
 
