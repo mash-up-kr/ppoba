@@ -183,7 +183,10 @@ export default function TaroPlayPage(): JSX.Element {
                 onClickCurrentCard={handleClickCurrentCard}
               />
               {isShowNotification && alertShow === 'touch' && (
-                <div className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]">
+                <div
+                  className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]"
+                  onClick={handleClickCurrentCard}
+                >
                   <span className="animate-ping-red rounded-full w-[40px] border-solid h-[40px] absolute content-[''] bg-alert-red z-[300]" />
                   <span className="absolute rounded-full w-[40px] h-[40px] border-solid  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 content-[''] bg-alert-red z-[300]" />
                   <Image
