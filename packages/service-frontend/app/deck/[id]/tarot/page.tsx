@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { PanInfo, animate, motion, useMotionValue } from 'framer-motion'
+import Image from 'next/image'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
@@ -162,8 +163,17 @@ export default function TaroPlayPage(): JSX.Element {
               />
               {alertShow === 'touch' && (
                 <div className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]">
-                  <span className="animate-ping rounded-full w-[20px] border-solid h-[20px] absolute content-[''] bg-alert-red z-[300]" />
-                  <span className="absolute rounded-full w-[20px] h-[20px] border-solid  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 content-[''] bg-alert-red z-[300]" />
+                  <span className="animate-ping rounded-full w-[40px] border-solid h-[40px] absolute content-[''] bg-alert-red z-[300]" />
+                  <span className="absolute rounded-full w-[40px] h-[40px] border-solid  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 content-[''] bg-alert-red z-[300]" />
+                  <Image
+                    src="/touch.png"
+                    alt="touch-image"
+                    width={20}
+                    height={20}
+                    style={{
+                      zIndex: 2000,
+                    }}
+                  />
                 </div>
               )}
             </motion.div>
