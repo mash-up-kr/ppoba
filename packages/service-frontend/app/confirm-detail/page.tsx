@@ -1,10 +1,15 @@
 'use client'
 import { useState, type JSX, useCallback } from 'react'
 
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import { api } from '@ppoba/api'
+import { DeckCategory } from '@ppoba/types/src/dto/createDeckDto'
 import { Icon, Button } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
+import { deckFormAtomState } from '@/store/deck'
 
 import GameKeywordBox from './GameKeywordBox'
 
@@ -20,19 +25,46 @@ const INITIAL_KEYWORDS = [
 ]
 
 export default function ConfirmDetailPage(): JSX.Element {
-  const [keywords, setKeywords] = useState<string[]>(INITIAL_KEYWORDS)
   const [isAdultGame, setIsAdultGame] = useState<boolean>(false)
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
-
+  const [deck, setDeck] = useRecoilState(deckFormAtomState);
   const router = useRouter()
+  const { mutate } = useMutation(api.deck.createDeck, {
+    onSuccess: (data) => {
+      const cardList = deck.cardList.filter((card) => card?.content !== undefined);
+      createCardMutate({
+        createCardDto: {
+          deckId: data.result.deck_id,
+          cardList: cardList,
+        }
+      })
+    },
+    onError: (error) => {
+      console.log('error', error)
+    }
+  });
+  const { mutate: createCardMutate } = useMutation(api.card.createCard, {
+    onSuccess: (_, variables) => {
+      const deckId = variables.createCardDto.deckId;
+      router.push(`/complete?deckId=${deckId}`)
+    },
+    onError: (error) => {
+      console.log('error', error)
+    }
+  });
   
   const handleClick = () => {
-    router.push('/complete')
+    mutate({
+      createDeckDto: {
+        name: deck.name,
+        userId: "2931028309", // TODO: 실제 user id 넣기
+        category: deck.category as DeckCategory[],
+      }
+    });
   }
 
   const handleClickKeyword = useCallback(
     (keyword: string) => {
-      const nextSelectedKeywords = [...selectedKeywords]
+      const nextSelectedKeywords = [...deck.category]
       const targetIndex = nextSelectedKeywords.findIndex(
         item => item === keyword,
       )
@@ -40,12 +72,12 @@ export default function ConfirmDetailPage(): JSX.Element {
       if (targetIndex !== -1) {
         // 기존에 선택했던 키워드라면 제거한다.
         nextSelectedKeywords.splice(targetIndex, 1)
-        setSelectedKeywords(nextSelectedKeywords)
+        setDeck({ ...deck, category: nextSelectedKeywords })
       } else {
-        setSelectedKeywords([...nextSelectedKeywords, keyword])
+        setDeck({ ...deck, category: [...nextSelectedKeywords, keyword] })
       }
     },
-    [selectedKeywords],
+    [deck.category],
   )
 
   return (
@@ -63,8 +95,8 @@ export default function ConfirmDetailPage(): JSX.Element {
       </div>
       {/* 키워드 선택 */}
       <GameKeywordBox
-        keywords={keywords}
-        selectedKeywords={selectedKeywords}
+        keywords={INITIAL_KEYWORDS}
+        selectedKeywords={deck.category}
         isAdultGame={isAdultGame}
         onClickKeyword={handleClickKeyword}
         onClickAdult={() => setIsAdultGame(prev => !prev)}
@@ -75,7 +107,7 @@ export default function ConfirmDetailPage(): JSX.Element {
           size="large"
           rightIcon="goWhite"
           className="transition-all"
-          disabled={selectedKeywords.length === 0 && !isAdultGame}
+          disabled={deck.category.length === 0 && !isAdultGame}
           onClick={handleClick}
         >
           업로드 하자

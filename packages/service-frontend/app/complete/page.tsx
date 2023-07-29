@@ -1,7 +1,7 @@
 'use client'
 
 import Lottie from 'lottie-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@ppoba/ui'
 
 import addDeckLottie from '@/public/lottie/addDeckLottie.json'
@@ -10,10 +10,11 @@ import { Header } from '../components/common'
 
 export default function DeckCreateCompletePage(): JSX.Element {
   const router = useRouter()
-  
+  const searchParams = useSearchParams()
+  const deckId = searchParams.get('deckId')
+
   const handleClick = () => {
-    // TODO: 실제 덱 아이디를 받아서 이동하도록 수정
-    router.push('/deck/1')
+    router.push(`/deck/${deckId}`)
   }
 
   return (
