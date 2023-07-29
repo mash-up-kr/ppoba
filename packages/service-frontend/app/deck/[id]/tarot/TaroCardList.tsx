@@ -81,7 +81,7 @@ function TaroCardList({
   onClickCurrentCard,
 }: Props): JSX.Element {
   const currentCard = cards[currentIndex]
-  const isRightAnimation = currentIndex >= cards.length - 1 ? false : true
+  const isRightAnimation = currentIndex === cards.length - 1 ? false : true
   const [isShowMain, setIsShowMain] = useState(true)
 
   useEffect(() => {
@@ -134,7 +134,7 @@ function TaroCardList({
                   dragConstraints={{ left: 0, right: 0 }}
                   onDragEnd={onDragEnd}
                   variants={animateVariants}
-                  initial={isRightAnimation ? 'rightSide' : 'leftSide'}
+                  initial={'rightSide'}
                   animate={'center'}
                   transition={{
                     type: 'spring',
