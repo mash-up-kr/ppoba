@@ -16,13 +16,13 @@ export class CardController {
   async CreateCard(
     @Body('cardList') createCardList: CardList[],
     @Body('deckId') deckId: string
-  ): Promise<object> {
+  ): Promise<{ result: boolean }> {
     const result = await this.cardService.create(createCardList, deckId);
     return { result: result };
   }
 
   @Delete(':id')
-  async deleteCard(@Param('id') id: string): Promise<object> {
+  async deleteCard(@Param('id') id: string): Promise<{ result: boolean }> {
     const result = await this.cardService.deleteCard(id);
     return { result: result };
   }
