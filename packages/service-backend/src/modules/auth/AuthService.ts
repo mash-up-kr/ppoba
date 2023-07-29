@@ -13,18 +13,18 @@ export class AuthService {
     private readonly authKakaoService: AuthKakaoService
   ) {}
 
-  async decode(token: string) {
+  async decode(token: string): Promise<User> {
     const user = await this.jwtService.decode(token);
     return user;
   }
 
-  async authenticate(code: string) {
+  async authenticate(code: string): Promise<{ token: string }> {
     const tokens = await this.authKakaoService.getOAuthToken(code);
     const userInfo = await this.authKakaoService.getUserInfo(tokens.access_token);
 
     let user: User | null = await this.userRepository.getById(userInfo.id);
 
-    if (user == null) {
+    if (!user) {
       user = await this.signUp({
         id: String(userInfo.id),
         age: userInfo.kakao_account.age_range,

@@ -27,7 +27,14 @@ export class AuthKakaoService {
     return notNull(response?.headers.location);
   }
 
-  async getOAuthToken(code: string) {
+  async getOAuthToken(code: string): Promise<{
+    access_token: string;
+    token_type: string;
+    refresh_token: string;
+    expires_in: number;
+    scope: string;
+    refresh_token_expires_in: number;
+  }> {
     const response = await got
       .post('https://kauth.kakao.com/oauth/token', {
         headers: {
@@ -52,7 +59,18 @@ export class AuthKakaoService {
     }>(response);
   }
 
-  async getUserInfo(accessToken: string) {
+  async getUserInfo(accessToken: string): Promise<{
+    id: number;
+    connected_at: string;
+    kakao_account: {
+      has_age_range: boolean;
+      age_range_needs_agreement: boolean;
+      age_range: string; // '10~19';
+      has_gender: boolean;
+      gender_needs_agreement: boolean;
+      gender: 'male' | 'female';
+    };
+  }> {
     const response = await got
       .get('https://kapi.kakao.com/v2/user/me', {
         searchParams: {

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { assert } from 'typia';
 import { notNull } from '../../utils/notNull';
 import { InjectModel, Model, User } from '../../core/database';
+import * as Sentry from '@sentry/node';
 
 @Injectable()
 export class UserRepository {
@@ -10,26 +11,36 @@ export class UserRepository {
     private readonly userModel: Model['User']
   ) {}
 
-  async create(userDto: Omit<User, 'createdAt' | 'updatedAt'>) {
-    const userItem = await this.userModel.create({
-      id: userDto.id,
-      name: userDto.name,
-      gender: userDto.gender,
-      age: userDto.age,
-    });
-    return assert<User>(userItem.toJSON());
+  async create(userDto: Omit<User, 'createdAt' | 'updatedAt'>): Promise<User> {
+    let user;
+    try {
+      user = await this.userModel.create({
+        id: userDto.id,
+        name: userDto.name,
+        gender: userDto.gender,
+        age: userDto.age,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+    }
+    return assert<User>(notNull(user?.toJSON()));
   }
 
   async getById(id: number): Promise<User | null> {
-    const userItem = await this.userModel.findOne({ id });
-    if (userItem) {
-      return assert<User>(userItem.toJSON());
-    } else {
-      return null;
+    try {
+      const user = await this.userModel.findOne({ id });
+      if (user) {
+        return assert<User>(notNull(user)?.toJSON());
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
     }
-  }
-
-  async getByIdOrThrow(id: number): Promise<User | null> {
-    return notNull(await this.getById(id));
+    return null;
   }
 }
