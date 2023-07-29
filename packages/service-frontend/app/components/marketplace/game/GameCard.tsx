@@ -10,12 +10,14 @@ import GameCategoryChip from './GameCategoryChip'
 
 interface Props {
   game: Game
-  containerClassName?: string
+  containerClassName?: string,
+  type?: 'template' | 'deck'
 }
 
 export default function GameCard({
   game,
   containerClassName = '',
+  type,
 }: Props): JSX.Element {
   const bgColor = CardStyle[game.type].background
   const cardIcon = CardIcon[game.type].normalSideIcon
@@ -23,6 +25,10 @@ export default function GameCard({
   const router = useRouter()
 
   const handleClickCard = () => {
+    if (type === 'template') {
+      router.push('/create-title')
+      return;
+    }
     router.push(`/deck/${game.id}?type=${game.type}`)
   }
 

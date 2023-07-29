@@ -5,7 +5,8 @@ interface Props {
   orientation: 'vertical' | 'horizontal'
   games: Game[]
   title?: string | JSX.Element
-  className?: string
+  className?: string,
+  type?: 'template' | 'deck'
 }
 
 export default function GameCardList({
@@ -13,6 +14,7 @@ export default function GameCardList({
   games,
   title = <></>,
   className = '',
+  type,
 }: Props): JSX.Element {
   return (
     <div className={className}>
@@ -23,7 +25,7 @@ export default function GameCardList({
       {orientation === 'vertical' && (
         <div className="w-full space-y-[10px] px-[24px]">
           {games.map(game => (
-            <GameCard key={game.id} game={game} />
+            <GameCard key={game.id} game={game} type={type} />
           ))}
         </div>
       )}
@@ -36,6 +38,7 @@ export default function GameCardList({
               key={game.id}
               game={game}
               containerClassName="shrink-0 snap-start my-[30px]"
+              type={type}
             />
           ))}
         </div>
