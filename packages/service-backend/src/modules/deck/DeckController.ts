@@ -66,8 +66,15 @@ export class DeckController {
   }
 
   @Get()
-  async findAllDeck(): Promise<{ result: Deck[] }> {
+  async findAllDeck(): Promise<{ result: Deck[] | null }> {
     const result = await this.deckService.findAllDeck();
+    return { result: result };
+  }
+
+
+  @Get('/user/:userId')
+  async findByUserId(@Param('userId') userId: string): Promise<{ result: Deck[] | null }> {
+    const result = await this.deckService.findByUserId(userId);
     return { result: result };
   }
 

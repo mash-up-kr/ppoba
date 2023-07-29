@@ -45,6 +45,16 @@ export class DeckRepository {
     }
   }
 
+  async findByUserId(userId: string): Promise<any> {
+    try {
+      const deckList = await this.deckModel.find({ userId: userId }).exec();
+
+      return deckList;
+    } catch (error) {
+      throw new InternalServerErrorException(`error: ${error}`);
+    }
+  }
+
   async update(id: string) {
     return `This action updates a #${id} deck`;
   }
