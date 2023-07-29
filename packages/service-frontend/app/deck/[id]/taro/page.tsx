@@ -1,10 +1,16 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { PanInfo, animate, motion, useMotionValue } from 'framer-motion'
+import {
+  AnimatePresence,
+  PanInfo,
+  animate,
+  motion,
+  useMotionValue,
+} from 'framer-motion'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
-import { Header } from '@/components'
+import { Header } from '@/app/components'
 
 import TaroCardList from './TaroCardList'
 import EmptyCard from '../play/EmptyCard'
@@ -12,11 +18,22 @@ import { generateCards } from '../play/generateCard'
 
 const INITIAL_INDEX = 0
 
+const animateVariants = {
+  initial: {
+    bottom: -30,
+    opacity: 0.8,
+  },
+  animate: {
+    bottom: 0,
+    opacity: 1,
+  },
+}
+
 export default function TaroPlayPage(): JSX.Element {
   const x = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isShowBack, setIsShowBack] = useState(false)
-  const [cards, setCard] = useState(generateCards(24))
+  const [cards, setCard] = useState(generateCards(2))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
 
@@ -96,7 +113,7 @@ export default function TaroPlayPage(): JSX.Element {
           // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
           setCurrentIndex(nextCards.length - 1)
         }
-      }, 300)
+      }, 150)
     }
   }, [cards, currentIndex, isExitAnimation])
 
@@ -109,7 +126,13 @@ export default function TaroPlayPage(): JSX.Element {
           <strong className="headline-1 text-grey-800">
             뉴 매시업 이미지 게임
           </strong>
-          <p className="subtitle-3 text-grey-600">남은 카드 {cards.length}장</p>
+          <div className="flex mx-auto gap-[4px]">
+            <span className="subtitle-3 text-grey-600">카드</span>
+            <strong className="headline-5 text-grey-600">
+              {cards.length}장
+            </strong>
+            <span className="subtitle-3 text-grey-600">남았어!</span>
+          </div>
         </div>
 
         {/* 플레이 카드 */}
@@ -130,16 +153,32 @@ export default function TaroPlayPage(): JSX.Element {
             />
           </motion.div>
         ) : (
-          <div className="relative mx-auto w-[270px] h-[360px] z-30">
-            <EmptyCard />
-          </div>
+          <AnimatePresence>
+            <motion.div
+              className="relative mx-auto w-[270px] h-[360px] z-30"
+              variants={animateVariants}
+              initial={'initial'}
+              animate={'animate'}
+            >
+              <EmptyCard />
+            </motion.div>
+          </AnimatePresence>
         )}
 
         {/* 버튼 */}
         <div className="relative flex gap-[10px] justify-center px-[24px] z-50">
           {cards.length === 0 ? (
             // 남은 카드가 없는 경우
-            <Button size="medium">리스트로 가기</Button>
+            <AnimatePresence>
+              <motion.div
+                className="relative"
+                variants={animateVariants}
+                initial={'initial'}
+                animate={'animate'}
+              >
+                <Button size="medium">리스트로 가기</Button>
+              </motion.div>
+            </AnimatePresence>
           ) : (
             <>
               {/* 카드가 남은 경우 */}
