@@ -1,13 +1,7 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import {
-  AnimatePresence,
-  PanInfo,
-  animate,
-  motion,
-  useMotionValue,
-} from 'framer-motion'
+import { PanInfo, animate, motion, useMotionValue } from 'framer-motion'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
@@ -36,6 +30,9 @@ export default function TaroPlayPage(): JSX.Element {
   const [cards, setCard] = useState(generateCards(24))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
+  const [alertShow, setAlertShow] = useState<'touch' | 'slide' | 'none'>(
+    'touch',
+  )
 
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
@@ -135,35 +132,38 @@ export default function TaroPlayPage(): JSX.Element {
           </div>
         </div>
 
-        {/* 플레이 카드 */}
-        {cards.length > 0 ? (
-          <motion.div
-            ref={containerRef}
-            className="relative w-[270px] mx-auto h-[384px]"
-          >
-            <TaroCardList
-              cards={cards}
-              isExitAnimation={isExitAnimation}
-              isShowBack={isShowBack}
-              currentIndex={currentIndex}
-              onDragEnd={handleDragEnd}
-              onClickPrevCard={handleClickPrevCard}
-              onClickNextCard={handleClickNextCard}
-              onClickCurrentCard={handleClickCurrentCard}
-            />
-          </motion.div>
-        ) : (
-          <AnimatePresence>
+        <div className="relative w-[270px] mx-auto z-50">
+          {/* 플레이 카드 */}
+          {cards.length > 0 ? (
+            <motion.div ref={containerRef} className="h-[384px] relative z-50">
+              <TaroCardList
+                cards={cards}
+                isExitAnimation={isExitAnimation}
+                isShowBack={isShowBack}
+                currentIndex={currentIndex}
+                onDragEnd={handleDragEnd}
+                onClickPrevCard={handleClickPrevCard}
+                onClickNextCard={handleClickNextCard}
+                onClickCurrentCard={handleClickCurrentCard}
+              />
+            </motion.div>
+          ) : (
             <motion.div
-              className="relative mx-auto w-[270px] h-[360px] z-30"
+              className="h-[360px] z-30"
               variants={animateVariants}
               initial={'initial'}
               animate={'animate'}
             >
               <EmptyCard />
             </motion.div>
-          </AnimatePresence>
-        )}
+          )}
+
+          {alertShow !== 'none' && (
+            <motion.div className="animate-top-down-bounce absolute subtitle-3 whitespace-nowrap w-fit bottom-0 left-1/2 -translate-x-1/2 py-[10px] px-[20px] rounded-[19px] bg-[rgba(16,16,16,0.60)] z-[100] backdrop-blur-sm">
+              터치하면 내용을 볼 수 있어!
+            </motion.div>
+          )}
+        </div>
 
         {/* 버튼 */}
         <div className="relative flex gap-[10px] justify-center px-[24px] z-50">
