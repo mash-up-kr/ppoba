@@ -1,1 +1,3 @@
-export class UpdateDeckDto {}
+export class UpdateDeckDto {
+    
+}

@@ -1,4 +1,5 @@
 'use client'
+import { ContentWrapper } from '@/app/components'
 
 interface Props {
   children: React.ReactNode

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RecoilRoot } from 'recoil'
 
 import { theme } from '@/theme'
 
@@ -13,9 +14,11 @@ function Provider({ children }: PropsWithChildren): JSX.Element {
 
   return (
     <QueryClientProvider client={client}>
-      <CacheProvider>
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
-      </CacheProvider>
+      <RecoilRoot>
+        <CacheProvider>
+          <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        </CacheProvider>
+      </RecoilRoot>
     </QueryClientProvider>
   )
 }

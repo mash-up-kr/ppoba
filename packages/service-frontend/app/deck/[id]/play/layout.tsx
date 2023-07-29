@@ -1,5 +1,3 @@
-import { ContentWrapper } from '@/components'
-
 interface Props {
   children: React.ReactNode
 }

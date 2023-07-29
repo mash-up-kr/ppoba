@@ -1,4 +1,4 @@
-import { Header } from '@/components'
+import { Header } from '@/app/components'
 
 export default function DeckDetail(): JSX.Element {
   return (
