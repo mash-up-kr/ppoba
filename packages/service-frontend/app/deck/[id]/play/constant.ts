@@ -4,47 +4,58 @@ import type { CardType } from './Card'
 
 export const CardIcon: Record<
   CardType,
-  Record<'mainIcon' | 'colorSideIcon' | 'normalSideIcon', IconType>
+  Record<
+    'mainIcon' | 'colorSideIcon' | 'normalSideIcon' | 'greyDotIcon',
+    IconType
+  >
 > = {
   flower: {
     normalSideIcon: 'flowerNormal',
     colorSideIcon: 'flowerDot',
     mainIcon: 'flowerColor',
+    greyDotIcon: 'flowerDotGrey',
   },
   swallow: {
     normalSideIcon: 'swallowNormal',
     colorSideIcon: 'swallowDot',
     mainIcon: 'swallowColor',
+    greyDotIcon: 'swallowDotGrey',
   },
   sprout: {
     normalSideIcon: 'sproutNormal',
     colorSideIcon: 'sproutDot',
     mainIcon: 'sproutColor',
+    greyDotIcon: 'sproutDotGrey',
   },
   feather: {
     normalSideIcon: 'featherNormal',
     colorSideIcon: 'featherDot',
     mainIcon: 'featherColor',
+    greyDotIcon: 'featherDotGrey',
   },
   plug: {
     normalSideIcon: 'plugNormal',
     colorSideIcon: 'plugDot',
     mainIcon: 'plugColor',
+    greyDotIcon: 'plugDotGrey',
   },
   nail: {
     normalSideIcon: 'nailNormal',
     colorSideIcon: 'nailDot',
     mainIcon: 'nailColor',
+    greyDotIcon: 'nailDotGrey',
   },
   clover: {
     normalSideIcon: 'cloverNormal',
     colorSideIcon: 'cloverDot',
     mainIcon: 'cloverColor',
+    greyDotIcon: 'cloverDotGrey',
   },
   turnip: {
     normalSideIcon: 'turnipNormal',
     colorSideIcon: 'turnipDot',
     mainIcon: 'turnipColor',
+    greyDotIcon: 'turnipDotGrey',
   },
 }
 

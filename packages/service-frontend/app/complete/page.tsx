@@ -4,8 +4,9 @@ import Lottie from 'lottie-react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@ppoba/ui'
 
-import { Header } from '@/app/components'
 import addDeckLottie from '@/public/lottie/addDeckLottie.json'
+
+import { Header } from '../components/common'
 
 export default function DeckCreateCompletePage(): JSX.Element {
   const router = useRouter()
