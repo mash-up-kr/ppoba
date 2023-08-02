@@ -50,7 +50,7 @@ function useLoginRedirection(
   const searchParams = useSearchParams()
   const code = searchParams?.get('code') ?? ''
   useEffect(() => {
-    if (typeof code === 'string') {
+    if (typeof code === 'string' && code !== '') {
       handleLogin(code).then(onSuccess, onFailure)
     }
   }, [code, onSuccess, onFailure])
