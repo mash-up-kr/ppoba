@@ -48,31 +48,32 @@ export default function TaroPlayPage(): JSX.Element {
     })
   }, [])
 
+  const handleNotification = useCallback(() => {
+    setIsShowNotification(() => {
+      if (alertShow === 'touch') {
+        return false
+      }
+      return true
+    })
+  }, [alertShow])
+
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
+    handleNotification()
     if (isShowBack) {
+      setIsExitAnimation(true)
       return
     }
-    setIsShowNotification(() => {
-      if (alertShow === 'touch') {
-        return false
-      }
-      return true
-    })
     setCurrentIndex(prev => Math.max(0, prev - 1))
-  }, [alertShow, isShowBack])
+  }, [handleNotification, isShowBack])
   const handleClickNextCard = useCallback(() => {
+    handleNotification()
     if (isShowBack) {
+      setIsExitAnimation(true)
       return
     }
-    setIsShowNotification(() => {
-      if (alertShow === 'touch') {
-        return false
-      }
-      return true
-    })
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
-  }, [alertShow, cards.length, isShowBack])
+  }, [cards.length, handleNotification, isShowBack])
   const handleClickCurrentCard = useCallback(() => {
     handleShowingEvent()
     setIsShowBack(true)
