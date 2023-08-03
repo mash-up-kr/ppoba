@@ -81,7 +81,7 @@ function TaroCardList({
   onClickCurrentCard,
 }: Props): JSX.Element {
   const currentCard = cards[currentIndex]
-  const isRightAnimation = currentIndex === cards.length - 1 ? false : true
+  const isRightAnimation = currentIndex !== cards.length - 1
   const [isShowMain, setIsShowMain] = useState(true)
 
   useEffect(() => {
