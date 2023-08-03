@@ -12,7 +12,6 @@ import { Variants, useMotionValue, useTransform, motion } from 'framer-motion'
 import NormalCardBack from './NormalCardBack'
 import NormalCardFront from './NormalCardFront'
 import { CardType } from '../../play/Card'
-import { cardTypes } from '../../play/generateCard'
 
 const NormalCard = ({
   data,
@@ -31,6 +30,7 @@ const NormalCard = ({
   cardVariants: Variants
   setIndex: Dispatch<SetStateAction<number>>
 }): JSX.Element => {
+  const [cardContent, setCardContent] = useState('')
   const [exitX, setExitX] = useState(0)
   const [isFlipped, setIsFlipped] = useState(() => cardLocation !== 'front')
 
@@ -100,6 +100,8 @@ const NormalCard = ({
     }
   }, [cardLocation])
 
+  console.log(cardContent)
+
   if (data === null) {
     return <></>
   }
@@ -120,6 +122,16 @@ const NormalCard = ({
       dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
       onDragEnd={handleDragEnd}
       onClick={() => setIsFlipped(prev => !prev)}
+      onAnimationStart={() => {
+        if (cardLocation === 'front' && !isFlipped) setCardContent(data.content)
+      }}
+      onAnimationComplete={() => {
+        // Hide card content unless the card is a front card
+        // - set cardContent on animation complete since card exit shortly shows behind content without this logic
+        if (cardLocation === 'front') {
+          setCardContent(data.content)
+        }
+      }}
       className={`absolute rounded-[24px] ${getCardSize(cardLocation)}`}
     >
       <NormalCardFront
@@ -135,7 +147,7 @@ const NormalCard = ({
         visibleVariants={visibleVariants}
         cardSize={getCardSize(cardLocation)}
         type={type}
-        content={data.content}
+        content={cardContent}
       />
     </motion.div>
   )

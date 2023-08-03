@@ -4,14 +4,22 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { Button, SecondaryButton } from '@ppoba/ui'
+import { Button, Icon, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
 
 import NormalCard from './components/NormalCard'
+import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
+import OnboardingSlideOverlay from './components/OnboardingSlideOverlay'
 import EmptyCard from '../play/EmptyCard'
 import { cardTypes } from '../play/generateCard'
+
+enum OnboardingState {
+  FLIP,
+  SLIDE,
+  DONE,
+}
 
 export default function NormalPlayPage(): JSX.Element {
   const SAMPLE_DATA = [
@@ -52,9 +60,11 @@ export default function NormalPlayPage(): JSX.Element {
   const [curIndex, setCurIndex] = useState(0)
   const [triggerShuffle, setTriggerShuffle] = useState(false)
 
+  const [onboardingState, setOnboardingState] = useState(OnboardingState.FLIP)
+
   const variantsBackCard = {
     initial: { y: -100, opacity: 0 },
-    animate: { y: -32, opacity: 1, transition: { delay: 0.8 } },
+    animate: { y: -32, opacity: 1, transition: { delay: 0.5 } },
   }
 
   const variantsMiddleCard = {
@@ -72,6 +82,10 @@ export default function NormalPlayPage(): JSX.Element {
   }
 
   useEffect(() => {
+    if (curIndex !== 0) setOnboardingState(OnboardingState.DONE)
+  }, [curIndex])
+
+  useEffect(() => {
     if (triggerShuffle) {
       setTimeout(() => {
         setTypes(prev => [...prev.sort(() => 0.5 - Math.random())])
@@ -86,6 +100,7 @@ export default function NormalPlayPage(): JSX.Element {
 
       <main className="min-h-screen flex items-center">
         <div className="relative w-full flex flex-col items-center justify-center">
+          {/* Title Section */}
           <div>
             <h1 className="headline-2 text-black text-center">
               매시업 이미지 게임
@@ -95,6 +110,7 @@ export default function NormalPlayPage(): JSX.Element {
             </p>
           </div>
 
+          {/* Shuffle Layout */}
           <motion.div
             initial={'hidden'}
             animate={triggerShuffle ? 'visible' : 'hidden'}
@@ -107,12 +123,26 @@ export default function NormalPlayPage(): JSX.Element {
             덱 셔플중...
           </motion.div>
 
-          <div className="relative w-full pt-[63px] text-center flex justify-center h-[481px]">
+          {/* Main Deck Layout */}
+          <div
+            className="relative w-full pt-[63px] text-center flex justify-center h-[481px]"
+            onClick={() => {
+              setOnboardingState(prev => {
+                if (prev === OnboardingState.FLIP) return OnboardingState.SLIDE
+                if (prev === OnboardingState.SLIDE) return OnboardingState.DONE
+                return OnboardingState.DONE
+              })
+            }}
+          >
             <AnimatePresence initial={false}>
-              {curIndex === SAMPLE_DATA.length && (
-                <div className="w-full px-[45px]">
-                  <EmptyCard />
-                </div>
+              {/* Onboarding Overlay - Flip */}
+              {onboardingState === OnboardingState.FLIP && (
+                <OnboardingFlipOverlay />
+              )}
+
+              {/* Onboarding Overlay - Slide */}
+              {onboardingState === OnboardingState.SLIDE && (
+                <OnboardingSlideOverlay />
               )}
 
               <NormalCard
@@ -141,10 +171,16 @@ export default function NormalPlayPage(): JSX.Element {
                 setIndex={setCurIndex}
                 cardLocation="front"
                 cardVariants={variantsFrontCard}
-                canDrag={true}
+                canDrag={onboardingState !== OnboardingState.FLIP}
                 type={types[curIndex % types.length]}
                 data={SAMPLE_DATA[curIndex] ?? null}
               />
+
+              {curIndex === SAMPLE_DATA.length && (
+                <div className="w-full px-[45px]">
+                  <EmptyCard />
+                </div>
+              )}
             </AnimatePresence>
           </div>
         </div>
