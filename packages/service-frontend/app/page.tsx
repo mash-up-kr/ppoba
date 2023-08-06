@@ -93,20 +93,20 @@ const TestDeckList = [
 ]
 
 export default function Home(): JSX.Element {
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add('overflow-hidden');
+      document.body.classList.add('overflow-hidden')
     } else {
-      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove('overflow-hidden')
     }
     // Make sure to clean up after the component unmounts
     return () => {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, [isOpen]);
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [isOpen])
 
   const myDeckList = TestDeckList.map((deck, index) => {
     return {
@@ -137,6 +137,7 @@ export default function Home(): JSX.Element {
               headerType="MY_GAME"
               label="내가 만든"
               className="mb-[-20px]"
+              onClick={() => router.push('/my-deck')}
             />
           }
           className="pt-[30px] pb-[12px]"
@@ -171,29 +172,25 @@ export default function Home(): JSX.Element {
             <div className="flex flex-col justify-center items-center h-full gap-[10px]">
               <button
                 onClick={() => router.push('/create-title')}
-                className='flex justify-center items-center w-[240px] px-[24px] py-[16px] subtitle-2 text-white text-center rounded-[32px] bg-black gap-[10px]'
+                className="flex justify-center items-center w-[240px] px-[24px] py-[16px] subtitle-2 text-white text-center rounded-[32px] bg-black gap-[10px]"
               >
                 <div className="p-[6px] bg-orange-01 rounded-full">
                   <Icon type="crop" width={20} height={20} />
                 </div>
-                <div className='flex-1'>
-                  처음부터 만들기
-                </div>
+                <div className="flex-1">처음부터 만들기</div>
               </button>
               <button
                 onClick={() => router.push('/create-template')}
-                className='flex justify-center items-center w-[240px] px-[24px] py-[16px] subtitle-2 text-white text-center rounded-[32px] bg-black gap-[10px]'
+                className="flex justify-center items-center w-[240px] px-[24px] py-[16px] subtitle-2 text-white text-center rounded-[32px] bg-black gap-[10px]"
               >
                 <div className="p-[6px] bg-blue-01 rounded-full">
                   <Icon type="note" width={20} height={20} />
                 </div>
-                <div className='flex-1'>
-                  템플릿으로 만들기
-                </div>
+                <div className="flex-1">템플릿으로 만들기</div>
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className='mt-[10px] p-[14px] bg-white bg-opacity-[0.1] rounded-full'
+                className="mt-[10px] p-[14px] bg-white bg-opacity-[0.1] rounded-full"
               >
                 <Icon type="closeLight" width={24} height={24} />
               </button>
