@@ -15,7 +15,7 @@ importers:
   packages/api:
     dependencies:
       '@ppoba/types':
-        specifier: 'workspace:* '
+        specifier: workspace:*
         version: link:../types
       axios:
         specifier: ^1.4.0

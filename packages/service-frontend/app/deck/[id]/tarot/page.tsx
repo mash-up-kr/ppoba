@@ -69,13 +69,13 @@ export default function TaroPlayPage(): JSX.Element {
       return
     }
     setIsShowNotification(() => {
-      if (alertShow === 'touch') {
+      if (alertPhrase === 'touch') {
         return false
       }
       return true
     })
     setCurrentIndex(prev => Math.max(0, prev - 1))
-  }, [handleNotification, isShowBack])
+  }, [alertPhrase, handleNotification, isShowBack])
   const handleClickNextCard = useCallback(() => {
     handleNotification()
     if (isShowBack) {
@@ -84,13 +84,13 @@ export default function TaroPlayPage(): JSX.Element {
       return
     }
     setIsShowNotification(() => {
-      if (alertShow === 'touch') {
+      if (alertPhrase === 'touch') {
         return false
       }
       return true
     })
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
-  }, [cards.length, handleNotification, isShowBack])
+  }, [alertPhrase, cards.length, handleNotification, isShowBack])
   const handleClickCurrentCard = useCallback(() => {
     handleShowingEvent()
     setIsShowBack(true)
