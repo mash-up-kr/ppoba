@@ -7,11 +7,17 @@ import {
   useState,
 } from 'react'
 
-import { Variants, useMotionValue, useTransform, motion } from 'framer-motion'
+import {
+  Variants,
+  useMotionValue,
+  useTransform,
+  motion,
+  PanInfo,
+} from 'framer-motion'
 
-import NormalCardBack from './NormalCardBack'
-import NormalCardFront from './NormalCardFront'
-import { CardType } from '../../play/Card'
+import TaroCardBack from './TaroCardBack'
+import TaroCardFront from './TaroCardFront'
+import type { CardType } from '../../play/Card'
 
 export const visibleVariants = {
   visible: {
@@ -33,25 +39,23 @@ export const visibleVariants = {
   },
 }
 
-const NormalCard = ({
+const TaroCard = ({
   data,
   type,
-  index,
-  canDrag,
+  exitX,
   cardLocation,
   cardVariants,
-  setIndex,
+  onDragEnd,
 }: {
-  data: { id: number; content: string } | null
+  data: { id: number; content: string; number: number } | null
   type: CardType
-  index: number
+  exitX: number
   canDrag: boolean
   cardLocation: 'front' | 'middle' | 'back'
   cardVariants: Variants
-  setIndex: Dispatch<SetStateAction<number>>
+  onDragEnd: (_: unknown, info: PanInfo) => void
 }): JSX.Element => {
   const [cardContent, setCardContent] = useState('')
-  const [exitX, setExitX] = useState(0)
   const [isFlipped, setIsFlipped] = useState(() => cardLocation !== 'front')
 
   const x = useMotionValue(0)
@@ -61,38 +65,12 @@ const NormalCard = ({
 
   const indexString = useMemo(
     () =>
-      (index + 1).toLocaleString('en-US', {
+      Number(data?.number).toLocaleString('en-US', {
         minimumIntegerDigits: 2,
         useGrouping: false,
       }),
-    [index],
+    [data?.number],
   )
-
-  const getCardSize = (cardLocation: 'front' | 'middle' | 'back') => {
-    switch (cardLocation) {
-      case 'front': {
-        return 'h-[360px] w-[270px]'
-      }
-      case 'middle': {
-        return 'h-[340px] w-[255px]'
-      }
-      case 'back': {
-        return 'h-[300px] w-[225px]'
-      }
-    }
-  }
-
-  function handleDragEnd(_: any, info: { offset: { x: number } }) {
-    if (info.offset.x < -40) {
-      setExitX(-500)
-      setIndex(index + 1)
-    }
-
-    if (info.offset.x > 40) {
-      setExitX(500)
-      setIndex(index + 1)
-    }
-  }
 
   useEffect(() => {
     if (cardLocation === 'front') {
@@ -116,10 +94,10 @@ const NormalCard = ({
         x,
         rotate,
       }}
-      drag={canDrag ? 'x' : false}
+      drag={'x'}
       dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
-      onDragEnd={handleDragEnd}
-      onClick={() => setIsFlipped(prev => !prev)}
+      onDragEnd={onDragEnd}
+      onClick={() => setIsFlipped(true)}
       onAnimationStart={() => {
         if (cardLocation === 'front' && !isFlipped) setCardContent(data.content)
       }}
@@ -130,22 +108,18 @@ const NormalCard = ({
           setCardContent(data.content)
         }
       }}
-      className={`absolute rounded-[24px] ${getCardSize(
-        cardLocation,
-      )} cursor-pointer`}
+      className={`absolute rounded-[24px] cursor-pointer h-[360px] w-[270px]`}
     >
-      <NormalCardFront
+      <TaroCardFront
         indexString={indexString}
         isFlipped={isFlipped}
         visibleVariants={visibleVariants}
-        cardSize={getCardSize(cardLocation)}
         type={type}
       />
-      <NormalCardBack
+      <TaroCardBack
         indexString={indexString}
         isFlipped={isFlipped}
         visibleVariants={visibleVariants}
-        cardSize={getCardSize(cardLocation)}
         type={type}
         content={cardContent}
       />
@@ -153,4 +127,4 @@ const NormalCard = ({
   )
 }
 
-export default memo(NormalCard)
+export default memo(TaroCard)
