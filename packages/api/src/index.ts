@@ -46,7 +46,7 @@ const deck = JSON_APIS({
   getAllDeck: () => client.public.get<{ result: Deck[] }>(`decks`),
   /* Get deck list of user id */
   getDeckListByUserId: ({ userId }: { userId: string }) =>
-    client.session.get<{ result: Deck[] | null }>(`decks/user/${userId}`),
+    client.public.get<{ result: Deck[] | null }>(`decks/user/${userId}`),
 });
 
 export const api = {
