@@ -100,8 +100,6 @@ const NormalCard = ({
     }
   }, [cardLocation])
 
-  console.log(cardContent)
-
   if (data === null) {
     return <></>
   }
