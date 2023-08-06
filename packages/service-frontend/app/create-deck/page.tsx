@@ -15,6 +15,8 @@ import { Header } from '@/app/components'
 import { CardStyle } from '@/app/deck/[id]/play/constant'
 import { deckFormAtomState } from '@/store/deck'
 
+import Alert from '../Alert'
+
 // DUMMY DATA
 const DUMMY_DATA = ['1', '2', '3', '4', '5']
 
@@ -27,6 +29,7 @@ export default function CreateDeck(): JSX.Element {
   const [isError20, setIsError20] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [deck, setDeck] = useRecoilState(deckFormAtomState)
+  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const handleClick = () => {
@@ -54,6 +57,8 @@ export default function CreateDeck(): JSX.Element {
     }))
   }
 
+  const handleClickPrev = () => {}
+
   useEffect(() => {
     if (isError20) {
       setTimeout(() => {
@@ -66,7 +71,7 @@ export default function CreateDeck(): JSX.Element {
     <div className="min-h-screen flex flex-col pb-[16px] bg-light">
       <Header
         leftIconType="back"
-        onClickLeftIcon={() => router.back()}
+        onClickLeftIcon={() => setIsOpen(true)}
         title="매시업 이미지 게임"
       />
       <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] justify-center">
@@ -161,6 +166,15 @@ export default function CreateDeck(): JSX.Element {
           </Button>
         </div>
       </div>
+      {isOpen && (
+        <Alert
+          alertPhrase={`아직 덱이 다 만들어지지 않았어.\n정말로 그만둘거야?`}
+          confirmPhrase="그만둘래"
+          closePhrase="계속 만들기"
+          onClickClose={() => setIsOpen(false)}
+          onClickConfirm={() => router.push('')}
+        />
+      )}
     </div>
   )
 }
