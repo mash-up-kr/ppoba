@@ -11,21 +11,8 @@ import GameCardList from '@/app/components/marketplace/game/GameCardList'
 
 import Footer from './components/common/Footer'
 import GameCardListTitle from './components/marketplace/game/GameCardListTitle'
-import { CardType } from './deck/[id]/play/Card'
+import { DeckTypeOrder, MyDeckTypeOrder } from './constants'
 import LoginHeader from './LoginHeader'
-
-const AllDeckCardTypeOrder: CardType[] = [
-  'nail',
-  'sprout',
-  'feather',
-  'turnip',
-  'swallow',
-  'clover',
-  'flower',
-  'plug',
-]
-
-const MyDeckCardTypeOrder: CardType[] = [...AllDeckCardTypeOrder].reverse()
 
 const TestDeckList = [
   {
@@ -112,14 +99,14 @@ export default function Home(): JSX.Element {
   const myDeckList = TestDeckList.map((deck, index) => {
     return {
       ...deck,
-      type: MyDeckCardTypeOrder[index % MyDeckCardTypeOrder.length],
+      type: MyDeckTypeOrder[index % MyDeckTypeOrder.length],
     }
   })
 
   const allDeckList = TestDeckList.map((deck, index) => {
     return {
       ...deck,
-      type: AllDeckCardTypeOrder[index % AllDeckCardTypeOrder.length],
+      type: DeckTypeOrder[index % DeckTypeOrder.length],
     }
   })
 

@@ -9,7 +9,6 @@ interface Props {
 }
 
 function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
-  const router = useRouter()
   const { scrollY } = useScroll()
 
   const y = useTransform(scrollY, [0, 100], [-2, 0])
