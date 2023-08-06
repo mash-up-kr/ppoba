@@ -77,7 +77,7 @@ export default function Home(): JSX.Element {
   const isLoggedIn = false
 
   return (
-    <main>
+    <main className="relative">
       <LoginHeader onClickCreateDeck={() => setIsOpen(true)} />
 
       {/* 내가 만든 영역 */}

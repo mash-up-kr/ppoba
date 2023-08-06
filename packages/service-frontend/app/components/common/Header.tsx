@@ -22,7 +22,7 @@ function Header({
 }: Props): JSX.Element {
   return (
     <header
-      className={`fixed w-full max-w-[420px] h-[52px] leading-[52px] left-1/2 -translate-x-1/2 flex justify-center items-center ${className}`}
+      className={`fixed w-full max-w-[420px] h-[52px] leading-[52px] top-0 flex justify-center items-center ${className}`}
     >
       {leftIconType && (
         <Icon

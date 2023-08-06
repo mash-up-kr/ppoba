@@ -1,7 +1,6 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import { Icon } from '@ppoba/ui'
 
 interface Props {
@@ -17,7 +16,7 @@ function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
   return (
     <>
       <header
-        className={`fixed top-0 w-full max-w-[420px] h-[52px] left-1/2 -translate-x-1/2 flex justify-between items-center pl-[24px] pr-[16px] bg-light`}
+        className={`fixed top-0 w-full max-w-[420px] h-[52px] flex justify-between items-center pl-[24px] pr-[16px] bg-light`}
       >
         <motion.div style={{ opacity, y }} className="flex">
           <Icon type="symbol" width={48} height={48} />
