@@ -3,5 +3,5 @@ interface Props {
 }
 
 export default function Layout({ children }: Props): JSX.Element {
-  return <div className="overflow-hidden">{children}</div>
+  return <div className="overflow-hidden relative">{children}</div>
 }

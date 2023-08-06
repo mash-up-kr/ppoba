@@ -84,11 +84,18 @@ module.exports = {
             left: '50%',
           },
         },
+        'ping-red': {
+          '75%, 100%': {
+            transform: 'scale(1.5)',
+            opacity: 0
+          },
+        },
       },
       animation: {
         'slide-right-toggle': 'slide-right-toggle 0.4s linear',
         'slide-left-toggle': 'slide-left-toggle 0.4s linear',
         'top-down-bounce': 'top-down-bounce 1s infinite',
+        'ping-red': 'ping-red 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
       colors: {
         grey: {
