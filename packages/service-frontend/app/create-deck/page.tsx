@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react'
 
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
 import { Scrollbar } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Button, Icon, SecondaryButton } from '@ppoba/ui'
@@ -11,6 +12,7 @@ import 'swiper/css/scrollbar'
 
 import { Header } from '@/app/components'
 import { CardStyle } from '@/app/deck/[id]/play/constant'
+import { deckFormAtomState } from '@/store/deck'
 
 // DUMMY DATA
 const DUMMY_DATA = ['1', '2', '3', '4', '5']
@@ -21,7 +23,7 @@ const bgColors: string[] = Object.values(CardStyle).map(
 )
 
 export default function CreateDeck(): JSX.Element {
-  const [text, setText] = useState('')
+  const [deck, setDeck] = useRecoilState(deckFormAtomState);
   const router = useRouter()
   
   const handleClick = () => {
@@ -59,10 +61,22 @@ export default function CreateDeck(): JSX.Element {
                         }`}
                     >
                       <textarea
-                        value={text}
-                        onChange={e => setText(e.target.value)}
+                        value={deck.cardList[idx]?.content ?? ''}
                         placeholder="새로운 카드 내용을 입력해줘"
                         maxLength={50}
+                        onChange={(e) => {
+                          setDeck({
+                            ...deck,
+                            cardList: deck.cardList.map((card, i) =>
+                              i === idx
+                                ? {
+                                    ...card,
+                                    content: e.target.value,
+                                  }
+                                : card,
+                            ),
+                          })
+                        }}
                         className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none`}
                       />
                       <button className="p-[14px] bg-white/20 rounded-full">

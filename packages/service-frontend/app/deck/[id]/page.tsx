@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Button, Icon, TwoOptionRadioButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components/common'
+import BottomCta from '@/app/components/common/BottomCta'
 import GameCategoryChip from '@/app/components/marketplace/game/GameCategoryChip'
 
 import { CardType } from './play/Card'
@@ -199,7 +200,7 @@ export default function DeckDetail({ params }: Props): JSX.Element {
       </main>
 
       {/* Bottom Button Section */}
-      <div className="fixed bottom-[16px] left-0 w-full px-[24px]">
+      <BottomCta className="px-[24px] bottom-[16px]">
         <Button
           size="large"
           rightIcon="goWhite"
@@ -208,7 +209,7 @@ export default function DeckDetail({ params }: Props): JSX.Element {
         >
           플레이하기
         </Button>
-      </div>
+      </BottomCta>
     </div>
   )
 }
