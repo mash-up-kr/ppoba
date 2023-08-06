@@ -5,7 +5,7 @@ interface Props {
   orientation: 'vertical' | 'horizontal'
   games: Game[]
   title?: string | JSX.Element
-  className?: string,
+  className?: string
   type?: 'template' | 'deck'
 }
 
