@@ -31,7 +31,7 @@ export class DeckCollection implements Omit<Deck, TimestampKey> {
   @Prop({ optional: true })
   category: DeckCategory[];
 
-  @Prop({ optional: true })
+  @Prop({ default: 0, optional: true })
   totalCardCount: number;
 
   @Prop({ required: true })
