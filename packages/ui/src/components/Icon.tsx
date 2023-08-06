@@ -34,6 +34,9 @@ import { ReactComponent as Go } from '../assets/icons/Go.svg';
 import { ReactComponent as Home } from '../assets/icons/Home.svg';
 import { ReactComponent as House } from '../assets/icons/House.svg';
 import { ReactComponent as kakao } from '../assets/icons/kakao.svg';
+import { ReactComponent as LogoBlack } from '../assets/icons/Logo-Black.svg';
+import { ReactComponent as LogoGrey } from '../assets/icons/Logo-Grey.svg';
+import { ReactComponent as LogoWhite } from '../assets/icons/Logo-White.svg';
 import { ReactComponent as Nail } from '../assets/icons/Nail.svg';
 import { ReactComponent as NailColor } from '../assets/icons/NailColor.svg';
 import { ReactComponent as NailDot } from '../assets/icons/NailDot.svg';
@@ -57,7 +60,9 @@ import { ReactComponent as SwallowColor } from '../assets/icons/SwallowColor.svg
 import { ReactComponent as SwallowDot } from '../assets/icons/SwallowDot.svg';
 import { ReactComponent as SwallowDotGrey } from '../assets/icons/SwallowDotGrey.svg';
 import { ReactComponent as SwallowNormal } from '../assets/icons/SwallowNormal.svg';
+import { ReactComponent as Symbol } from '../assets/icons/Symbol.svg';
 import { ReactComponent as Top } from '../assets/icons/Top.svg';
+import { ReactComponent as TouchWhite } from '../assets/icons/Touch-White.svg';
 import { ReactComponent as Touch } from '../assets/icons/Touch.svg';
 import { ReactComponent as Trash } from '../assets/icons/Trash.svg';
 import { ReactComponent as TurnipColor } from '../assets/icons/TurnipColor.svg';
@@ -133,8 +138,13 @@ const ICONS = {
   note: Note,
   top: Top,
   touch: Touch,
+  touchWhite: TouchWhite,
   trash: Trash,
   welcome: Welcome,
+  logoWhite: LogoWhite,
+  logoBlack: LogoBlack,
+  logoGrey: LogoGrey,
+  symbol: Symbol,
   ...CARD_ICONS,
 };
 
