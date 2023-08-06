@@ -9,7 +9,7 @@ import { Game } from './Game'
 import GameCategoryChip from './GameCategoryChip'
 
 interface Props {
-  game: Game
+  game: Game,
   containerClassName?: string,
   type?: 'template' | 'deck'
 }
@@ -44,7 +44,7 @@ export default function GameCard({
             <Icon type={cardIcon} width={16} height={16} className="py-[1px]" />
           </div>
           <div className="justify-center items-center flex ml-[3px]">
-            <span className="text-grey-800 caption-bold">{game.cardCount}</span>
+            <span className="text-grey-800 caption-bold">{game.totalCardCount}</span>
           </div>
         </div>
         <div>
@@ -55,18 +55,18 @@ export default function GameCard({
       {/* 게임 하단 */}
       <div>
         {/* 게임 제목 */}
-        <h2 className="headline-3 text-grey-800">{game.title}</h2>
+        <h2 className="headline-3 text-grey-800">{game.name}</h2>
 
         {/* 게임 하단 칩 리스트 */}
         <div className="space-x-[4px] mt-[10px]">
-          {game.isAdult && (
+          {game.category.includes('19금 컨텐츠') && (
             <GameCategoryChip
               label="19+"
               bgColor="bg-grey-800"
               textColor="text-light"
             />
           )}
-          {game.chipList.map((chip, index) => (
+          {game.category.filter((v) => v !== '19금 컨텐츠') .map((chip, index) => (
             <GameCategoryChip key={index} label={chip} />
           ))}
         </div>
