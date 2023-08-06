@@ -27,9 +27,11 @@ const bgColors: string[] = Object.values(CardStyle).map(
 
 export default function CreateDeck(): JSX.Element {
   const [isError20, setIsError20] = useState(false)
+  const [willDeleteIndex, setWillDeleteIndex] = useState(-1)
   const [activeIndex, setActiveIndex] = useState(0)
   const [deck, setDeck] = useRecoilState(deckFormAtomState)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isBackOverlayOpen, setIsBackOverlayOpen] = useState(false)
+  const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false)
   const router = useRouter()
 
   const handleClick = () => {
@@ -43,11 +45,15 @@ export default function CreateDeck(): JSX.Element {
     router.push('/confirm-detail')
   }
 
-  const handleClickDeleteButton = (index: number) => {
+  const onDelete = () => {
+    if (willDeleteIndex === -1) {
+      return
+    }
     setDeck(prev => ({
       ...prev,
-      cardList: [...prev.cardList].filter((_, i) => i !== index),
+      cardList: [...prev.cardList].filter((_, i) => i !== willDeleteIndex),
     }))
+    setWillDeleteIndex(-1)
   }
 
   const handleClickAddButton = () => {
@@ -56,8 +62,6 @@ export default function CreateDeck(): JSX.Element {
       cardList: [...prev.cardList, { content: '' }],
     }))
   }
-
-  const handleClickPrev = () => {}
 
   useEffect(() => {
     if (isError20) {
@@ -71,7 +75,7 @@ export default function CreateDeck(): JSX.Element {
     <div className="min-h-screen flex flex-col pb-[16px] bg-light">
       <Header
         leftIconType="back"
-        onClickLeftIcon={() => setIsOpen(true)}
+        onClickLeftIcon={() => setIsBackOverlayOpen(true)}
         title="매시업 이미지 게임"
       />
       <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] justify-center">
@@ -121,11 +125,14 @@ export default function CreateDeck(): JSX.Element {
                             ),
                           })
                         }}
-                        className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none`}
+                        className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black`}
                       />
                       <button
                         className="p-[14px] bg-white/20 rounded-full"
-                        onClick={() => handleClickDeleteButton(idx)}
+                        onClick={() => {
+                          setIsDeleteOverlayOpen(true)
+                          setWillDeleteIndex(idx)
+                        }}
                       >
                         <Icon type="trash" width={24} height={24} />
                       </button>
@@ -166,13 +173,26 @@ export default function CreateDeck(): JSX.Element {
           </Button>
         </div>
       </div>
-      {isOpen && (
+      {isBackOverlayOpen && (
         <Alert
           alertPhrase={`아직 덱이 다 만들어지지 않았어.\n정말로 그만둘거야?`}
           confirmPhrase="그만둘래"
           closePhrase="계속 만들기"
-          onClickClose={() => setIsOpen(false)}
+          onClickClose={() => setIsBackOverlayOpen(false)}
           onClickConfirm={() => router.push('')}
+        />
+      )}
+
+      {isDeleteOverlayOpen && (
+        <Alert
+          alertPhrase={`정말 카드를 삭제할거야?`}
+          closePhrase="유지하기"
+          confirmPhrase="삭제하기"
+          onClickClose={() => setIsDeleteOverlayOpen(false)}
+          onClickConfirm={() => {
+            onDelete()
+            setIsDeleteOverlayOpen(false)
+          }}
         />
       )}
     </div>
