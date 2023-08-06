@@ -1,17 +1,17 @@
-import { atom } from "recoil";
-import { CardList } from '@ppoba/types/src/dto/createCardDto';
+import { atom } from 'recoil'
+import { CardList } from '@ppoba/types/src/dto/createCardDto'
 
 type DeckFormAtomState = {
-  name: string;
-  category: string[];
-  cardList: CardList[];
+  name: string
+  category: string[]
+  cardList: CardList[]
 }
 
 export const deckFormAtomState = atom<DeckFormAtomState>({
-  key: "deckForm",
+  key: 'deckForm',
   default: {
-    name: "",
+    name: '',
     category: [],
-    cardList: new Array(20).fill({}),
-  }
-});
+    cardList: new Array(20).fill({ content: '' }),
+  },
+})
