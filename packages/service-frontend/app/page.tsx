@@ -1,8 +1,9 @@
 'use client'
 
 import type { JSX } from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
+import { useScroll } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Icon } from '@ppoba/ui'
 
@@ -124,7 +125,7 @@ export default function Home(): JSX.Element {
 
   return (
     <main>
-      <LoginHeader />
+      <LoginHeader onClickCreateDeck={() => setIsOpen(true)} />
 
       {/* 내가 만든 영역 */}
       {/* Red - Pink - Green - Blue - Orange - Yellow - Teal - Purple */}

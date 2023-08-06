@@ -96,7 +96,11 @@ export default function NormalPlayPage(): JSX.Element {
 
   return (
     <div className="text-grey-800">
-      <Header rightIconType="close" className="h-[60px]" />
+      <Header
+        rightIconType="close"
+        className="h-[60px]"
+        onClickRightIcon={() => router.back()}
+      />
 
       <main className="min-h-screen flex items-center">
         <div className="relative w-full flex flex-col items-center justify-center">

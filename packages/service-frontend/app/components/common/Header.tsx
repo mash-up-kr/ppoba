@@ -30,7 +30,7 @@ function Header({
           width={24}
           height={24}
           onClick={onClickLeftIcon}
-          className="absolute left-6 -x-translate-1/2"
+          className="absolute left-6 -x-translate-1/2 cursor-pointer"
         />
       )}
       <strong className="headline-4 text-black">{title}</strong>
@@ -40,7 +40,7 @@ function Header({
           width={24}
           height={24}
           onClick={onClickRightIcon}
-          className="absolute right-6 x-translate-1/2"
+          className="absolute right-6 x-translate-1/2 cursor-pointer"
         />
       )}
     </header>
