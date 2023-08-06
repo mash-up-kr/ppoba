@@ -17,7 +17,7 @@ function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
   return (
     <>
       <header
-        className={`fixed w-full max-w-[420px] h-[52px] left-1/2 -translate-x-1/2 flex justify-between items-center pl-[24px] pr-[16px] bg-light`}
+        className={`fixed top-0 w-full max-w-[420px] h-[52px] left-1/2 -translate-x-1/2 flex justify-between items-center pl-[24px] pr-[16px] bg-light`}
       >
         <motion.div style={{ opacity, y }} className="flex">
           <Icon type="symbol" width={48} height={48} />
@@ -45,7 +45,7 @@ function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
       </header>
 
       {/* Spacing Div */}
-      <div className="w-full max-w-[420px] h-[52px]" />
+      <div className="w-full max-w-[420px] h-[52px] bg-light" />
     </>
   )
 }

@@ -37,7 +37,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en" className={`${pretendardFont.variable}`}>
-      <body className="flex justify-center items-start">
+      <body className="flex justify-center items-start bg-black">
         <Provider>
           <div className="max-w-[420px] w-full min-h-screen bg-light">
             {children}

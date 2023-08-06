@@ -26,40 +26,40 @@ const INITIAL_KEYWORDS = [
 
 export default function ConfirmDetailPage(): JSX.Element {
   const [isAdultGame, setIsAdultGame] = useState<boolean>(false)
-  const [deck, setDeck] = useRecoilState(deckFormAtomState);
+  const [deck, setDeck] = useRecoilState(deckFormAtomState)
   const router = useRouter()
   const { mutate } = useMutation(api.deck.createDeck, {
-    onSuccess: (data) => {
-      const cardList = deck.cardList.filter((card) => card?.content !== undefined);
+    onSuccess: data => {
+      const cardList = deck.cardList.filter(card => card?.content !== undefined)
       createCardMutate({
         createCardDto: {
           deckId: data.result.deck_id,
           cardList: cardList,
-        }
+        },
       })
     },
-    onError: (error) => {
+    onError: error => {
       console.log('error', error)
-    }
-  });
+    },
+  })
   const { mutate: createCardMutate } = useMutation(api.card.createCard, {
     onSuccess: (_, variables) => {
-      const deckId = variables.createCardDto.deckId;
+      const deckId = variables.createCardDto.deckId
       router.push(`/complete?deckId=${deckId}`)
     },
-    onError: (error) => {
+    onError: error => {
       console.log('error', error)
-    }
-  });
-  
+    },
+  })
+
   const handleClick = () => {
     mutate({
       createDeckDto: {
         name: deck.name,
-        userId: "2931028309", // TODO: 실제 user id 넣기
+        userId: '2931028309', // TODO: 실제 user id 넣기
         category: deck.category as DeckCategory[],
-      }
-    });
+      },
+    })
   }
 
   const handleClickKeyword = useCallback(
@@ -77,12 +77,16 @@ export default function ConfirmDetailPage(): JSX.Element {
         setDeck({ ...deck, category: [...nextSelectedKeywords, keyword] })
       }
     },
-    [deck.category],
+    [deck, setDeck],
   )
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header leftIconType="backWhite" onClickLeftIcon={() => router.back()} className="bg-grey-800" />
+      <Header
+        leftIconType="backWhite"
+        onClickLeftIcon={() => router.back()}
+        className="bg-grey-800"
+      />
       {/* 게임 상세 타이틀 */}
       <div className="bg-grey-800 h-[218px] py-[72px]">
         <div className="flex flex-col gap-1 px-[32px] py-[20px]">

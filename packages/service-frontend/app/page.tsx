@@ -1,88 +1,61 @@
 'use client'
 
 import type { JSX } from 'react'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
-import { useScroll } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import { useRouter, redirect } from 'next/navigation'
+import { api } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
 
 import GameCardList from '@/app/components/marketplace/game/GameCardList'
 
 import Footer from './components/common/Footer'
+import AllDeckInitialItem from './components/marketplace/deck/AllDeckInitialItem'
+import AllDeckLastItem from './components/marketplace/deck/AllDeckLastItem'
 import GameCardListTitle from './components/marketplace/game/GameCardListTitle'
 import { DeckTypeOrder, MyDeckTypeOrder } from './constants'
 import LoginHeader from './LoginHeader'
 
-const TestDeckList = [
-  {
-    id: 0,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 1,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 2,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 3,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 4,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 5,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 6,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 7,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 8,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-]
-
 export default function Home(): JSX.Element {
-  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const { data: userData, isError: isUserDataError } = useQuery(
+    ['getDeckListByUserId'],
+    () => api.deck.getDeckListByUserId({ userId: '2931028309' }),
+    {
+      // TODO: Change userId
+      suspense: true,
+    },
+  )
+
+  const { data, isError } = useQuery(['getAllDeck'], api.deck.getAllDeck, {
+    suspense: true,
+  })
+
+  const myDeckList = useMemo(
+    () =>
+      userData?.result?.map((deck, index) => {
+        return {
+          ...deck,
+          type: MyDeckTypeOrder[index % MyDeckTypeOrder.length],
+        }
+      }),
+    [userData?.result],
+  )
+
+  const allDeckList = useMemo(
+    () =>
+      data?.result.map((deck, index) => {
+        return {
+          ...deck,
+          type: DeckTypeOrder[index % DeckTypeOrder.length],
+        }
+      }),
+    [data?.result],
+  )
 
   useEffect(() => {
     if (isOpen) {
@@ -96,58 +69,68 @@ export default function Home(): JSX.Element {
     }
   }, [isOpen])
 
-  const myDeckList = TestDeckList.map((deck, index) => {
-    return {
-      ...deck,
-      type: MyDeckTypeOrder[index % MyDeckTypeOrder.length],
-    }
-  })
+  // Redirect to 404 page if api error occurred
+  if (isError || isUserDataError) {
+    redirect('/404')
+  }
 
-  const allDeckList = TestDeckList.map((deck, index) => {
-    return {
-      ...deck,
-      type: DeckTypeOrder[index % DeckTypeOrder.length],
-    }
-  })
+  const isLoggedIn = false
 
   return (
     <main>
       <LoginHeader onClickCreateDeck={() => setIsOpen(true)} />
 
       {/* 내가 만든 영역 */}
+      {/* TODO: 로그인 안 한 경우 안보여짐 */}
       {/* Red - Pink - Green - Blue - Orange - Yellow - Teal - Purple */}
       <section>
-        <GameCardList
-          orientation="horizontal"
-          games={myDeckList}
-          title={
-            <GameCardListTitle
-              headerType="MY_GAME"
-              label="내가 만든"
-              className="mb-[-20px]"
-              onClick={() => router.push('/my-deck')}
-            />
-          }
-          className="pt-[30px] pb-[12px]"
-        />
+        {isLoggedIn && myDeckList && (
+          <GameCardList
+            orientation="horizontal"
+            games={myDeckList}
+            title={
+              <GameCardListTitle
+                headerType="MY_GAME"
+                label="내가 만든"
+                className="mb-[-20px]"
+                onClick={() => router.push('/my-deck')}
+              />
+            }
+            className="pt-[30px] pb-[12px]"
+          />
+        )}
       </section>
+
+      {/* 회색 로고 - 비로그인 경우 보여짐 */}
+      {!isLoggedIn && (
+        <div className="w-full flex justify-center items-center">
+          <Icon type="logoGrey" width={270} height={90} />
+        </div>
+      )}
 
       {/* 덱 영역 */}
       {/* Purple - Teal - Yellow - Orange - Blue - Green - Pink - Red */}
-      <section>
-        <GameCardList
-          orientation="vertical"
-          games={allDeckList}
-          title={
-            <GameCardListTitle
-              headerType="ALL_GAME"
-              label="덱"
-              className="mb-[10px]"
-              onClick={() => setIsOpen(true)}
-            />
-          }
-          className="pt-[30px]"
-        />
+      <section className={isLoggedIn ? 'pt-[30px]' : ''}>
+        {allDeckList && (
+          <GameCardList
+            title={
+              isLoggedIn && (
+                <GameCardListTitle
+                  headerType="ALL_GAME"
+                  label="전체 덱"
+                  className="pb-[10px]"
+                />
+              )
+            }
+            orientation="vertical"
+            games={allDeckList}
+            className="pb-[40px]"
+            customInitialItem={
+              <AllDeckInitialItem onClick={() => setIsOpen(true)} />
+            }
+            customLastItem={<AllDeckLastItem onClick={() => setIsOpen(true)} />}
+          />
+        )}
       </section>
 
       {/* Footer */}
