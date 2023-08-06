@@ -1,8 +1,9 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { PanInfo, animate, motion, useMotionValue } from 'framer-motion'
+import { motion, useMotionValue } from 'framer-motion'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
@@ -25,8 +26,9 @@ const animateVariants = {
 }
 
 export default function TaroPlayPage(): JSX.Element {
+  const router = useRouter()
   const x = useMotionValue(0)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
   const [isShowBack, setIsShowBack] = useState(false)
   const [cards, setCard] = useState(generateCards(5))
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
@@ -129,7 +131,7 @@ export default function TaroPlayPage(): JSX.Element {
 
   return (
     <>
-      <Header rightIconType="close" />
+      <Header rightIconType="close" onClickRightIcon={() => router.back()} />
       <div className="flex flex-col min-h-screen justify-around">
         {/* 게임 정보 */}
         <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
