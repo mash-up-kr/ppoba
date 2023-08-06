@@ -74,7 +74,7 @@ export default function Home(): JSX.Element {
     redirect('/404')
   }
 
-  const isLoggedIn = false
+  const isLoggedIn = true
 
   return (
     <main className="relative">
@@ -96,7 +96,7 @@ export default function Home(): JSX.Element {
                 onClick={() => router.push('/my-deck')}
               />
             }
-            className="pt-[30px] pb-[12px]"
+            className="pt-[30px]"
           />
         )}
       </section>
@@ -110,7 +110,7 @@ export default function Home(): JSX.Element {
 
       {/* 덱 영역 */}
       {/* Purple - Teal - Yellow - Orange - Blue - Green - Pink - Red */}
-      <section className={isLoggedIn ? 'pt-[30px]' : ''}>
+      <section className={isLoggedIn ? 'pt-[20px]' : ''}>
         {allDeckList && (
           <GameCardList
             title={
