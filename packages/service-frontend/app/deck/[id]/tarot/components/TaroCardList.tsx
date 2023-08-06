@@ -1,11 +1,12 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 
-import { AnimatePresence, PanInfo, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
-import type { CardType } from '../play/Card'
-import Card from '../play/Card'
+import TaroCard from './TaroCard'
+import type { CardType } from '../../play/Card'
+import Card from '../../play/Card'
 
 const animateVariants = {
   leftOutSideToCenter: {
@@ -64,6 +65,8 @@ interface Props {
   onClickPrevCard: VoidFunction
   onClickNextCard: VoidFunction
   onClickCurrentCard: VoidFunction
+  setCurrentIndex: Dispatch<SetStateAction<number>>
+  setIsShowBack: Dispatch<SetStateAction<boolean>>
 }
 
 function TaroCardList({
@@ -74,10 +77,13 @@ function TaroCardList({
   onClickPrevCard,
   onClickNextCard,
   onClickCurrentCard,
+  setCurrentIndex,
+  setIsShowBack,
 }: Props): JSX.Element {
   const currentCard = cards[currentIndex]
   const isRightAnimation = currentIndex !== cards.length - 1
   const [isShowMain, setIsShowMain] = useState(true)
+  const [exitX, setExitX] = useState(0)
 
   useEffect(() => {
     if (isExitAnimation && isRightAnimation) {
@@ -88,6 +94,28 @@ function TaroCardList({
       }, 50)
     }
   }, [isExitAnimation, isRightAnimation])
+
+  function handleDragEnd(_: any, info: { offset: { x: number } }) {
+    if (info.offset.x < -40) {
+      setExitX(-500)
+      if (isShowBack) {
+        onClickPrevCard()
+        return
+      }
+      setCurrentIndex(prev => Math.max(0, prev - 1))
+      setIsShowBack(false)
+    }
+
+    if (info.offset.x > 40) {
+      setExitX(500)
+      if (isShowBack) {
+        onClickNextCard()
+        return
+      }
+      setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
+      setIsShowBack(false)
+    }
+  }
 
   return (
     <>
@@ -132,13 +160,28 @@ function TaroCardList({
                     stiffness: 400,
                     damping: 30,
                   }}
+                  onClick={onClickCurrentCard}
                 >
-                  <Card
+                  <TaroCard
+                    key={index}
+                    exitX={exitX}
+                    cardLocation="front"
+                    cardVariants={{
+                      animate: { y: 0, opacity: 1 },
+                      exit: (custom: any) => ({
+                        x: custom,
+                        opacity: 0,
+                        transition: { duration: 0.2 },
+                      }),
+                    }}
+                    canDrag
                     type={card?.type}
-                    text={card?.text}
-                    number={card?.number}
-                    isShowBack={isShowBack}
-                    onClick={onClickCurrentCard}
+                    data={{
+                      id: Number(card.id),
+                      content: card.text,
+                      number: card.number,
+                    }}
+                    onDragEnd={handleDragEnd}
                   />
                 </motion.div>
               )}

@@ -1,15 +1,15 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { motion, useMotionValue } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Button, Icon, SecondaryButton } from '@ppoba/ui'
+import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 
-import TaroCardList from './TaroCardList'
+import TaroCardList from './components/TaroCardList'
 import EmptyCard from '../play/EmptyCard'
 import { generateCards } from '../play/generateCard'
 
@@ -28,7 +28,6 @@ const animateVariants = {
 
 export default function TaroPlayPage(): JSX.Element {
   const router = useRouter()
-  const x = useMotionValue(0)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isShowBack, setIsShowBack] = useState(false)
   const [cards, setCard] = useState(generateCards(5))
@@ -164,6 +163,8 @@ export default function TaroPlayPage(): JSX.Element {
                 onClickPrevCard={handleClickPrevCard}
                 onClickNextCard={handleClickNextCard}
                 onClickCurrentCard={handleClickCurrentCard}
+                setCurrentIndex={setCurrentIndex}
+                setIsShowBack={setIsShowBack}
               />
               {isShowNotification && alertPhrase === 'touch' && (
                 <div
