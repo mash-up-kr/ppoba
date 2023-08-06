@@ -61,10 +61,6 @@ interface Props {
   isShowBack: boolean
   currentIndex: number
   isExitAnimation: boolean
-  onDragEnd: (
-    event: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo,
-  ) => void
   onClickPrevCard: VoidFunction
   onClickNextCard: VoidFunction
   onClickCurrentCard: VoidFunction
@@ -75,7 +71,6 @@ function TaroCardList({
   isShowBack,
   currentIndex,
   isExitAnimation,
-  onDragEnd,
   onClickPrevCard,
   onClickNextCard,
   onClickCurrentCard,
@@ -129,10 +124,6 @@ function TaroCardList({
                   className={`flex w-[270px] h-[360px] absolute duration-150 z-[50] ${
                     isShowBack ? 'opacity-100' : 'opacity-[0.98]'
                   }`}
-                  drag="x"
-                  dragListener={false}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  onDragEnd={onDragEnd}
                   variants={animateVariants}
                   initial={'rightSide'}
                   animate={'center'}

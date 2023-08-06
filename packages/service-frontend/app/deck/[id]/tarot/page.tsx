@@ -61,6 +61,7 @@ export default function TaroPlayPage(): JSX.Element {
   const handleClickPrevCard = useCallback(() => {
     handleNotification()
     if (isShowBack) {
+      setAlertShow('none')
       setIsExitAnimation(true)
       return
     }
@@ -69,6 +70,7 @@ export default function TaroPlayPage(): JSX.Element {
   const handleClickNextCard = useCallback(() => {
     handleNotification()
     if (isShowBack) {
+      setAlertShow('none')
       setIsExitAnimation(true)
       return
     }
@@ -78,32 +80,6 @@ export default function TaroPlayPage(): JSX.Element {
     handleShowingEvent()
     setIsShowBack(true)
   }, [handleShowingEvent])
-
-  // 드래그
-  const calculateNewX = useCallback(
-    () => -currentIndex * (containerRef.current?.clientWidth || 0),
-    [currentIndex],
-  )
-
-  const handleDragEnd = useCallback(
-    (e: Event, dragProps: PanInfo) => {
-      const clientWidth = containerRef.current?.clientWidth || 0
-
-      const { offset, velocity } = dragProps
-
-      if (Math.abs(velocity.y) > Math.abs(velocity.x)) {
-        animate(x, calculateNewX(), { type: 'spring', bounce: 0 })
-        return
-      }
-
-      if (offset.x > clientWidth / 4) {
-        handleClickPrevCard()
-      } else if (offset.x < -clientWidth / 4) {
-        handleClickNextCard()
-      }
-    },
-    [calculateNewX, handleClickNextCard, handleClickPrevCard, x],
-  )
 
   // 하단 버튼
   const handleClickShuffleButton = useCallback(() => {
@@ -178,7 +154,6 @@ export default function TaroPlayPage(): JSX.Element {
                 isExitAnimation={isExitAnimation}
                 isShowBack={isShowBack}
                 currentIndex={currentIndex}
-                onDragEnd={handleDragEnd}
                 onClickPrevCard={handleClickPrevCard}
                 onClickNextCard={handleClickNextCard}
                 onClickCurrentCard={handleClickCurrentCard}
