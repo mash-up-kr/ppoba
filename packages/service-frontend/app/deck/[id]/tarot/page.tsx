@@ -4,8 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Button, SecondaryButton } from '@ppoba/ui'
+import { Button, Icon, SecondaryButton } from '@ppoba/ui'
 
+import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 
 import TaroCardList from './TaroCardList'
@@ -34,6 +35,7 @@ export default function TaroPlayPage(): JSX.Element {
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
   const [isShowNotification, setIsShowNotification] = useState(true)
+  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
   const [alertPhrase, setAlertPhrase] = useState<'touch' | 'slide' | 'none'>(
     'touch',
   )
@@ -131,7 +133,10 @@ export default function TaroPlayPage(): JSX.Element {
 
   return (
     <>
-      <Header rightIconType="close" onClickRightIcon={() => router.back()} />
+      <Header
+        rightIconType="close"
+        onClickRightIcon={() => setIsCloseOverlayOpen(true)}
+      />
       <div className="flex flex-col min-h-screen justify-around">
         {/* 게임 정보 */}
         <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
@@ -228,6 +233,17 @@ export default function TaroPlayPage(): JSX.Element {
           )}
         </div>
       </div>
+
+      {/* Overlay */}
+      {isCloseOverlayOpen && (
+        <Alert
+          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
+          closePhrase="계속하기"
+          confirmPhrase="그만둘래"
+          onClickClose={() => setIsCloseOverlayOpen(false)}
+          onClickConfirm={() => router.back()}
+        />
+      )}
     </>
   )
 }
