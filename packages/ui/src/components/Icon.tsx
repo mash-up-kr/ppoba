@@ -62,6 +62,7 @@ import { ReactComponent as SwallowDotGrey } from '../assets/icons/SwallowDotGrey
 import { ReactComponent as SwallowNormal } from '../assets/icons/SwallowNormal.svg';
 import { ReactComponent as Symbol } from '../assets/icons/Symbol.svg';
 import { ReactComponent as Top } from '../assets/icons/Top.svg';
+import { ReactComponent as TouchWhite } from '../assets/icons/Touch-White.svg';
 import { ReactComponent as Touch } from '../assets/icons/Touch.svg';
 import { ReactComponent as Trash } from '../assets/icons/Trash.svg';
 import { ReactComponent as TurnipColor } from '../assets/icons/TurnipColor.svg';
@@ -137,6 +138,7 @@ const ICONS = {
   note: Note,
   top: Top,
   touch: Touch,
+  touchWhite: TouchWhite,
   trash: Trash,
   welcome: Welcome,
   logoWhite: LogoWhite,

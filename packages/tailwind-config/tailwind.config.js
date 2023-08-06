@@ -228,6 +228,11 @@ module.exports = {
         // Hide ScrollBar
         '.hide-scrollbar': {
 
+        },
+
+        // Backface Visibility False
+        '.backface-visibility-false': {
+          'backface-visibility': 'hidden',
         }
       };
       addUtilities(designSystemTextStyles);
