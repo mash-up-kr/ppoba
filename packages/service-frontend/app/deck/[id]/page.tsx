@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -58,6 +58,13 @@ enum PLAY_TYPE {
 }
 
 interface Props {
+  params: {
+    id: string
+  }
+}
+
+interface Props {
+  children: React.ReactNode
   params: {
     id: string
   }

@@ -74,6 +74,7 @@ export default function Home(): JSX.Element {
     redirect('/404')
   }
 
+  // TODO: 로그인 여부 임시 세팅
   const isLoggedIn = true
 
   return (

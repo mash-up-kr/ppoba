@@ -1,3 +1,9 @@
+'use client'
+
+import { useRef, useState } from 'react'
+
+import { useConveyer } from '@egjs/react-conveyer'
+
 import { Game } from './Game'
 import GameCard from './GameCard'
 
@@ -20,6 +26,21 @@ export default function GameCardList({
   customInitialItem = <></>,
   customLastItem = <></>,
 }: Props): JSX.Element {
+  const [isScrolling, setIsScrolling] = useState(false)
+
+  const ref = useRef<HTMLDivElement>(null)
+  const { onBeginScroll, onFinishScroll } = useConveyer(ref, {
+    horizontal: true,
+  })
+
+  onBeginScroll(() => {
+    setIsScrolling(true)
+  })
+
+  onFinishScroll(() => {
+    setIsScrolling(false)
+  })
+
   return (
     <div className={className}>
       {/* 헤더 타이틀 영역 - 컴포넌트로 받아서 렌더링 */}
@@ -38,13 +59,18 @@ export default function GameCardList({
 
       {/* 게임 목록 영역 - HORIZONTAL */}
       {orientation === 'horizontal' && (
-        <div className="overflow-x-auto w-full snap-x snap-mandatory flex gap-[10px] scroll-px-[24px] px-[24px] scrollbar-hide touch-pan-x">
+        <div
+          ref={ref}
+          className="overflow-x-auto w-full flex gap-[10px] px-[24px] scrollbar-hide"
+        >
           {customInitialItem && customInitialItem}
           {games.map(game => (
             <GameCard
               key={game.id}
               game={game}
-              containerClassName="shrink-0 snap-start my-[30px]"
+              containerClassName={`shrink-0 snap-start my-[30px] ${
+                isScrolling ? 'pointer-events-none' : ''
+              }`}
               type={type}
             />
           ))}
