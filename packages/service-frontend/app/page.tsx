@@ -37,6 +37,7 @@ export default function Home(): JSX.Element {
     {
       // TODO: Change userId
       suspense: true,
+      enabled: false,
     },
   )
   const { data, isError } = useQuery(
