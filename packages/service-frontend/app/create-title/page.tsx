@@ -9,7 +9,7 @@ import { Header } from '@/app/components'
 import { deckFormAtomState } from '@/store/deck'
 
 export default function CreateDeck(): JSX.Element {
-  const [deck, setDeck] = useRecoilState(deckFormAtomState);
+  const [deck, setDeck] = useRecoilState(deckFormAtomState)
   const router = useRouter()
 
   const handleClick = () => {
@@ -26,7 +26,12 @@ export default function CreateDeck(): JSX.Element {
           className="headline-2 text-black text-center placeholder:text-grey-200 bg-transparent"
           maxLength={11}
           value={deck.name}
-          onChange={(e) => setDeck({ ...deck, name: e.target.value })}
+          onChange={e => setDeck({ ...deck, name: e.target.value })}
+          onKeyUp={e => {
+            if (e.key === 'Enter') {
+              handleClick()
+            }
+          }}
         />
       </div>
       <Button size="large" rightIcon="goLight" onClick={handleClick}>
