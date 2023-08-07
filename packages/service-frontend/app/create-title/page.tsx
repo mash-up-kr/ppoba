@@ -28,6 +28,11 @@ export default function CreateDeck(): JSX.Element {
             maxLength={11}
             value={deck.name}
             onChange={e => setDeck({ ...deck, name: e.target.value })}
+            onKeyUp={e => {
+              if (e.key === 'Enter') {
+                handleClick()
+              }
+            }}
           />
         </div>
         <Button size="large" rightIcon="goLight" onClick={handleClick}>
