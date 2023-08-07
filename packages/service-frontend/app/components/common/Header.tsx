@@ -1,3 +1,4 @@
+'use client'
 import type { JSX, MouseEventHandler } from 'react'
 
 import { Icon } from '@ppoba/ui'
