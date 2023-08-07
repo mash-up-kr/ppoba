@@ -1,9 +1,11 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
+import { api } from '@ppoba/api'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
@@ -11,7 +13,7 @@ import { Header } from '@/app/components'
 
 import TaroCardList from './components/TaroCardList'
 import EmptyCard from '../play/EmptyCard'
-import { generateCards } from '../play/generateCard'
+import { PlayCard, generateCards } from '../play/generateCard'
 
 const INITIAL_INDEX = 0
 
@@ -26,11 +28,31 @@ const animateVariants = {
   },
 }
 
-export default function TaroPlayPage(): JSX.Element {
+interface Props {
+  params: {
+    id: string,
+  }
+}
+
+export default function TaroPlayPage({ params }: Props): JSX.Element {
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isShowBack, setIsShowBack] = useState(false)
-  const [cards, setCard] = useState(generateCards(5))
+  const { data, isError } = useQuery(
+    ['getDeck', params.id],
+    () => api.deck.getDeck({ deckId: params.id }),
+    {
+      suspense: true,
+    },
+  )
+  const { data: cardListData, isError: isCardListError } = useQuery(
+    ['getCardList', params.id],
+    () => api.card.getCards({ deckId: params.id }),
+    {
+      suspense: true,
+    },
+  )
+  const [cards, setCard] = useState<PlayCard[]>([])
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
   const [isShowNotification, setIsShowNotification] = useState(true)
@@ -38,6 +60,12 @@ export default function TaroPlayPage(): JSX.Element {
   const [alertPhrase, setAlertPhrase] = useState<'touch' | 'slide' | 'none'>(
     'touch',
   )
+
+  useEffect(() => {
+    if (cardListData?.result) {
+      setCard(generateCards(cardListData.result))
+    }
+  }, [cardListData])
 
   const handleShowingEvent = useCallback(() => {
     setAlertPhrase(prev => {
@@ -142,6 +170,10 @@ export default function TaroPlayPage(): JSX.Element {
     }
   }, [alertPhrase, isShowNotification])
 
+  if (isError || isCardListError) {
+    redirect('/404')
+  }
+
   return (
     <>
       <Header
@@ -152,7 +184,7 @@ export default function TaroPlayPage(): JSX.Element {
         {/* 게임 정보 */}
         <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
           <strong className="headline-1 text-grey-800">
-            뉴 매시업 이미지 게임
+            {data?.result?.name ?? ''}
           </strong>
           <div className="flex mx-auto gap-[4px]">
             <span className="subtitle-3 text-grey-600">카드</span>
