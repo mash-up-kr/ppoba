@@ -1,5 +1,7 @@
 import type { JSX, PropsWithChildren } from 'react';
 
+import { Squircle } from 'corner-smoothing';
+
 import { IconType } from './Icon';
 import { Icon } from '../components';
 
@@ -8,7 +10,8 @@ type ButtonSize = 'small' | 'medium' | 'large';
 type Props = {
   size?: ButtonSize;
   rightIcon?: IconType;
-} & React.ComponentPropsWithoutRef<'button'>;
+  disabled?: boolean;
+} & React.ComponentPropsWithoutRef<'div'>;
 
 const sizes = {
   small: 'w-[151px]',
@@ -19,10 +22,12 @@ const sizes = {
 function Button({ children, size, rightIcon, className = '', ...props }: PropsWithChildren<Props>): JSX.Element {
   const { disabled } = props;
   const buttonSize = sizes[size ?? 'medium'];
+
   return (
-    <button
-      type="button"
-      className={`flex justify-center items-center ${buttonSize} h-[60px] text-base  text-white font-bold leading-[150%] tracking-[-0.16px] rounded-[20px] border border-grey-800 bg-grey-800
+    <Squircle
+      role="button"
+      cornerRadius={24}
+      className={`flex justify-center items-center ${buttonSize} h-[60px] text-base text-white font-bold leading-[150%] tracking-[-0.16px] rounded-[20px] border border-grey-800 bg-grey-800 transition-all
         hover:bg-grey-600
         disabled:bg-grey-200 disabled:border-grey-200
         ${disabled ? 'disabled:cursor-not-allowed' : 'cursor-pointer'}
@@ -38,7 +43,7 @@ function Button({ children, size, rightIcon, className = '', ...props }: PropsWi
           className={`inline-block align-bottom ml-[2px] ${disabled && 'opacity-40'}`}
         />
       )}
-    </button>
+    </Squircle>
   );
 }
 
