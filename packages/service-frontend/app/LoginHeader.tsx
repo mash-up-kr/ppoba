@@ -1,7 +1,11 @@
 'use client'
 import type { JSX } from 'react'
 
+import { useRouter } from 'next/navigation'
+
 function LoginHeader(): JSX.Element {
+  const router = useRouter()
+
   return (
     <>
       <header
@@ -10,7 +14,7 @@ function LoginHeader(): JSX.Element {
         <strong
           className="headline-5 text-black cursor"
           role="button"
-          onClick={() => console.log('login')}
+          onClick={() => router.push('/login')}
         >
           로그인
         </strong>
