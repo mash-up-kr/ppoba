@@ -1,6 +1,7 @@
 'use client'
 import { useCallback, useState } from 'react'
 
+import { useRouter } from 'next/router'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
@@ -11,6 +12,7 @@ import EmptyCard from './EmptyCard'
 import { PlayCard } from './generateCard'
 
 export default function DeckPlay(): JSX.Element {
+  const router = useRouter()
   const [isShowBack, setIsShowBack] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [cards, setCard] = useState<PlayCard[]>([])
@@ -84,7 +86,9 @@ export default function DeckPlay(): JSX.Element {
         <div className="flex gap-[10px] justify-center">
           {cards.length === currentIndex ? (
             // 남은 카드가 없는 경우
-            <Button size="medium">리스트로 가기</Button>
+            <Button size="medium" onClick={() => router.push('')}>
+              리스트로 가기
+            </Button>
           ) : (
             <>
               {/* 카드가 남은 경우 */}

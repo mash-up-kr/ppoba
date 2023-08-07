@@ -8,6 +8,7 @@ import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
 import { Button, Icon, SecondaryButton } from '@ppoba/ui'
 
+import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
 
@@ -25,7 +26,7 @@ enum OnboardingState {
 
 interface Props {
   params: {
-    id: string,
+    id: string
   }
 }
 
@@ -34,6 +35,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
   const [types, setTypes] = useState(cardTypes)
   const [curIndex, setCurIndex] = useState(0)
   const [triggerShuffle, setTriggerShuffle] = useState(false)
+  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
   const { data, isError } = useQuery(
     ['getDeck', params.id],
     () => api.deck.getDeck({ deckId: params.id }),
@@ -90,7 +92,17 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
   return (
     <div className="text-grey-800">
-      <Header rightIconType="close" className="h-[60px]" />
+      <Header
+        rightIconType="close"
+        className="h-[60px]"
+        onClickRightIcon={() => {
+          if (curIndex === data?.result?.totalCardCount) {
+            router.push('')
+          } else {
+            setIsCloseOverlayOpen(true)
+          }
+        }}
+      />
 
       {cardListData?.result && (
         <>
@@ -126,8 +138,10 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                 className="relative w-full pt-[63px] text-center flex justify-center h-[481px]"
                 onClick={() => {
                   setOnboardingState(prev => {
-                    if (prev === OnboardingState.FLIP) return OnboardingState.SLIDE
-                    if (prev === OnboardingState.SLIDE) return OnboardingState.DONE
+                    if (prev === OnboardingState.FLIP)
+                      return OnboardingState.SLIDE
+                    if (prev === OnboardingState.SLIDE)
+                      return OnboardingState.DONE
                     return OnboardingState.DONE
                   })
                 }}
@@ -199,13 +213,26 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                 >
                   섞기
                 </SecondaryButton>
-                <Button size="medium" onClick={() => setCurIndex(prev => prev + 1)}>
+                <Button
+                  size="medium"
+                  onClick={() => setCurIndex(prev => prev + 1)}
+                >
                   다음 카드 보기
                 </Button>
               </>
             )}
           </BottomCta>
         </>
+      )}
+      {/* Overlay */}
+      {isCloseOverlayOpen && (
+        <Alert
+          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
+          closePhrase="계속하기"
+          confirmPhrase="그만둘래"
+          onClickClose={() => setIsCloseOverlayOpen(false)}
+          onClickConfirm={() => router.back()}
+        />
       )}
     </div>
   )
