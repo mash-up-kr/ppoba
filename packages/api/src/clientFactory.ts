@@ -3,7 +3,7 @@ import { authTokenRepository } from './AuthTokenRepository';
 
 export function createApiClient({ auth }: { auth: boolean }) {
   const client = axios.create({
-    baseURL: 'http://' + process.env.NEXT_PUBLIC_API_HOST + '/v1',
+    baseURL: 'https://' + process.env.NEXT_PUBLIC_API_HOST + '/v1',
   });
 
   if (auth) {
