@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
@@ -23,6 +23,13 @@ enum PLAY_TYPE {
 }
 
 interface Props {
+  params: {
+    id: string
+  }
+}
+
+interface Props {
+  children: React.ReactNode
   params: {
     id: string
   }

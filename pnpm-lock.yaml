@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -235,6 +235,9 @@ importers:
       '@chakra-ui/react':
         specifier: ^2.7.1
         version: 2.7.1(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.6)(framer-motion@10.12.18)(react-dom@18.2.0)(react@18.2.0)
+      '@egjs/react-conveyer':
+        specifier: ^1.6.1
+        version: 1.6.1
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.1(@types/react@18.2.6)(react@18.2.0)
@@ -4598,6 +4601,18 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
+  /@cfcs/core@0.1.0:
+    resolution: {integrity: sha512-kvYX0RpL45XTHJ5sW7teNbKeAa7pK3nNqaJPoFfZDPTIBJOkTtRD3QhkBG+O3Hu69a8xeMoPvF6y/RtJ6JUOdA==}
+    dependencies:
+      '@egjs/component': 3.0.4
+    dev: false
+
+  /@cfcs/react@0.1.0:
+    resolution: {integrity: sha512-3IaDaE1Qn0iLZ1ZqD0cqoiX0Kjzp6/VB56409A963lQ5kK6ONNa3cNbCBqFZccCfPSnyzeSdvPlg75Af3W4raA==}
+    dependencies:
+      '@cfcs/core': 0.1.0
+    dev: false
+
   /@chakra-ui/accordion@2.2.0(@chakra-ui/system@2.5.8)(framer-motion@10.12.18)(react@18.2.0):
     resolution: {integrity: sha512-2IK1iLzTZ22u8GKPPPn65mqJdZidn4AvkgAbv17ISdKA07VHJ8jSd4QF1T5iCXjKfZ0XaXozmhP4kDhjwF2IbQ==}
     peerDependencies:
@@ -5718,6 +5733,37 @@ packages:
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
     dev: true
+
+  /@egjs/agent@2.4.3:
+    resolution: {integrity: sha512-XvksSENe8wPeFlEVouvrOhKdx8HMniJ3by7sro2uPF3M6QqWwjzVcmvwoPtdjiX8O1lfRoLhQMp1a7NGlVTdIA==}
+    dev: false
+
+  /@egjs/axes@3.9.0:
+    resolution: {integrity: sha512-V+HxHxEGmlu/0yJ9kqlj2doiJt1yVeROTy/0Qf+IaJ9hMabjzUgfYffGR+3atcRpejjGbcpAIiBrGbAkDVaLjg==}
+    dependencies:
+      '@cfcs/core': 0.1.0
+      '@egjs/agent': 2.4.3
+      '@egjs/component': 3.0.4
+    dev: false
+
+  /@egjs/component@3.0.4:
+    resolution: {integrity: sha512-sXA7bGbIeLF2OAw/vpka66c6QBBUPcA4UUhR4WGJfnp2XWdiI8QrnJGJMr/UxpE/xnevX9tN3jvNPlW8WkHl3g==}
+    dev: false
+
+  /@egjs/conveyer@1.6.1:
+    resolution: {integrity: sha512-TtHPLRjoaZCsQWfg4qzLGXJEuOGTLMx4X38zJy5Q1//rVNFV272YYoaVaTvv4YeVf/ZOV115LRZwYD+XkC9QsQ==}
+    dependencies:
+      '@cfcs/core': 0.1.0
+      '@egjs/axes': 3.9.0
+      '@egjs/component': 3.0.4
+    dev: false
+
+  /@egjs/react-conveyer@1.6.1:
+    resolution: {integrity: sha512-uCBV3EIwpHlrtE0p7Skkp0+LpNZRc5HT4REiDhoxjombxgP0yiVFMy5UozdogTmsDS8boch7SIU4qUPXcfzPvg==}
+    dependencies:
+      '@cfcs/react': 0.1.0
+      '@egjs/conveyer': 1.6.1
+    dev: false
 
   /@emotion/babel-plugin@11.11.0:
     resolution: {integrity: sha512-m4HEDZleaaCH+XgDDsPF15Ht6wTLsgDTeR3WYj9Q/k76JtWhrJjcP4+/XlG8LGT/Rol9qUfOIztXeA84ATpqPQ==}
@@ -14346,6 +14392,26 @@ packages:
       supports-color: 8.1.1
     dev: true
 
+  /jest@29.5.0(@types/node@18.16.7):
+    resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    hasBin: true
+    peerDependencies:
+      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
+    peerDependenciesMeta:
+      node-notifier:
+        optional: true
+    dependencies:
+      '@jest/core': 29.5.0(ts-node@10.9.1)
+      '@jest/types': 29.5.0
+      import-local: 3.1.0
+      jest-cli: 29.5.0(@types/node@18.16.7)(ts-node@10.9.1)
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+      - ts-node
+    dev: true
+
   /jest@29.5.0(@types/node@18.16.7)(ts-node@10.9.1):
     resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -18337,7 +18403,7 @@ packages:
       '@babel/core': 7.22.1
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.5.0(@types/node@20.1.7)(ts-node@10.9.1)
+      jest: 29.5.0(@types/node@18.16.7)
       jest-util: 29.5.0
       json5: 2.2.3
       lodash.memoize: 4.1.2

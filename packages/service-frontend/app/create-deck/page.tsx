@@ -78,123 +78,128 @@ export default function CreateDeck(): JSX.Element {
         onClickLeftIcon={() => setIsBackOverlayOpen(true)}
         title="매시업 이미지 게임"
       />
-      <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] justify-center">
-        <div className="mx-[-24px]">
-          <Swiper
-            scrollbar={{
-              draggable: true,
-              el: '.swiper-scrollbar',
-              hide: false,
-            }}
-            slidesPerView={1.7}
-            spaceBetween={16}
-            centeredSlides
-            modules={[Scrollbar]}
-            className="pb-[50px]"
-            onActiveIndexChange={event => {
-              setActiveIndex(event.activeIndex)
-            }}
-          >
-            {deck.cardList.map((data, idx) => (
-              <SwiperSlide key={idx}>
-                {({ isActive }) => (
-                  <div className="pt-[50px] pb-[50px]">
-                    <div
-                      className={`flex flex-col items-center justify-between px-[35px] pt-[40px] pb-[16px] rounded-[24px]
-                        ${bgColors[idx % bgColors.length]}
-                        ${
-                          isActive
-                            ? 'transition-all -translate-y-10 shadow-[4px_4px_20px_rgba(0,0,0,0.10)]'
-                            : 'opacity-30'
-                        }`}
-                    >
-                      <textarea
-                        value={data.content}
-                        placeholder="새로운 카드 내용을 입력해줘"
-                        maxLength={50}
-                        onChange={e => {
-                          setDeck({
-                            ...deck,
-                            cardList: deck.cardList.map((card, i) =>
-                              i === idx
-                                ? {
-                                    ...card,
-                                    content: e.target.value,
-                                  }
-                                : card,
-                            ),
-                          })
-                        }}
-                        className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black`}
-                      />
-                      <button
-                        className="p-[14px] bg-white/20 rounded-full"
-                        onClick={() => {
-                          setIsDeleteOverlayOpen(true)
-                          setWillDeleteIndex(idx)
-                        }}
+      <main className="px-[24px]">
+        <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] justify-center">
+          <div className="mx-[-24px]">
+            <Swiper
+              scrollbar={{
+                draggable: true,
+                el: '.swiper-scrollbar',
+                hide: false,
+              }}
+              slidesPerView={1.7}
+              spaceBetween={16}
+              centeredSlides
+              modules={[Scrollbar]}
+              className="pb-[50px]"
+              onActiveIndexChange={event => {
+                setActiveIndex(event.activeIndex)
+              }}
+            >
+              {deck.cardList.map((data, idx) => (
+                <SwiperSlide key={idx}>
+                  {({ isActive }) => (
+                    <div className="pt-[50px] pb-[50px]">
+                      <div
+                        className={`flex flex-col items-center justify-between px-[35px] pt-[40px] pb-[16px] rounded-[24px]
+                     ${bgColors[idx % bgColors.length]}
+                     ${
+                       isActive
+                         ? 'transition-all -translate-y-10 shadow-[4px_4px_20px_rgba(0,0,0,0.10)]'
+                         : 'opacity-30'
+                     }`}
                       >
-                        <Icon type="trash" width={24} height={24} />
-                      </button>
+                        <textarea
+                          value={data.content}
+                          placeholder="새로운 카드 내용을 입력해줘"
+                          maxLength={50}
+                          onChange={e => {
+                            setDeck({
+                              ...deck,
+                              cardList: deck.cardList.map((card, i) =>
+                                i === idx
+                                  ? {
+                                      ...card,
+                                      content: e.target.value,
+                                    }
+                                  : card,
+                              ),
+                            })
+                          }}
+                          className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black`}
+                        />
+                        <button
+                          className="p-[14px] bg-white/20 rounded-full"
+                          onClick={() => {
+                            setIsDeleteOverlayOpen(true)
+                            setWillDeleteIndex(idx)
+                          }}
+                        >
+                          <Icon type="trash" width={24} height={24} />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </SwiperSlide>
-            ))}
-            <div className="swiper-scrollbar relative bg-grey-100 !w-[calc(100%-48px)] mx-[24px]"></div>
-          </Swiper>
-        </div>
-        <div className="flex justify-end items-center mt-[4px] subtitle-3 text-grey-800 text-right">
-          <Icon type="nail" width="20" height="20" className="mr-[2px]" />
-          {activeIndex + 1}
-          <span className="text-grey-200">/{deck.cardList.length}장</span>
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        {isError20 && (
-          <motion.div className="absolute bottom-[90px] left-1/2 -translate-x-1/2 whitespace-nowrap w-fit pl-[16px] pr-[24px] py-[11px] flex items-center gap-[2px] bg-[rgba(10,10,10,0.6)] rounded-[18px]">
-            <Icon type="exclamationWhite" width={24} height={24} />
-            <span className=" subtitle3 text-white">
-              최소 20장은 만들어야 넘어갈 수 있어
-            </span>
-          </motion.div>
-        )}
-        <div className="flex justify-between gap-[10px]">
-          <SecondaryButton
-            size="small"
-            className="shrink-0"
-            rightIcon="deckAdd"
-            onClick={handleClickAddButton}
-          >
-            카드
-          </SecondaryButton>
-          <Button size="large" onClick={handleClick}>
-            덱을 완성했어
-          </Button>
-        </div>
-      </div>
-      {isBackOverlayOpen && (
-        <Alert
-          alertPhrase={`아직 덱이 다 만들어지지 않았어.\n정말로 그만둘거야?`}
-          confirmPhrase="그만둘래"
-          closePhrase="계속 만들기"
-          onClickClose={() => setIsBackOverlayOpen(false)}
-          onClickConfirm={() => router.push('')}
-        />
-      )}
+                  )}
+                </SwiperSlide>
+              ))}
+              <div className="swiper-scrollbar relative bg-grey-100 !w-[calc(100%-48px)] mx-[24px]"></div>
+            </Swiper>
+          </div>
 
-      {isDeleteOverlayOpen && (
-        <Alert
-          alertPhrase={`정말 카드를 삭제할거야?`}
-          closePhrase="유지하기"
-          confirmPhrase="삭제하기"
-          onClickClose={() => setIsDeleteOverlayOpen(false)}
-          onClickConfirm={() => {
-            onDelete()
-            setIsDeleteOverlayOpen(false)
-          }}
-        />
-      )}
+          <div className="flex justify-end items-center mt-[4px] subtitle-3 text-grey-800 text-right">
+            <Icon type="nail" width="20" height="20" className="mr-[2px]" />
+            {activeIndex + 1}
+            <span className="text-grey-200">/{deck.cardList.length}장</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          {isError20 && (
+            <motion.div className="absolute bottom-[90px] left-1/2 -translate-x-1/2 whitespace-nowrap w-fit pl-[16px] pr-[24px] py-[11px] flex items-center gap-[2px] bg-[rgba(10,10,10,0.6)] rounded-[18px]">
+              <Icon type="exclamationWhite" width={24} height={24} />
+              <span className=" subtitle3 text-white">
+                최소 20장은 만들어야 넘어갈 수 있어
+              </span>
+            </motion.div>
+          )}
+          <div className="flex justify-between gap-[10px]">
+            <SecondaryButton
+              size="small"
+              className="shrink-0"
+              rightIcon="deckAdd"
+              onClick={handleClickAddButton}
+            >
+              카드
+            </SecondaryButton>
+            <Button size="large" onClick={handleClick}>
+              덱을 완성했어
+            </Button>
+          </div>
+        </div>
+
+        {isBackOverlayOpen && (
+          <Alert
+            alertPhrase={`아직 덱이 다 만들어지지 않았어.\n정말로 그만둘거야?`}
+            confirmPhrase="그만둘래"
+            closePhrase="계속 만들기"
+            onClickClose={() => setIsBackOverlayOpen(false)}
+            onClickConfirm={() => router.push('')}
+          />
+        )}
+
+        {isDeleteOverlayOpen && (
+          <Alert
+            alertPhrase={`정말 카드를 삭제할거야?`}
+            closePhrase="유지하기"
+            confirmPhrase="삭제하기"
+            onClickClose={() => setIsDeleteOverlayOpen(false)}
+            onClickConfirm={() => {
+              onDelete()
+              setIsDeleteOverlayOpen(false)
+            }}
+          />
+        )}
+      </main>
     </div>
   )
 }

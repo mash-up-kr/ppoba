@@ -131,9 +131,10 @@ const NormalCard = ({
           setCardContent(data.content)
         }
       }}
-      className={`absolute rounded-[24px] ${getCardSize(
-        cardLocation,
-      )} cursor-pointer`}
+      whileHover={{ cursor: 'grab' }}
+      whileTap={{ cursor: 'grabbing' }}
+      whileDrag={{ cursor: 'grabbing' }}
+      className={`absolute rounded-[24px] ${getCardSize(cardLocation)}`}
     >
       <NormalCardFront
         indexString={indexString}

@@ -90,7 +90,11 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
   return (
     <div className="text-grey-800">
-      <Header rightIconType="close" className="h-[60px]" />
+      <Header
+        rightIconType="close"
+        className="h-[60px]"
+        onClickRightIcon={() => router.back()}
+      />
 
       {cardListData?.result && (
         <>
