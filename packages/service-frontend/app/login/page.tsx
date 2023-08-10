@@ -1,6 +1,7 @@
 'use client'
 
 import Lottie from 'lottie-react'
+import { KakaoButton } from '@ppoba/ui'
 
 import loginLottie from '@/public/lottie/loginLottie.json'
 
@@ -17,18 +18,9 @@ export default function Login(): JSX.Element {
         로그인이 필요해!
       </h1>
 
-      <div className="">
-        <Lottie animationData={loginLottie} />
-      </div>
+      <Lottie animationData={loginLottie} />
 
-      <div className="">
-        <button
-          onClick={handleLoginClick}
-          className="w-full bg-[#FEE500] headline-4 text-black opacity-85 py-[18px]"
-        >
-          카카오로 시작하기
-        </button>
-      </div>
+      <KakaoButton onClick={handleLoginClick} />
     </div>
   )
 }
