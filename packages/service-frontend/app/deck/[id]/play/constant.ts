@@ -61,38 +61,46 @@ export const CardIcon: Record<
 
 export const CardStyle: Record<
   CardType,
-  Record<'color' | 'background', string>
+  Record<'color' | 'background' | 'rawHex', string>
 > = {
   nail: {
     background: 'bg-purple-02',
     color: 'text-purple-02',
+    rawHex: '#B073FF',
   },
   sprout: {
     background: 'bg-teal-02',
     color: 'text-teal-02',
+    rawHex: '#81E4BB',
   },
   feather: {
     background: 'bg-yellow-02',
     color: 'text-yellow-02',
+    rawHex: '#FEDB61',
   },
   turnip: {
     background: 'bg-orange-02',
     color: 'text-orange-02',
+    rawHex: '#FFA63F',
   },
   swallow: {
     background: 'bg-blue-02',
     color: 'text-blue-02',
+    rawHex: '#9FA9FF',
   },
   clover: {
     background: 'bg-green-02',
     color: 'text-green-02',
+    rawHex: '#81E4BB',
   },
   flower: {
     background: 'bg-pink-02',
     color: 'text-pink-02',
+    rawHex: '#F4B9F4',
   },
   plug: {
     background: 'bg-red-02',
     color: 'text-red-02',
+    rawHex: '#FD7B8A',
   },
 }
