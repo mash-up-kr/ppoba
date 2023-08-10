@@ -1,3 +1,5 @@
+'use client'
+
 import { Icon } from '@ppoba/ui'
 
 interface Props {

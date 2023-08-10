@@ -133,11 +133,13 @@ export default function DeckDetail({ params }: Props): JSX.Element {
                     />
                   </div>
                 )}
-                {data.result.category.filter((v) => v !== '19금 컨텐츠').map((chip, index) => (
-                  <div key={index} className="shrink-0">
-                    <GameCategoryChip label={chip} />
-                  </div>
-                ))}
+                {data.result.category
+                  .filter(v => v !== '19금 컨텐츠')
+                  .map((chip, index) => (
+                    <div key={index} className="shrink-0">
+                      <GameCategoryChip label={chip} />
+                    </div>
+                  ))}
               </div>
             </div>
 
@@ -168,8 +170,15 @@ export default function DeckDetail({ params }: Props): JSX.Element {
               </div>
 
               <div className="flex justify-center items-center">
-                <Icon type="top" width={20} height={20} className="opacity-[0.3]" />
-                <p className="text-grey-400 subtitle-3">이런 카드들이 담겨있어!</p>
+                <Icon
+                  type="top"
+                  width={20}
+                  height={20}
+                  className="opacity-[0.3]"
+                />
+                <p className="text-grey-400 subtitle-3">
+                  이런 카드들이 담겨있어!
+                </p>
               </div>
             </div>
 
@@ -178,8 +187,15 @@ export default function DeckDetail({ params }: Props): JSX.Element {
             {/* --- Deck Detail Bottom Section --- */}
             <div className="px-[24px] pt-[30px] pb-[137px]">
               <div className="flex justify-start items-center px-[8px]">
-                <h2 className="headline-3 text-grey-800">뽑기 방법을 선택해줘</h2>
-                <Icon type="question" width={24} height={24} className="ml-[4px]" />
+                <h2 className="headline-3 text-grey-800">
+                  뽑기 방법을 선택해줘
+                </h2>
+                <Icon
+                  type="question"
+                  width={24}
+                  height={24}
+                  className="ml-[4px]"
+                />
               </div>
 
               <div className="mt-[20px]">
