@@ -7,12 +7,8 @@ export class CreateDeckDto {
   @ApiProperty({ example: 'name of deck', required: true })
   name: string;
 
-  @IsString()
-  @ApiProperty({ example: 'user ID', required: true })
-  userId: string;
-
   @ArrayNotEmpty()
   @IsEnum(DeckCategory, { each: true })
-  @ApiProperty({ example: 'list of category' } )
+  @ApiProperty({ example: 'list of category' })
   category: DeckCategory[];
 }

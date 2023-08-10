@@ -1,24 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose';
+import { User } from '@ppoba/types';
 import { HydratedDocument } from 'mongoose';
 import { TimestampKey } from '../../types';
-
-/**
- * TODO: common으로
- */
-export type User = {
-  id: string;
-
-  name: string;
-
-  // '10-19' | '20-29' | '30-39' | ...
-  age: string;
-
-  gender: 'male' | 'female';
-
-  createdAt: Date;
-
-  updatedAt: Date;
-};
 
 @Schema({ collection: 'User', timestamps: true })
 export class UserCollection implements Omit<User, TimestampKey> {

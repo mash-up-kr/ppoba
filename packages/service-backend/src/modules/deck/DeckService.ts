@@ -23,11 +23,11 @@ export class DeckService {
     return await this.deckRepository.findAll();
   }
 
-  async findDeckListByUserId(userId: string): Promise<Deck[] | []> {
+  async findDeckListByUserId(userId: string): Promise<Deck[]> {
     return await this.deckRepository.findByUserId(userId);
   }
 
-  async findAllCardsByDeckId(deckId: string): Promise<Card[] | []> {
+  async findAllCardsByDeckId(deckId: string): Promise<Card[]> {
     return await this.cardRepository.findAll(deckId);
   }
 

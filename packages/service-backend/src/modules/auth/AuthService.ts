@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@ppoba/types';
 import { nanoid } from 'nanoid';
-import { User } from '../../core/database';
 import { UserRepository } from '../user/UserRepository';
 import { AuthKakaoService } from './AuthKakaoService';
 import { JwtService } from './JwtService';

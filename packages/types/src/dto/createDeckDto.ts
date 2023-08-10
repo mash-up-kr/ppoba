@@ -1,4 +1,4 @@
-export type CreateDeckDto = { name: string; userId: string; category: DeckCategory[] };
+export type CreateDeckDto = { name: string; category: DeckCategory[] };
 
 export type DeckCategory =
   | '비밀'

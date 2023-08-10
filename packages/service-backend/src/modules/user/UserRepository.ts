@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { assert } from 'typia';
 import { notNull } from '../../utils/notNull';
-import { InjectModel, Model, User } from '../../core/database';
+import { InjectModel, Model } from '../../core/database';
 import * as Sentry from '@sentry/node';
+import { User } from '@ppoba/types';
 
 @Injectable()
 export class UserRepository {
