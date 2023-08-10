@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import Lottie from 'lottie-react'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
+import { Card } from '@ppoba/types'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
@@ -35,6 +36,7 @@ interface Props {
 }
 
 export default function NormalPlayPage({ params }: Props): JSX.Element {
+  const queryClient = useQueryClient()
   const router = useRouter()
   const [types, setTypes] = useState(cardTypes)
   const [curIndex, setCurIndex] = useState(0)
@@ -44,6 +46,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
     () => api.deck.getDeck({ deckId: params.id }),
     {
       suspense: true,
+      refetchOnWindowFocus: false,
     },
   )
   const { data: cardListData, isError: isCardListError } = useQuery(
@@ -51,6 +54,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
     () => api.card.getCards({ deckId: params.id }),
     {
       suspense: true,
+      refetchOnWindowFocus: false,
     },
   )
 
@@ -82,12 +86,24 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
   useEffect(() => {
     if (triggerShuffle) {
+      queryClient.setQueryData<{ result: Card[] }>(
+        ['getCardList', params.id],
+        prevData => {
+          if (prevData) {
+            return {
+              ...prevData,
+              result: [...prevData.result.sort(() => 0.5 - Math.random())],
+            }
+          }
+        },
+      )
+
       setTimeout(() => {
         setTypes(prev => [...prev.sort(() => 0.5 - Math.random())])
         setTriggerShuffle(false)
       }, 2000)
     }
-  }, [triggerShuffle])
+  }, [params.id, queryClient, triggerShuffle])
 
   // Redirect to 404 page if api error occurred
   if (isError || isCardListError) {
@@ -132,7 +148,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                     style={{
                       backdropFilter: 'blur(16px)',
                     }}
-                    className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2"
+                    className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2 z-[200]"
                   >
                     <Lottie animationData={loadingDeckLottie} />
                   </motion.div>

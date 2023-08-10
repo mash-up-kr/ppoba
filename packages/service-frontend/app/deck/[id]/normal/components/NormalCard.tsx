@@ -99,7 +99,7 @@ const NormalCard = ({
     if (cardLocation === 'front') {
       setIsFlipped(false)
     }
-  }, [cardLocation])
+  }, [cardLocation, type])
 
   if (data === null) {
     return <></>
