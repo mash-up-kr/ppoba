@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { redirect, useRouter } from 'next/navigation'
-import { api } from '@ppoba/api'
+import { api, authTokenRepository } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
 
 interface Props {
@@ -17,14 +17,13 @@ function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
     ['getMe'],
     () => api.auth.getMe(),
   )
-  const TOKEN = "@@@ppobaAuthToken";
 
   const y = useTransform(scrollY, [0, 100], [-2, 0])
   const opacity = useTransform(scrollY, [0, 100], [0, 1])
 
   const handleClick = () => {
     if (meData) {
-      localStorage.removeItem('TOKEN')
+      authTokenRepository.clear()
       redirect('/')
     } else {
       router.push(`/login`)
