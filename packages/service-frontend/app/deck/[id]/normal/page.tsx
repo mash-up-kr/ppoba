@@ -10,6 +10,7 @@ import { Button, Icon, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
+import { OnboardingOverlay } from '@/app/components/overlay'
 
 import NormalCard from './components/NormalCard'
 import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
@@ -18,6 +19,7 @@ import EmptyCard from '../play/EmptyCard'
 import { cardTypes } from '../play/generateCard'
 
 enum OnboardingState {
+  START,
   FLIP,
   SLIDE,
   DONE,
@@ -25,7 +27,7 @@ enum OnboardingState {
 
 interface Props {
   params: {
-    id: string,
+    id: string
   }
 }
 
@@ -49,7 +51,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
     },
   )
 
-  const [onboardingState, setOnboardingState] = useState(OnboardingState.FLIP)
+  const [onboardingState, setOnboardingState] = useState(OnboardingState.START)
 
   const variantsBackCard = {
     initial: { y: -100, opacity: 0 },
@@ -130,8 +132,10 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                 className="relative w-full pt-[63px] text-center flex justify-center h-[481px]"
                 onClick={() => {
                   setOnboardingState(prev => {
-                    if (prev === OnboardingState.FLIP) return OnboardingState.SLIDE
-                    if (prev === OnboardingState.SLIDE) return OnboardingState.DONE
+                    if (prev === OnboardingState.FLIP)
+                      return OnboardingState.SLIDE
+                    if (prev === OnboardingState.SLIDE)
+                      return OnboardingState.DONE
                     return OnboardingState.DONE
                   })
                 }}
@@ -203,7 +207,10 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                 >
                   섞기
                 </SecondaryButton>
-                <Button size="medium" onClick={() => setCurIndex(prev => prev + 1)}>
+                <Button
+                  size="medium"
+                  onClick={() => setCurIndex(prev => prev + 1)}
+                >
                   다음 카드 보기
                 </Button>
               </>
@@ -211,6 +218,12 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
           </BottomCta>
         </>
       )}
+
+      {/* Onboarding Overlay */}
+      <OnboardingOverlay
+        isOpen={onboardingState === OnboardingState.START}
+        onClickClose={() => setOnboardingState(OnboardingState.FLIP)}
+      />
     </div>
   )
 }

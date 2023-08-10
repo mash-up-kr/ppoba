@@ -4,7 +4,6 @@ import type { JSX } from 'react'
 import { useState, useEffect, useMemo } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter, redirect } from 'next/navigation'
 import { api } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
@@ -17,9 +16,7 @@ import AllDeckLastItem from './components/marketplace/deck/AllDeckLastItem'
 import MyDeckList from './components/marketplace/deck/MyDeckList'
 import GameCardListTitle from './components/marketplace/game/GameCardListTitle'
 import { CreateDeckOverlay } from './components/overlay'
-import { OverlayType } from './components/overlay/constants'
-import DefaultOverlay from './components/overlay/DefaultOverlay'
-import { DeckTypeOrder, MyDeckTypeOrder } from './constants'
+import { DeckTypeOrder } from './constants'
 import LoginHeader from './LoginHeader'
 
 export default function Home(): JSX.Element {
@@ -107,11 +104,12 @@ export default function Home(): JSX.Element {
       <Footer />
 
       {/* Overlay */}
-      <DefaultOverlay
-        type={OverlayType.CreateDeck}
-        isOpen={isOpen}
-        onClickClose={() => setIsOpen(false)}
-      />
+      <div className="relative">
+        <CreateDeckOverlay
+          isOpen={isOpen}
+          onClickClose={() => setIsOpen(false)}
+        />
+      </div>
     </main>
   )
 }
