@@ -28,13 +28,6 @@ interface Props {
   }
 }
 
-interface Props {
-  children: React.ReactNode
-  params: {
-    id: string
-  }
-}
-
 export default function DeckDetail({ params }: Props): JSX.Element {
   const router = useRouter()
   const { data, isError } = useQuery(

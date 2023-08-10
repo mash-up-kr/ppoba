@@ -1,104 +1,44 @@
 'use client'
 import { useMemo } from 'react'
 
-import { useRouter } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import { redirect, useRouter } from 'next/navigation'
+import { api } from '@ppoba/api'
 
-import { GameCardList, GameCardListTitle, Header } from '../components'
+import { GameCardList, Header } from '../components'
 import Footer from '../components/common/Footer'
-import { CardType } from '../deck/[id]/play/Card'
-
-const TestDeckList = [
-  {
-    id: 0,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 1,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 2,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 3,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 4,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 5,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 6,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 7,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-  {
-    id: 8,
-    cardCount: 50,
-    title: '테스트 게임 1',
-    isAdult: true,
-    chipList: ['비밀', '가치관', '취미'],
-  },
-]
-
-const AllDeckCardTypeOrder: CardType[] = [
-  'nail',
-  'sprout',
-  'feather',
-  'turnip',
-  'swallow',
-  'clover',
-  'flower',
-  'plug',
-]
-
-const MyDeckCardTypeOrder: CardType[] = [...AllDeckCardTypeOrder].reverse()
+import { MyDeckTypeOrder } from '../constants'
 
 export default function MyDeckPage(): JSX.Element {
   const router = useRouter()
 
+  const { data: userData, isError: isUserDataError } = useQuery(
+    ['getDeckListByUserId'],
+    () => api.deck.getDeckListByUserId({ userId: '2931028309' }),
+    {
+      // TODO: Change userId
+      suspense: true,
+    },
+  )
+
   const myDeckList = useMemo(
     () =>
-      TestDeckList.map((deck, index) => {
+      userData?.result?.map((deck, index) => {
         return {
           ...deck,
-          type: MyDeckCardTypeOrder[index % MyDeckCardTypeOrder.length],
+          type: MyDeckTypeOrder[index % MyDeckTypeOrder.length],
         }
       }),
-    [],
+    [userData?.result],
   )
+
+  if (isUserDataError) {
+    redirect('/404')
+  }
+
+  if (userData?.result?.length === 0 || !myDeckList) {
+    return <></>
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-light">
