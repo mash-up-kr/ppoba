@@ -56,7 +56,6 @@ export default function ConfirmDetailPage(): JSX.Element {
     mutate({
       createDeckDto: {
         name: deck.name,
-        userId: '2931028309', // TODO: 실제 user id 넣기
         category: deck.category as DeckCategory[],
       },
     })
