@@ -1,17 +1,16 @@
-import { Controller, Post, Body, Get, Param, Delete, Patch } from '@nestjs/common';
-import { CardService } from './CardService';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Card } from '../../core/database';
-import { ApiBody, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CreateCardDto, CardList } from './dto/createCardDto';
+import { Public } from '../../core/decorators';
+import { CardService } from './CardService';
+import { CardList } from './dto/createCardDto';
 
 @ApiTags('cards')
 @Controller('cards')
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
-  @ApiOperation({ summary: '카드 생성 API', description: '카드 bulk upload' })
-  @ApiCreatedResponse({ description: '카드를 생성한다.', type: CreateCardDto })
-  @ApiBody({ type: CreateCardDto })
+  @Public // TODO auth required
   @Post()
   async CreateCard(
     @Body('cardList') createCardList: CardList[],
@@ -21,6 +20,7 @@ export class CardController {
     return { result: result };
   }
 
+  @Public // TODO auth required
   @Delete(':id')
   async deleteCard(@Param('id') id: string): Promise<{ result: boolean }> {
     const result = await this.cardService.deleteCard(id);
@@ -28,6 +28,7 @@ export class CardController {
   }
 
   @Patch(':id')
+  @Public // TODO auth required
   async updateCard(
     @Param('id') id: string,
     @Body() cardDto: Omit<Card, 'createdAt' | 'updatedAt' | 'deletedAt'>

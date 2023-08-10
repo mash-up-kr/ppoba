@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '../../core/database';
 import { env } from '../../core/env';
 import jwt from 'jsonwebtoken';
 import { assert } from 'typia';
 import { TimestampKey } from '../../types';
+import { User } from '@ppoba/types';
 
 @Injectable()
 export class JwtService {

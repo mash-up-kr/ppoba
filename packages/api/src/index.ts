@@ -1,7 +1,7 @@
+import { Card, CreateCardDto, CreateDeckDto, Deck, User } from '@ppoba/types';
 import { JSON_APIS } from './apiResponseHandler';
 import { createApiClient } from './clientFactory';
-import { CreateCardDto, CreateDeckDto, Card, Deck } from '@ppoba/types';
-export { authTokenRepository, AuthTokenRepository, AuthenticationRequiredError } from './AuthTokenRepository';
+export { AuthenticationRequiredError, authTokenRepository, AuthTokenRepository } from './AuthTokenRepository';
 
 const client = {
   public: createApiClient({ auth: false }),
@@ -9,9 +9,9 @@ const client = {
 };
 
 const auth = JSON_APIS({
-  /**
-   * TODO: API에 대한 한줄 주석
-   */
+  /** 내 정보를 가져옵니다. */
+  getMe: () => client.session.get<User>('auth/me'),
+  /** Authentication 헤더로 JWT 토큰을 검증합니다. */
   verify: () => client.session.get<{}>('auth/verify'),
   getLoginUrl: () => client.public.get<{ loginUrl: string }>('auth/kakao/login'),
   getAuthToken: ({ code }: { code: string }) => client.public.get<{ token: string }>(`auth/kakao/token?code=${code}`),
@@ -22,31 +22,30 @@ const card = JSON_APIS({
   /* card Creations */
   // Todo : change to session
   createCard: ({ createCardDto }: { createCardDto: CreateCardDto }) =>
-    client.public.post<{ result: boolean }>('cards', createCardDto),
+    client.session.post<{ result: boolean }>('cards', createCardDto),
   /* get List of Cards in deck: Get card information by deck id */
   // Todo : change to session
-  getCards: ({ deckId }: { deckId: string }) =>
-    client.public.get<{ result: Card[] | null }>(`decks/${deckId}/cards`),
+  getCards: ({ deckId }: { deckId: string }) => client.public.get<{ result: Card[] }>(`decks/${deckId}/cards`),
   /* delete card by id */
   // Todo : change to session
-  deleteCard: ({ id }: { id: string }) => client.public.delete<{ result: boolean }>(`cards/${id}`),
+  deleteCard: ({ id }: { id: string }) => client.session.delete<{ result: boolean }>(`cards/${id}`),
 });
 
 /* deck api */
 
 const deck = JSON_APIS({
   /* deck Creations: Upload a deck of cards */
-  // Todo : change to session
   createDeck: ({ createDeckDto }: { createDeckDto: CreateDeckDto }) =>
-    client.public.post<{ result: { deck_id: string } }>('decks', createDeckDto),
+    client.session.post<{ result: { deck_id: string } }>('decks', createDeckDto),
   /* get Deck: Get card information by deck id */
-  // Todo : change to session
   getDeck: ({ deckId }: { deckId: string }) => client.public.get<{ result: Deck | null }>(`decks/${deckId}`),
   /* Get all deck info */
   getAllDeck: () => client.public.get<{ result: Deck[] }>(`decks`),
   /* Get deck list of user id */
   getDeckListByUserId: ({ userId }: { userId: string }) =>
-    client.public.get<{ result: Deck[] | null }>(`decks/user/${userId}`),
+    client.public.get<{ result: Deck[] }>(`decks/user/${userId}`),
+  /* Get decks which created by user */
+  getDeckListOfMine: () => client.session.get<{ result: Deck[] }>(`decks/me`),
 });
 
 export const api = {
