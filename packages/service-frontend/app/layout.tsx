@@ -9,8 +9,8 @@ import HydrateClient from './hydrate.client'
 import Provider from './provider.client'
 
 export const metadata = {
-  title: 'PPOBA App',
-  description: 'PPOBA App',
+  title: 'PPOBA - 뽀바',
+  description: '뽀바, 너만의 카드게임을 즐겨봐',
   themeColor: '#F7F7F7',
 }
 
