@@ -20,8 +20,6 @@ import { DeckTypeOrder } from './constants'
 import LoginHeader from './LoginHeader'
 
 export default function Home(): JSX.Element {
-  const router = useRouter()
-
   const [isOpen, setIsOpen] = useState(false)
 
   const { data, isError } = useQuery(['getAllDeck'], api.deck.getAllDeck, {

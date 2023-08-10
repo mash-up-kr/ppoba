@@ -59,7 +59,6 @@ export default function DeckDetail({ params }: Props): JSX.Element {
   const mainTitleRef = useRef<HTMLHeadingElement>(null)
   const isMainTitleInView = useInView(mainTitleRef)
 
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [playType, setPlayType] = useState<PLAY_TYPE | string>('')
 
   // Style based on type

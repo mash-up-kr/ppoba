@@ -1,6 +1,11 @@
 import './globals.css'
 
+import { dehydrate } from '@tanstack/react-query'
+import { api } from '@ppoba/api'
+
 import DesktopSideContents from './components/common/DesktopSideContents'
+import getQueryClient from './getQueryClient'
+import HydrateClient from './hydrate.client'
 import Provider from './provider.client'
 
 export const metadata = {
@@ -9,20 +14,31 @@ export const metadata = {
   themeColor: '#F7F7F7',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}): JSX.Element {
+}): Promise<JSX.Element> {
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['getAllDeck'],
+    queryFn: api.deck.getAllDeck,
+  })
+
+  const dehydratedState = dehydrate(queryClient)
+
   return (
     <html lang="en">
       <body className="flex justify-center items-start bg-black xl:gap-x-[107px]">
         <DesktopSideContents />
 
         <Provider>
-          <div className="relative max-w-[420px] w-full min-h-screen bg-light">
-            {children}
-          </div>
+          <HydrateClient state={dehydratedState}>
+            <div className="relative max-w-[420px] w-full min-h-screen bg-light">
+              {children}
+            </div>
+          </HydrateClient>
         </Provider>
       </body>
     </html>

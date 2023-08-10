@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
-import { Button, Icon, SecondaryButton } from '@ppoba/ui'
+import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
