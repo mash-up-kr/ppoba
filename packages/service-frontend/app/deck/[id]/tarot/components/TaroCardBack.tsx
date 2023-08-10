@@ -92,7 +92,9 @@ function TaroCardBack({
           },
         }}
       >
-        <p className="headline-2 text-black px-[41px] text-center">{content}</p>
+        <p className="break-keep headline-2 text-black px-[41px] text-center">
+          {content}
+        </p>
       </motion.div>
     </motion.div>
   )

@@ -163,7 +163,7 @@ function TaroCardList({
                   onClick={onClickCurrentCard}
                 >
                   <TaroCard
-                    key={index}
+                    key={`${index}-taro-card`}
                     exitX={exitX}
                     cardLocation="front"
                     cardVariants={{
@@ -185,6 +185,7 @@ function TaroCardList({
                   />
                 </motion.div>
               )}
+
               {/* next */}
               {currentIndex + 1 === index && (
                 <motion.div

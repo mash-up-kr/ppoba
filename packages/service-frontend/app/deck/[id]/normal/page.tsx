@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
+import Lottie from 'lottie-react'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
+import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
 import { OnboardingOverlay } from '@/app/components/overlay'
+import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import NormalCard from './components/NormalCard'
 import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
@@ -52,6 +55,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
   )
 
   const [onboardingState, setOnboardingState] = useState(OnboardingState.START)
+  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
 
   const variantsBackCard = {
     initial: { y: -100, opacity: 0 },
@@ -81,7 +85,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
       setTimeout(() => {
         setTypes(prev => [...prev.sort(() => 0.5 - Math.random())])
         setTriggerShuffle(false)
-      }, 1500)
+      }, 2000)
     }
   }, [triggerShuffle])
 
@@ -95,7 +99,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
       <Header
         rightIconType="close"
         className="h-[60px]"
-        onClickRightIcon={() => router.back()}
+        onClickRightIcon={() => setIsCloseOverlayOpen(true)}
       />
 
       {cardListData?.result && (
@@ -115,17 +119,25 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
               )}
 
               {/* Shuffle Layout */}
-              <motion.div
-                initial={'hidden'}
-                animate={triggerShuffle ? 'visible' : 'hidden'}
-                variants={{
-                  hidden: { opacity: 0, scaleX: 0, transition: {} },
-                  visible: { opacity: 1, scaleX: 1, transition: {} },
-                }}
-                className="fixed z-20 top-0 w-full bg-grey-700 h-screen text-light flex justify-center items-center headline-2"
-              >
-                덱 셔플중...
-              </motion.div>
+              <AnimatePresence>
+                {triggerShuffle && (
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1 },
+                    }}
+                    style={{
+                      backdropFilter: 'blur(16px)',
+                    }}
+                    className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2"
+                  >
+                    <Lottie animationData={loadingDeckLottie} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Main Deck Layout */}
               <div
@@ -224,6 +236,17 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
         isOpen={onboardingState === OnboardingState.START}
         onClickClose={() => setOnboardingState(OnboardingState.FLIP)}
       />
+
+      {/* Alerts */}
+      {isCloseOverlayOpen && (
+        <Alert
+          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
+          closePhrase="계속하기"
+          confirmPhrase="그만둘래"
+          onClickClose={() => setIsCloseOverlayOpen(false)}
+          onClickConfirm={() => router.back()}
+        />
+      )}
     </div>
   )
 }

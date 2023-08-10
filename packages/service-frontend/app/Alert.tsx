@@ -28,7 +28,7 @@ function Alert({
 
   return (
     <>
-      <div className="absolute w-full bottom-0 left-1/2 -translate-x-1/2 z-[9999] pt-[40px] pb-[16px] px-[24px] flex flex-col text-center justify-between gap-[40px] bg-white rounded-t-[24px]">
+      <div className="fixed w-full bottom-0 w-full max-w-[420px] z-[9999] pt-[40px] pb-[16px] px-[24px] flex flex-col text-center justify-between gap-[40px] bg-white rounded-t-[24px]">
         <div className="mx-auto">
           <Icon type="alert" width={30} height={30} className="mx-auto" />
           <div className="mt-[8px] headline-3 whitespace-pre-line text-black">
@@ -47,7 +47,7 @@ function Alert({
       </div>
       <div
         role="button"
-        className="absolute w-full h-full bottom-0 left-0 bg-grey-500 opacity-80 content-['']"
+        className="absolute w-full h-full bottom-0 left-0 bg-grey-500 opacity-80 content-[''] z-[9998]"
         onClick={onClickClose}
       ></div>
     </>

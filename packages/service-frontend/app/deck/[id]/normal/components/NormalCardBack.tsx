@@ -94,7 +94,9 @@ function NormalCardBack({
           },
         }}
       >
-        <p className="headline-2 text-black px-[41px] text-center">{content}</p>
+        <div className="headline-2 break-keep text-black px-[41px] text-center">
+          {content}
+        </div>
       </motion.div>
     </motion.div>
   )

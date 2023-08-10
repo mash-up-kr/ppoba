@@ -43,18 +43,18 @@ function Card({
       {isShowBack ? (
         <>
           <div
-            className={`flex flex-col gap-[2px] absolute left-5 top-5 text-grey-700`}
+            className={`flex flex-col gap-[2px] absolute right-5 top-5 text-grey-700`}
           >
             <Icon type={CardIcon[type].normalSideIcon} width={20} height={20} />
             <span className="headline-4">
               {String(number).padStart(2, '0')}
             </span>
           </div>
-          <div className="absolute px-[40px] break-keep left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 headline-2 text-center text-black">
+          <div className="absolute w-full px-[41px] break-keep top-1/2 -translate-y-1/2 headline-2 text-center text-black">
             {text}
           </div>
           <div
-            className={`flex flex-col gap-[2px] absolute right-5 bottom-5 text-grey-700`}
+            className={`flex flex-col gap-[2px] absolute left-5 bottom-5 text-grey-700 rotate-180`}
           >
             <Icon type={CardIcon[type].normalSideIcon} width={20} height={20} />
             <span className="headline-4">
