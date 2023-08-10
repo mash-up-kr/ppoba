@@ -141,7 +141,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
               {/* Main Deck Layout */}
               <div
-                className="relative w-full pt-[63px] text-center flex justify-center h-[481px]"
+                className="relative w-full pt-[63px] text-center flex justify-center h-[481px] overflow-x-hidden"
                 onClick={() => {
                   setOnboardingState(prev => {
                     if (prev === OnboardingState.FLIP)
@@ -164,7 +164,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                   )}
 
                   <NormalCard
-                    key={cardListData.result[curIndex + 2].id}
+                    key={curIndex + 2}
                     index={curIndex + 2}
                     setIndex={setCurIndex}
                     cardLocation="back"
@@ -174,7 +174,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                     data={cardListData.result[curIndex + 2] ?? null}
                   />
                   <NormalCard
-                    key={cardListData.result[curIndex + 1].id}
+                    key={curIndex + 1}
                     index={curIndex + 1}
                     setIndex={setCurIndex}
                     cardLocation="middle"
@@ -184,7 +184,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                     data={cardListData.result[curIndex + 1] ?? null}
                   />
                   <NormalCard
-                    key={cardListData.result[curIndex].id}
+                    key={curIndex}
                     index={curIndex}
                     setIndex={setCurIndex}
                     cardLocation="front"
