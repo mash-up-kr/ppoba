@@ -203,7 +203,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
               </div>
             </div>
           </main>
-          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px]">
+          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[100]">
             {curIndex === cardListData.result.length && (
               <Button size="medium" onClick={() => router.push('/')}>
                 리스트로 가기
