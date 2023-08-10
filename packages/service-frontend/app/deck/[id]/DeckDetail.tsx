@@ -52,7 +52,7 @@ export default function DeckDetail({ params }: Props): JSX.Element {
   const mainTitleRef = useRef<HTMLHeadingElement>(null)
   const isMainTitleInView = useInView(mainTitleRef)
 
-  const [playType, setPlayType] = useState<PLAY_TYPE | string>('')
+  const [playType, setPlayType] = useState<PLAY_TYPE | string>(PLAY_TYPE.NORMAL)
 
   // Style based on type
   const bgColor = CardStyle[deckType].background
@@ -107,7 +107,9 @@ export default function DeckDetail({ params }: Props): JSX.Element {
               {/* Deck Card Cnt */}
               <div className="flex items-center">
                 <Icon type={deckIcon} width={15} height={14} className="" />
-                <span className="headline-4 ml-[4px]">50</span>
+                <span className="headline-4 ml-[4px]">
+                  {cardListData?.result.length ?? 0}
+                </span>
               </div>
 
               {/* Deck Title */}
