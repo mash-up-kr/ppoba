@@ -1,3 +1,5 @@
+import { Card } from '@ppoba/types';
+
 import type { CardType } from './Card'
 
 export const cardTypes: CardType[] = [
@@ -11,13 +13,20 @@ export const cardTypes: CardType[] = [
   'clover',
 ]
 
+export type PlayCard = {
+  id: string;
+  number: number;
+  type: CardType;
+  text: string;
+}
+
 export const generateCards = (
-  size: number,
-): { id: string; number: number; type: CardType; text: string }[] => {
-  return [...Array(size)].map((_, i) => ({
-    id: Math.random().toString() + Math.random().toString(),
+  data: Card[],
+): PlayCard[] => {
+  return data.map((v, i) => ({
+    id: v.id,
     number: i + 1,
     type: cardTypes[i % cardTypes.length],
-    text: '김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자 김가나다라마바사아자',
+    text: v.content,
   }))
 }

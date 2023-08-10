@@ -5,9 +5,5 @@ interface Props {
 }
 
 export default function Layout({ children }: Props): JSX.Element {
-  return (
-    <>
-      <ContentWrapper isFullWidth>{children}</ContentWrapper>
-    </>
-  )
+  return <ContentWrapper isFullWidth>{children}</ContentWrapper>
 }

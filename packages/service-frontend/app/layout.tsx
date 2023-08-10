@@ -1,47 +1,44 @@
 import './globals.css'
 
-import localFont from 'next/font/local'
+import { dehydrate } from '@tanstack/react-query'
+import { api } from '@ppoba/api'
 
+import DesktopSideContents from './components/common/DesktopSideContents'
+import getQueryClient from './getQueryClient'
+import HydrateClient from './hydrate.client'
 import Provider from './provider.client'
-
-const pretendardFont = localFont({
-  src: './font/PretendardVariable.woff2',
-  fallback: [
-    'Pretendard',
-    '-apple-system',
-    'BlinkMacSystemFont',
-    'system-ui',
-    'Roboto',
-    'Helvetica Neue',
-    'Segoe UI',
-    'Apple SD Gothic Neo',
-    'Noto Sans KR',
-    'Malgun Gothic',
-    'Apple Color Emoji',
-    'Segoe UI Emoji',
-    'Segoe UI Symbol',
-    'sans-serif',
-  ],
-  variable: '--font-pretendard',
-})
 
 export const metadata = {
   title: 'PPOBA App',
   description: 'PPOBA App',
+  themeColor: '#F7F7F7',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}): JSX.Element {
+}): Promise<JSX.Element> {
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['getAllDeck'],
+    queryFn: api.deck.getAllDeck,
+  })
+
+  const dehydratedState = dehydrate(queryClient)
+
   return (
-    <html lang="en" className={`${pretendardFont.variable}`}>
-      <body className="flex justify-center items-start">
+    <html lang="en">
+      <body className="flex justify-center items-start bg-black xl:gap-x-[107px]">
+        <DesktopSideContents />
+
         <Provider>
-          <div className="max-w-[420px] w-full min-h-screen bg-light">
-            {children}
-          </div>
+          <HydrateClient state={dehydratedState}>
+            <div className="relative max-w-[420px] w-full min-h-screen bg-light">
+              {children}
+            </div>
+          </HydrateClient>
         </Provider>
       </body>
     </html>

@@ -1,3 +1,4 @@
+'use client'
 import type { JSX, MouseEventHandler } from 'react'
 
 import { Icon } from '@ppoba/ui'
@@ -22,7 +23,7 @@ function Header({
 }: Props): JSX.Element {
   return (
     <header
-      className={`fixed w-full max-w-[420px] h-[52px] leading-[52px] left-1/2 -translate-x-1/2 flex justify-center items-center ${className}`}
+      className={`fixed w-full max-w-[420px] h-[52px] leading-[52px] top-0 flex justify-center items-center ${className}`}
     >
       {leftIconType && (
         <Icon
@@ -30,7 +31,7 @@ function Header({
           width={24}
           height={24}
           onClick={onClickLeftIcon}
-          className="absolute left-6 -x-translate-1/2"
+          className="absolute left-6 -x-translate-1/2 cursor-pointer"
         />
       )}
       <strong className="headline-4 text-black">{title}</strong>
@@ -40,7 +41,7 @@ function Header({
           width={24}
           height={24}
           onClick={onClickRightIcon}
-          className="absolute right-6 x-translate-1/2"
+          className="absolute right-6 x-translate-1/2 cursor-pointer"
         />
       )}
     </header>

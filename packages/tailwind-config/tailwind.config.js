@@ -128,7 +128,7 @@ module.exports = {
           red: '#E65C5C',
         },
         teal: {
-          '01': '',
+          '01': '#CFF3E9',
           '02': '#81E4BB',
         },
         purple: {

@@ -8,12 +8,12 @@ import { Header } from '@/app/components'
 import Card from './Card'
 import { CardStyle } from './constant'
 import EmptyCard from './EmptyCard'
-import { generateCards } from './generateCard'
+import { PlayCard } from './generateCard'
 
 export default function DeckPlay(): JSX.Element {
   const [isShowBack, setIsShowBack] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [cards, setCard] = useState(generateCards(24))
+  const [cards, setCard] = useState<PlayCard[]>([])
 
   const handleClickShuffleButton = useCallback(() => {
     // currentIndex부터 마지막카드까지만 섞는다.

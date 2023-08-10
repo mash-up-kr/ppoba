@@ -18,6 +18,7 @@ export default {
         runtime: 'nodejs18.x',
         environment: {
           NEXT_PUBLIC_API_HOST: process.env.DOMAIN_NAME_API!,
+          NEXT_PUBLIC_WEB_SENTRY_DSN: process.env.WEB_SENTRY_DSN!,
         },
       })
 

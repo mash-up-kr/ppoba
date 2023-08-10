@@ -8,6 +8,7 @@ import {
 } from 'react'
 
 import { Variants, useMotionValue, useTransform, motion } from 'framer-motion'
+import { Card } from '@ppoba/types'
 
 import NormalCardBack from './NormalCardBack'
 import NormalCardFront from './NormalCardFront'
@@ -42,7 +43,7 @@ const NormalCard = ({
   cardVariants,
   setIndex,
 }: {
-  data: { id: number; content: string } | null
+  data: Card | null
   type: CardType
   index: number
   canDrag: boolean
@@ -130,9 +131,10 @@ const NormalCard = ({
           setCardContent(data.content)
         }
       }}
-      className={`absolute rounded-[24px] ${getCardSize(
-        cardLocation,
-      )} cursor-pointer`}
+      whileHover={{ cursor: 'grab' }}
+      whileTap={{ cursor: 'grabbing' }}
+      whileDrag={{ cursor: 'grabbing' }}
+      className={`absolute rounded-[24px] ${getCardSize(cardLocation)}`}
     >
       <NormalCardFront
         indexString={indexString}

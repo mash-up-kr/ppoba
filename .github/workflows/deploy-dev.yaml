@@ -5,13 +5,20 @@ on:
     branches: ['master']
 
 env:
+  # AWS
   AWS_REGION: 'ap-northeast-2'
   AWS_HOST_ZONE: ${{ secrets.AWS_HOST_ZONE }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  # DOMAIN
   DOMAIN_NAME: ${{ secrets.DEV_DOMAIN_NAME }}
   DOMAIN_NAME_API: api.${{ secrets.DEV_DOMAIN_NAME }}
+  NEXT_PUBLIC_API_HOST: api.${{ secrets.DEV_DOMAIN_NAME }}
   S3_PRIVATE_BUCKET: ${{ secrets.S3_PRIVATE_BUCKET }}
+
+  # SENTRY
+  WEB_SENTRY_DSN: ${{ secrets.WEB_SENTRY_DSN }}
 
 jobs:
   deploy-dev:
