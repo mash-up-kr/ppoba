@@ -1,6 +1,9 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { redirect, useRouter } from 'next/navigation'
+import { api } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
 
 interface Props {
@@ -8,10 +11,25 @@ interface Props {
 }
 
 function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
+  const router = useRouter();
   const { scrollY } = useScroll()
+  const { data: meData } = useQuery(
+    ['getMe'],
+    () => api.auth.getMe(),
+  )
+  const TOKEN = "@@@ppobaAuthToken";
 
   const y = useTransform(scrollY, [0, 100], [-2, 0])
   const opacity = useTransform(scrollY, [0, 100], [0, 1])
+
+  const handleClick = () => {
+    if (meData) {
+      localStorage.removeItem('TOKEN')
+      redirect('/')
+    } else {
+      router.push(`/login`)
+    }
+  };
 
   return (
     <>
@@ -36,9 +54,9 @@ function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
           <strong
             className="headline-5 text-black cursor px-[10px] py-[6px]"
             role="button"
-            onClick={() => console.log('login')}
+            onClick={handleClick}
           >
-            로그인
+            {meData ? "로그아웃" : "로그인"}
           </strong>
         </div>
       </header>

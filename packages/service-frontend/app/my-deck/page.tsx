@@ -12,12 +12,16 @@ import { MyDeckTypeOrder } from '../constants'
 export default function MyDeckPage(): JSX.Element {
   const router = useRouter()
 
+  const { data: meData } = useQuery(
+    ['getMe'],
+    () => api.auth.getMe(),
+  )
   const { data: userData, isError: isUserDataError } = useQuery(
     ['getDeckListByUserId'],
-    () => api.deck.getDeckListByUserId({ userId: '2931028309' }),
+    () => api.deck.getDeckListByUserId({ userId: meData?.id ?? '' }),
     {
-      // TODO: Change userId
       suspense: true,
+      enabled: !!meData?.id,
     },
   )
 

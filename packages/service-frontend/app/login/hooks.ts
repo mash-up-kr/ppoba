@@ -1,16 +1,16 @@
 import { useCallback, useEffect } from 'react'
 
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, redirect } from 'next/navigation'
 import { api, authTokenRepository } from '@ppoba/api'
 
 export function useLogin(
   onSuccess: () => void = () => {
-    // TODO: 콜백은 프론트분들께 맡기겠습니다.
     alert('로그인에 성공했습니다!')
+    redirect('/')
   },
   onFailure: (error: any) => void = error => {
-    // TODO: 콜백은 프론트분들께 맡기겠습니다.
     alert(`로그인 실패: ${error.name}`)
+    redirect('/404')
   },
 ): { handleLoginClick: () => Promise<void> } {
   useLoginToken()
