@@ -115,7 +115,13 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
       <Header
         rightIconType="close"
         className="h-[60px]"
-        onClickRightIcon={() => setIsCloseOverlayOpen(true)}
+        onClickRightIcon={() => {
+          if (curIndex === data?.result?.totalCardCount) {
+            router.push('')
+          } else {
+            setIsCloseOverlayOpen(true)
+          }
+        }}
       />
 
       {cardListData?.result && (
