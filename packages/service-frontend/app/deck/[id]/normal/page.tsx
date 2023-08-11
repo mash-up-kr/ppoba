@@ -185,36 +185,40 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                     <OnboardingSlideOverlay />
                   )}
 
-                  <NormalCard
-                    key={curIndex + 2}
-                    index={curIndex + 2}
-                    setIndex={setCurIndex}
-                    cardLocation="back"
-                    cardVariants={variantsBackCard}
-                    canDrag={false}
-                    type={types[(curIndex + 2) % types.length]}
-                    data={cardListData.result[curIndex + 2] ?? null}
-                  />
-                  <NormalCard
-                    key={curIndex + 1}
-                    index={curIndex + 1}
-                    setIndex={setCurIndex}
-                    cardLocation="middle"
-                    cardVariants={variantsMiddleCard}
-                    canDrag={false}
-                    type={types[(curIndex + 1) % types.length]}
-                    data={cardListData.result[curIndex + 1] ?? null}
-                  />
-                  <NormalCard
-                    key={curIndex}
-                    index={curIndex}
-                    setIndex={setCurIndex}
-                    cardLocation="front"
-                    cardVariants={variantsFrontCard}
-                    canDrag={onboardingState !== OnboardingState.FLIP}
-                    type={types[curIndex % types.length]}
-                    data={cardListData.result[curIndex] ?? null}
-                  />
+                  {curIndex !== cardListData.result.length && (
+                    <>
+                      <NormalCard
+                        key={curIndex + 2}
+                        index={curIndex + 2}
+                        setIndex={setCurIndex}
+                        cardLocation="back"
+                        cardVariants={variantsBackCard}
+                        canDrag={false}
+                        type={types[(curIndex + 2) % types.length]}
+                        data={cardListData.result[curIndex + 2] ?? null}
+                      />
+                      <NormalCard
+                        key={curIndex + 1}
+                        index={curIndex + 1}
+                        setIndex={setCurIndex}
+                        cardLocation="middle"
+                        cardVariants={variantsMiddleCard}
+                        canDrag={false}
+                        type={types[(curIndex + 1) % types.length]}
+                        data={cardListData.result[curIndex + 1] ?? null}
+                      />
+                      <NormalCard
+                        key={curIndex}
+                        index={curIndex}
+                        setIndex={setCurIndex}
+                        cardLocation="front"
+                        cardVariants={variantsFrontCard}
+                        canDrag={onboardingState !== OnboardingState.FLIP}
+                        type={types[curIndex % types.length]}
+                        data={cardListData.result[curIndex] ?? null}
+                      />
+                    </>
+                  )}
 
                   {curIndex === cardListData.result.length && (
                     <div className="w-full px-[45px]">
