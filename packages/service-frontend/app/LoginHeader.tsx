@@ -1,10 +1,11 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { redirect, useRouter } from 'next/navigation'
-import { api, authTokenRepository } from '@ppoba/api'
+import { useRouter } from 'next/navigation'
+import { authTokenRepository } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
+
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 
 interface Props {
   onClickCreateDeck: () => void
@@ -13,20 +14,17 @@ interface Props {
 function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
   const router = useRouter();
   const { scrollY } = useScroll()
-  const { data: meData } = useQuery(
-    ['getMe'],
-    () => api.auth.getMe(),
-  )
+  const isLoggedIn = useIsLoggedIn();
 
   const y = useTransform(scrollY, [0, 100], [-2, 0])
   const opacity = useTransform(scrollY, [0, 100], [0, 1])
 
   const handleClick = () => {
-    if (meData) {
+    if (isLoggedIn) {
       authTokenRepository.clear()
-      redirect('/')
+      router.push('/', { forceOptimisticNavigation: true })
     } else {
-      router.push(`/login`)
+      router.push('/login')
     }
   };
 
@@ -55,7 +53,7 @@ function LoginHeader({ onClickCreateDeck }: Props): JSX.Element {
             role="button"
             onClick={handleClick}
           >
-            {meData ? "로그아웃" : "로그인"}
+            {isLoggedIn ? "로그아웃" : "로그인"}
           </strong>
         </div>
       </header>
