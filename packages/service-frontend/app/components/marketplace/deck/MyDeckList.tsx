@@ -11,16 +11,11 @@ import { GameCardList, GameCardListTitle } from '../game'
 export default function MyDeckList(): JSX.Element {
   const router = useRouter()
 
-  const { data: meData } = useQuery(
-    ['getMe'],
-    () => api.auth.getMe(),
-  )
   const { data: userData, isError: isUserDataError } = useQuery(
-    ['getDeckListByUserId'],
-    () => api.deck.getDeckListByUserId({ userId: meData?.id ?? '' }),
+    ['getDeckListOfMine'],
+    () => api.deck.getDeckListOfMine(),
     {
       suspense: true,
-      enabled: !!meData?.id,
     },
   )
 

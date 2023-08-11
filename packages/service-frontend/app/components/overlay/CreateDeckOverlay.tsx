@@ -2,6 +2,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Icon } from '@ppoba/ui'
 
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
+
 type Props = BaseOverlayProps
 
 export default function CreateDeckOverlay({
@@ -9,6 +11,16 @@ export default function CreateDeckOverlay({
   onClickClose = () => {},
 }: Props): JSX.Element {
   const router = useRouter()
+  const isLoggedIn = useIsLoggedIn()
+
+  const handleClickCreateNewDeck = () => {
+    router.push(isLoggedIn ? '/create-title' : '/login')
+  }
+
+  const handleClickCreateByTemplate = () => {
+    router.push(isLoggedIn ? '/create-template' : '/login')
+  }
+ 
   return (
     <AnimatePresence>
       {isOpen && (
@@ -21,7 +33,7 @@ export default function CreateDeckOverlay({
         >
           <div className="flex flex-col justify-center items-center h-full gap-[10px]">
             <button
-              onClick={() => router.push('/create-title')}
+              onClick={handleClickCreateNewDeck}
               className="flex justify-center items-center w-[240px] px-[24px] py-[16px] subtitle-2 text-white text-center rounded-[32px] bg-black gap-[10px]"
             >
               <div className="p-[6px] bg-orange-01 rounded-full">
@@ -30,7 +42,7 @@ export default function CreateDeckOverlay({
               <div className="flex-1">처음부터 만들기</div>
             </button>
             <button
-              onClick={() => router.push('/create-template')}
+              onClick={handleClickCreateByTemplate}
               className="flex justify-center items-center w-[240px] px-[24px] py-[16px] subtitle-2 text-white text-center rounded-[32px] bg-black gap-[10px]"
             >
               <div className="p-[6px] bg-blue-01 rounded-full">

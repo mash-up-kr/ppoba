@@ -9,6 +9,7 @@ import { api } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
 
 import GameCardList from '@/app/components/marketplace/game/GameCardList'
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 
 import Footer from './components/common/Footer'
 import AllDeckInitialItem from './components/marketplace/deck/AllDeckInitialItem'
@@ -21,6 +22,7 @@ import LoginHeader from './LoginHeader'
 
 export default function Home(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+  const isLoggedIn = useIsLoggedIn();
 
   const { data, isError } = useQuery(['getAllDeck'], api.deck.getAllDeck, {
     suspense: true,
@@ -53,9 +55,6 @@ export default function Home(): JSX.Element {
   if (isError) {
     redirect('/404')
   }
-
-  // TODO: 로그인 여부 임시 세팅
-  const isLoggedIn = true
 
   return (
     <main className="relative">
