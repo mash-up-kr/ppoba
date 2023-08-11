@@ -276,7 +276,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
               initial={'initial'}
               animate={'animate'}
             >
-              <Button size="medium" onClick={() => router.push('/deck')}>
+              <Button size="medium" onClick={() => router.push('/')}>
                 리스트로 가기
               </Button>
             </motion.div>
