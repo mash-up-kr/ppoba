@@ -67,9 +67,16 @@ export class DeckRepository {
     return assert<Deck[]>(notNull(deckList).map(deck => deck.toJSON()));
   }
 
-  // async update(id: string) {
-  //   return `This action updates a #${id} deck`;
-  // }
+  async updateDeckTotalCardCount(deckId: string, totalCardCount: number): Promise<boolean> {
+    try {
+      this.deckModel.updateOne({ id: deckId }, { totalCardCount: totalCardCount }).exec();
+      return true;
+    } catch (error) {
+      Sentry.captureException(error);
+      throw new InternalServerErrorException(`error: ${error}`);
+    }
+    return false;
+  }
 
   // async remove(id: string) {
   //   return `This action removes a #${id} deck`;
