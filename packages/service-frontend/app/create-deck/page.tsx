@@ -76,7 +76,7 @@ export default function CreateDeck(): JSX.Element {
       <Header
         leftIconType="back"
         onClickLeftIcon={() => setIsBackOverlayOpen(true)}
-        title="매시업 이미지 게임"
+        title={deck.name}
       />
       <main className="relative z-[100]">
         <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] px-[24px] justify-center">

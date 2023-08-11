@@ -1,9 +1,12 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useSetRecoilState } from 'recoil'
+import { api } from '@ppoba/api'
 import { Icon } from '@ppoba/ui'
 
 import { CardIcon, CardStyle } from '@/app/deck/[id]/play/constant'
+import { deckFormAtomState } from '@/store/deck'
 
 import { Game } from './Game'
 import GameCategoryChip from './GameCategoryChip'
@@ -21,11 +24,14 @@ export default function GameCard({
 }: Props): JSX.Element {
   const bgColor = CardStyle[game.type].background
   const cardIcon = CardIcon[game.type].normalSideIcon
+  const setDeck = useSetRecoilState(deckFormAtomState)
 
   const router = useRouter()
 
-  const handleClickCard = () => {
+  const handleClickCard = async () => {
     if (type === 'template') {
+      const res = await api.card.getCards({ deckId: game.id })
+      setDeck(prev => ({ ...prev, cardList: res.result, name: game.name }))
       router.push('/create-title')
       return
     }
