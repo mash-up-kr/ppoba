@@ -175,16 +175,6 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                 }}
               >
                 <AnimatePresence initial={false}>
-                  {/* Onboarding Overlay - Flip */}
-                  {onboardingState === OnboardingState.FLIP && (
-                    <OnboardingFlipOverlay key={101} />
-                  )}
-
-                  {/* Onboarding Overlay - Slide */}
-                  {onboardingState === OnboardingState.SLIDE && (
-                    <OnboardingSlideOverlay key={102} />
-                  )}
-
                   {curIndex !== cardListData.result.length && (
                     <>
                       <NormalCard
@@ -221,11 +211,29 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                   )}
 
                   {curIndex === cardListData.result.length && (
-                    <div className="w-full px-[45px]">
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1 },
+                      }}
+                      className="w-full px-[45px]"
+                    >
                       <EmptyCard />
-                    </div>
+                    </motion.div>
                   )}
                 </AnimatePresence>
+
+                {/* Onboarding Overlay - Flip */}
+                {onboardingState === OnboardingState.FLIP && (
+                  <OnboardingFlipOverlay key={101} />
+                )}
+
+                {/* Onboarding Overlay - Slide */}
+                {onboardingState === OnboardingState.SLIDE && (
+                  <OnboardingSlideOverlay key={102} />
+                )}
               </div>
             </div>
           </main>
