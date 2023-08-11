@@ -1,13 +1,11 @@
 'use client'
 import React, { useMemo } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
-// eslint-disable-next-line import/order
-import { useRouter } from 'next/navigation'
-
 import 'swiper/css'
 import 'swiper/css/scrollbar'
 
+import { useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
 
 import { Header } from '@/app/components'
