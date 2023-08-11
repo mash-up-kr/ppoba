@@ -3,7 +3,7 @@ import { Icon } from '@ppoba/ui'
 
 function OnboardingFlipOverlay(): JSX.Element {
   return (
-    <div className="z-10 h-[360px] w-full flex justify-center items-center relative pointer-events-none">
+    <div className="z-[100] h-[360px] w-full flex justify-center items-center relative pointer-events-none">
       <motion.div
         className="w-[60px] h-[60px] flex justify-center items-center bg-alert-red bg-opacity-[0.4] rounded-full"
         animate={{

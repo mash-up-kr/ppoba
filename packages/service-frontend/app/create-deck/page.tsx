@@ -76,10 +76,10 @@ export default function CreateDeck(): JSX.Element {
       <Header
         leftIconType="back"
         onClickLeftIcon={() => setIsBackOverlayOpen(true)}
-        title="매시업 이미지 게임"
+        title={deck.name}
       />
-      <main className="px-[24px]">
-        <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] justify-center">
+      <main className="relative z-[100]">
+        <div className="flex flex-col h-[calc(100vh-76px)] pt-[52px] px-[24px] justify-center">
           <div className="mx-[-24px]">
             <Swiper
               scrollbar={{
@@ -126,7 +126,9 @@ export default function CreateDeck(): JSX.Element {
                               ),
                             })
                           }}
-                          className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black`}
+                          className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black
+                            focus:outline-[0]
+                          `}
                         />
                         <button
                           className="p-[14px] bg-white/20 rounded-full"
@@ -153,7 +155,7 @@ export default function CreateDeck(): JSX.Element {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 px-[24px]">
           {isError20 && (
             <motion.div className="absolute bottom-[90px] left-1/2 -translate-x-1/2 whitespace-nowrap w-fit pl-[16px] pr-[24px] py-[11px] flex items-center gap-[2px] bg-[rgba(10,10,10,0.6)] rounded-[18px]">
               <Icon type="exclamationWhite" width={24} height={24} />

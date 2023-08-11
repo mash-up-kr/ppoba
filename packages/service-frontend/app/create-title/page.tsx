@@ -24,7 +24,7 @@ export default function CreateDeck(): JSX.Element {
           <input
             type="text"
             placeholder="덱 이름을 알려줘 (최대 11자)"
-            className="headline-2 text-black text-center placeholder:text-grey-200 bg-transparent"
+            className="headline-2 text-black text-center placeholder:text-grey-200 bg-transparent focus:outline-[0]"
             maxLength={11}
             value={deck.name}
             onChange={e => setDeck({ ...deck, name: e.target.value })}

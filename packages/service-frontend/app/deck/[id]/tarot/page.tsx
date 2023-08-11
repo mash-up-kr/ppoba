@@ -189,7 +189,13 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
     <>
       <Header
         rightIconType="close"
-        onClickRightIcon={() => setIsCloseOverlayOpen(true)}
+        onClickRightIcon={() => {
+          if (cards.length === 0) {
+            router.push('')
+          } else {
+            setIsCloseOverlayOpen(true)
+          }
+        }}
       />
       <div className="flex flex-col min-h-screen justify-around">
         {/* 게임 정보 */}
@@ -270,7 +276,9 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
               initial={'initial'}
               animate={'animate'}
             >
-              <Button size="medium">리스트로 가기</Button>
+              <Button size="medium" onClick={() => router.push('/')}>
+                리스트로 가기
+              </Button>
             </motion.div>
           ) : (
             <>

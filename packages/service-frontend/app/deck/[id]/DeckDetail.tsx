@@ -14,6 +14,7 @@ import GameCategoryChip from '@/app/components/marketplace/game/GameCategoryChip
 
 import { CardType } from './play/Card'
 import { CardIcon, CardStyle } from './play/constant'
+import { share } from './shareUtil'
 
 const DEFAULT_DECK_TYPE: CardType = 'nail'
 
@@ -96,6 +97,18 @@ export default function DeckDetail({ params }: Props): JSX.Element {
             leftIconType="back"
             onClickLeftIcon={() => router.push('/')}
             rightIconType="share"
+            onClickRightIcon={async () => {
+              const result = await share({
+                title: 'PPOBA - 뽀바',
+                text: '뽀바, 너만의 카드게임을 즐겨봐',
+                url: `https://dev.ppoba.app/deck/${params.id}`,
+              })
+              if (result === 'copiedToClipboard') {
+                alert('링크를 클립보드에 복사했습니다.')
+              } else if (result === 'failed') {
+                alert('공유하기가 지원되지 않는 환경입니다.')
+              }
+            }}
           />
 
           {/* Main Content Section */}

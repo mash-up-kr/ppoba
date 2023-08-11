@@ -33,10 +33,11 @@ function SecondaryButton({
       role="button"
       cornerRadius={24}
       borderWidth={1}
+      aria-disabled={disabled}
       className={`relative flex justify-center items-center ${buttonSize} h-[60px] text-base text-grey-800 font-bold leading-[150%] tracking-[-0.16px] transition-all bg-grey-600
         text-grey-800
         hover:bg-grey-400 hover:text-grey-600
-        disabled:bg-grey-200 disabled:text-grey-300
+        aria-disabled:bg-grey-200 aria-disabled:text-grey-200
         before:absolute before:w-full before:h-full before:bg-white before:transition-all
         before:disabled:bg-white 
         before:hover:bg-[#EFEFEF]
