@@ -27,10 +27,11 @@ function Button({ children, size, rightIcon, className = '', ...props }: PropsWi
     <Squircle
       role="button"
       cornerRadius={24}
+      aria-disabled={disabled}
       className={`flex justify-center items-center ${buttonSize} h-[60px] text-base text-white font-bold leading-[150%] tracking-[-0.16px] rounded-[20px] border border-grey-800 bg-grey-800 transition-all
         hover:bg-grey-600
-        disabled:bg-grey-200 disabled:border-grey-200
-        ${disabled ? 'disabled:cursor-not-allowed' : 'cursor-pointer'}
+        aria-disabled:bg-grey-200 aria-disabled:border-grey-200
+        ${disabled ? 'before:cursor-not-allowed cursor-not-allowed' : 'cursor-pointer'}
         ${className}`}
       {...props}
     >
