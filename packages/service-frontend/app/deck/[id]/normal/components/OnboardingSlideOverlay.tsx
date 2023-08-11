@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 function OnboardingSlideOverlay(): JSX.Element {
   return (
-    <div className="z-10 h-[360px] w-full flex justify-center items-center relative pointer-events-none">
+    <div className="z-[100] h-[360px] w-full flex justify-center items-center relative pointer-events-none">
       {/* Bottom Toast */}
       <motion.div
         initial="hidden"

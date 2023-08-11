@@ -13,7 +13,7 @@ export default function CreateDeckOverlay({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed w-full h-[100vh] max-w-[420px] mx-auto bg-black bg-opacity-[0.8] z-100 top-0"
+          className="fixed w-full h-[100vh] max-w-[420px] mx-auto bg-black bg-opacity-[0.8] z-[100] top-0"
           style={{ backdropFilter: 'blur(4px)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
