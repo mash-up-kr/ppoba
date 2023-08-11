@@ -84,12 +84,12 @@ const NormalCard = ({
   }
 
   function handleDragEnd(_: any, info: { offset: { x: number } }) {
-    if (info.offset.x < -40) {
+    if (info.offset.x < -125) {
       setExitX(-500)
       setIndex(index + 1)
     }
 
-    if (info.offset.x > 40) {
+    if (info.offset.x > 125) {
       setExitX(500)
       setIndex(index + 1)
     }
@@ -99,7 +99,7 @@ const NormalCard = ({
     if (cardLocation === 'front') {
       setIsFlipped(false)
     }
-  }, [cardLocation])
+  }, [cardLocation, type])
 
   if (data === null) {
     return <></>
@@ -122,7 +122,7 @@ const NormalCard = ({
       onDragEnd={handleDragEnd}
       onClick={() => setIsFlipped(prev => !prev)}
       onAnimationStart={() => {
-        if (cardLocation === 'front' && !isFlipped) setCardContent(data.content)
+        if (cardLocation === 'front' && !isFlipped) setCardContent('')
       }}
       onAnimationComplete={() => {
         // Hide card content unless the card is a front card

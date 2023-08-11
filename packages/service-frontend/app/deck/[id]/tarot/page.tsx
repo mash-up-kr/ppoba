@@ -2,7 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import Lottie from 'lottie-react'
 import Image from 'next/image'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
@@ -10,6 +11,7 @@ import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
+import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import TaroCardList from './components/TaroCardList'
 import EmptyCard from '../play/EmptyCard'
@@ -30,7 +32,7 @@ const animateVariants = {
 
 interface Props {
   params: {
-    id: string,
+    id: string
   }
 }
 
@@ -60,6 +62,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
   const [alertPhrase, setAlertPhrase] = useState<'touch' | 'slide' | 'none'>(
     'touch',
   )
+  const [triggerShuffle, setTriggerShuffle] = useState(false)
 
   useEffect(() => {
     if (cardListData?.result) {
@@ -119,21 +122,13 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
     })
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
   }, [alertPhrase, cards.length, handleNotification, isShowBack])
+
   const handleClickCurrentCard = useCallback(() => {
     handleShowingEvent()
     setIsShowBack(true)
   }, [handleShowingEvent])
 
   // 하단 버튼
-  const handleClickShuffleButton = useCallback(() => {
-    if (isShowBack) {
-      return
-    }
-    const nextCards = [...cards].sort(() => (Math.random() > 0.5 ? 1 : -1))
-    setCard(nextCards)
-    setCurrentIndex(INITIAL_INDEX)
-  }, [cards, isShowBack])
-
   const handleClickNextButton = useCallback(() => {
     if (isShowBack) {
       setAlertPhrase('none')
@@ -169,6 +164,22 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
       }, 800)
     }
   }, [alertPhrase, isShowNotification])
+
+  useEffect(() => {
+    if (triggerShuffle) {
+      if (isShowBack) {
+        setTriggerShuffle(false)
+        return
+      }
+
+      setTimeout(() => {
+        const nextCards = [...cards].sort(() => (Math.random() > 0.5 ? 1 : -1))
+        setCard(nextCards)
+        setCurrentIndex(INITIAL_INDEX)
+        setTriggerShuffle(false)
+      }, 2000)
+    }
+  }, [cards, isShowBack, triggerShuffle])
 
   if (isError || isCardListError) {
     redirect('/404')
@@ -267,7 +278,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
               <SecondaryButton
                 size="small"
                 rightIcon="shuffle"
-                onClick={handleClickShuffleButton}
+                onClick={() => setTriggerShuffle(true)}
               >
                 섞기
               </SecondaryButton>
@@ -289,6 +300,27 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           onClickConfirm={() => router.back()}
         />
       )}
+
+      {/* Shuffle Layout */}
+      <AnimatePresence>
+        {triggerShuffle && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1 },
+            }}
+            style={{
+              backdropFilter: 'blur(16px)',
+            }}
+            className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2"
+          >
+            <Lottie animationData={loadingDeckLottie} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

@@ -2,15 +2,19 @@
 
 import { useEffect, useState } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
+import Lottie from 'lottie-react'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
+import { Card } from '@ppoba/types'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
+import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
 import { OnboardingOverlay } from '@/app/components/overlay'
+import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import NormalCard from './components/NormalCard'
 import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
@@ -32,6 +36,7 @@ interface Props {
 }
 
 export default function NormalPlayPage({ params }: Props): JSX.Element {
+  const queryClient = useQueryClient()
   const router = useRouter()
   const [types, setTypes] = useState(cardTypes)
   const [curIndex, setCurIndex] = useState(0)
@@ -41,6 +46,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
     () => api.deck.getDeck({ deckId: params.id }),
     {
       suspense: true,
+      refetchOnWindowFocus: false,
     },
   )
   const { data: cardListData, isError: isCardListError } = useQuery(
@@ -48,10 +54,12 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
     () => api.card.getCards({ deckId: params.id }),
     {
       suspense: true,
+      refetchOnWindowFocus: false,
     },
   )
 
   const [onboardingState, setOnboardingState] = useState(OnboardingState.START)
+  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
 
   const variantsBackCard = {
     initial: { y: -100, opacity: 0 },
@@ -78,12 +86,24 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
   useEffect(() => {
     if (triggerShuffle) {
+      queryClient.setQueryData<{ result: Card[] }>(
+        ['getCardList', params.id],
+        prevData => {
+          if (prevData) {
+            return {
+              ...prevData,
+              result: [...prevData.result.sort(() => 0.5 - Math.random())],
+            }
+          }
+        },
+      )
+
       setTimeout(() => {
         setTypes(prev => [...prev.sort(() => 0.5 - Math.random())])
         setTriggerShuffle(false)
-      }, 1500)
+      }, 2000)
     }
-  }, [triggerShuffle])
+  }, [params.id, queryClient, triggerShuffle])
 
   // Redirect to 404 page if api error occurred
   if (isError || isCardListError) {
@@ -95,7 +115,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
       <Header
         rightIconType="close"
         className="h-[60px]"
-        onClickRightIcon={() => router.back()}
+        onClickRightIcon={() => setIsCloseOverlayOpen(true)}
       />
 
       {cardListData?.result && (
@@ -115,21 +135,29 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
               )}
 
               {/* Shuffle Layout */}
-              <motion.div
-                initial={'hidden'}
-                animate={triggerShuffle ? 'visible' : 'hidden'}
-                variants={{
-                  hidden: { opacity: 0, scaleX: 0, transition: {} },
-                  visible: { opacity: 1, scaleX: 1, transition: {} },
-                }}
-                className="fixed z-20 top-0 w-full bg-grey-700 h-screen text-light flex justify-center items-center headline-2"
-              >
-                덱 셔플중...
-              </motion.div>
+              <AnimatePresence>
+                {triggerShuffle && (
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1 },
+                    }}
+                    style={{
+                      backdropFilter: 'blur(16px)',
+                    }}
+                    className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2 z-[200]"
+                  >
+                    <Lottie animationData={loadingDeckLottie} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Main Deck Layout */}
               <div
-                className="relative w-full pt-[63px] text-center flex justify-center h-[481px]"
+                className="relative w-full pt-[63px] text-center flex justify-center h-[481px] overflow-x-hidden"
                 onClick={() => {
                   setOnboardingState(prev => {
                     if (prev === OnboardingState.FLIP)
@@ -152,7 +180,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                   )}
 
                   <NormalCard
-                    key={cardListData.result[curIndex + 2].id}
+                    key={curIndex + 2}
                     index={curIndex + 2}
                     setIndex={setCurIndex}
                     cardLocation="back"
@@ -162,7 +190,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                     data={cardListData.result[curIndex + 2] ?? null}
                   />
                   <NormalCard
-                    key={cardListData.result[curIndex + 1].id}
+                    key={curIndex + 1}
                     index={curIndex + 1}
                     setIndex={setCurIndex}
                     cardLocation="middle"
@@ -172,7 +200,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                     data={cardListData.result[curIndex + 1] ?? null}
                   />
                   <NormalCard
-                    key={cardListData.result[curIndex].id}
+                    key={curIndex}
                     index={curIndex}
                     setIndex={setCurIndex}
                     cardLocation="front"
@@ -191,7 +219,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
               </div>
             </div>
           </main>
-          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px]">
+          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[100]">
             {curIndex === cardListData.result.length && (
               <Button size="medium" onClick={() => router.push('/')}>
                 리스트로 가기
@@ -224,6 +252,17 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
         isOpen={onboardingState === OnboardingState.START}
         onClickClose={() => setOnboardingState(OnboardingState.FLIP)}
       />
+
+      {/* Alerts */}
+      {isCloseOverlayOpen && (
+        <Alert
+          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
+          closePhrase="계속하기"
+          confirmPhrase="그만둘래"
+          onClickClose={() => setIsCloseOverlayOpen(false)}
+          onClickConfirm={() => router.back()}
+        />
+      )}
     </div>
   )
 }
