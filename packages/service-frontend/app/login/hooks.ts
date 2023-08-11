@@ -5,11 +5,9 @@ import { api, authTokenRepository } from '@ppoba/api'
 
 export function useLogin(
   onSuccess: () => void = () => {
-    alert('로그인에 성공했습니다!')
     redirect('/')
   },
   onFailure: (error: any) => void = error => {
-    alert(`로그인 실패: ${error.name}`)
     redirect('/404')
   },
 ): { handleLoginClick: () => Promise<void> } {
