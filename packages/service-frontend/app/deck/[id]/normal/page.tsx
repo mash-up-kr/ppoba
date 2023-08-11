@@ -177,12 +177,12 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
                 <AnimatePresence initial={false}>
                   {/* Onboarding Overlay - Flip */}
                   {onboardingState === OnboardingState.FLIP && (
-                    <OnboardingFlipOverlay />
+                    <OnboardingFlipOverlay key={101} />
                   )}
 
                   {/* Onboarding Overlay - Slide */}
                   {onboardingState === OnboardingState.SLIDE && (
-                    <OnboardingSlideOverlay />
+                    <OnboardingSlideOverlay key={102} />
                   )}
 
                   {curIndex !== cardListData.result.length && (
