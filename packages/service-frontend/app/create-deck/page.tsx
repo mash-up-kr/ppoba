@@ -126,7 +126,9 @@ export default function CreateDeck(): JSX.Element {
                               ),
                             })
                           }}
-                          className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black`}
+                          className={`w-full h-[205px] headline-3 placeholder:text-[rgba(36,36,36,0.50)] bg-transparent text-center break-keep resize-none text-black
+                            focus:outline-[0]
+                          `}
                         />
                         <button
                           className="p-[14px] bg-white/20 rounded-full"
