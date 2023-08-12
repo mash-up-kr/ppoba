@@ -21,7 +21,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'PPOBA - 뽀바',
     description: '뽀바, 너만의 카드게임을 즐겨봐',
-    images: `/opengraph-image.png`,
+    images: `https://${
+      process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
+    }ppoba.app/opengraph-image.png`,
     url: `https://${
       process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
     }ppoba.app`,
