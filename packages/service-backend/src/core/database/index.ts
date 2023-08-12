@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { env } from '../env';
+import { env, stage } from '../env';
 import { UserCollection, UserDocument } from './User';
 import { Card, CardCollection, CardDocument } from './Card';
 import { CollectionToModel, collectionToModules } from './utils';
@@ -20,7 +20,7 @@ const { CollectionModule, InjectModel } = collectionToModules(collections);
 @Global()
 @Module({
   imports: [
-    MongooseModule.forRoot(env.database.connectionURI, { dbName: 'dev' }),
+    MongooseModule.forRoot(env.database.connectionURI, { dbName: stage }),
     CollectionModule,
   ],
   exports: [CollectionModule],
