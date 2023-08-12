@@ -63,12 +63,12 @@ export class AuthKakaoService {
     id: number;
     connected_at: string;
     kakao_account: {
-      has_age_range: boolean;
+      has_age_range?: boolean;
       age_range_needs_agreement: boolean;
-      age_range: string; // '10~19';
-      has_gender: boolean;
+      age_range?: string; // '10~19';
+      has_gender?: boolean;
       gender_needs_agreement: boolean;
-      gender: 'male' | 'female';
+      gender?: 'male' | 'female';
     };
   }> {
     const response = await got
@@ -85,14 +85,7 @@ export class AuthKakaoService {
     return assert<{
       id: number;
       connected_at: string;
-      kakao_account: {
-        has_age_range: boolean;
-        age_range_needs_agreement: boolean;
-        age_range: string; // '10~19';
-        has_gender: boolean;
-        gender_needs_agreement: boolean;
-        gender: 'male' | 'female';
-      };
+      kakao_account: any;
     }>(response);
   }
 }
