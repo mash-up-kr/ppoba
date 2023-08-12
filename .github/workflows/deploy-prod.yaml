@@ -25,8 +25,8 @@ env:
   WEB_SENTRY_DSN: ${{ secrets.WEB_SENTRY_DSN }}
 
 jobs:
-  deploy-dev:
-    name: deploy to development environment
+  deploy-prod:
+    name: deploy to production environment
     timeout-minutes: 15
     runs-on: ubuntu-latest
     # To use Remote Caching, uncomment the next lines and follow the steps below.
@@ -56,5 +56,5 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Deploy development
-        run: pnpm deploy:dev
+      - name: Deploy production
+        run: pnpm deploy:prod
