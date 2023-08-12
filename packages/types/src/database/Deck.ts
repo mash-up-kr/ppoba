@@ -1,10 +1,8 @@
-import { DeckCategory } from '../dto/createDeckDto';
-
 export type Deck = {
   id: string;
   name: string;
   // TODO category m:n relation
-  category: DeckCategory[];
+  category: string[];
   // TODO card 1:n relation and aggregate card count
   cardIds: string[];
   // TODO card 1:n relation and aggregate card count
