@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: 'PPOBA - 뽀바',
   description: '뽀바, 너만의 카드게임을 즐겨봐',
   themeColor: '#F7F7F7',
+  metadataBase: new URL('https://ppoba.com'),
 }
 
 export default async function RootLayout({

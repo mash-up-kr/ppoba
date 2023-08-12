@@ -18,9 +18,9 @@ export default function DeckCreateCompletePage(): JSX.Element {
   }
 
   return (
-    <div className="min-h-screen px-[16px] flex flex-col gap-[20px]">
+    <div className="min-h-screen flex flex-col gap-[20px]">
       <Header rightIconType="home" onClickRightIcon={() => router.push('/')} />
-      <h1 className="text-black headline-1 whitespace-pre pt-[72px]">
+      <h1 className="text-black headline-1 whitespace-pre pt-[72px] pl-[16px]">
         {'축하해!\n게임을 완성했어'}
       </h1>
 
