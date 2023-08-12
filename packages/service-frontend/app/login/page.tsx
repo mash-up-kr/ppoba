@@ -10,9 +10,17 @@ import loginLottie from '@/public/lottie/loginLottie.json'
 import { useLogin } from './hooks'
 
 export default function Login(): JSX.Element {
-  const { handleLoginClick } = useLogin()
-  const isLoggedIn = useIsLoggedIn()
   const router = useRouter()
+
+  const { handleLoginClick } = useLogin(
+    () => {
+      router.replace('/')
+    },
+    () => {
+      router.push('/404')
+    },
+  )
+  const isLoggedIn = useIsLoggedIn()
 
   if (isLoggedIn) {
     router.back()
