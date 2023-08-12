@@ -101,7 +101,9 @@ export default function DeckDetail({ params }: Props): JSX.Element {
               const result = await share({
                 title: 'PPOBA - 뽀바',
                 text: '뽀바, 너만의 카드게임을 즐겨봐',
-                url: `https://dev.ppoba.app/deck/${params.id}`,
+                url: `https://${
+                  process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
+                }ppoba.app/deck/${params.id}`,
               })
               if (result === 'copiedToClipboard') {
                 alert('링크를 클립보드에 복사했습니다.')

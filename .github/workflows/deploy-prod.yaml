@@ -1,12 +1,13 @@
-name: deploy-dev
+name: deploy-prod
 
 on:
-  push:
-    branches: ['master']
+  release:
+    types:
+      - created
 
 env:
-  STAGE: 'dev'
-  NEXT_PUBLIC_STAGE: 'dev'
+  STAGE: 'prod'
+  NEXT_PUBLIC_STAGE: 'prod'
 
   # AWS
   AWS_REGION: 'ap-northeast-2'
@@ -15,9 +16,9 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   # DOMAIN
-  DOMAIN_NAME: ${{ secrets.DEV_DOMAIN_NAME }}
-  DOMAIN_NAME_API: api.${{ secrets.DEV_DOMAIN_NAME }}
-  NEXT_PUBLIC_API_HOST: api.${{ secrets.DEV_DOMAIN_NAME }}
+  DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+  DOMAIN_NAME_API: api.${{ secrets.DOMAIN_NAME }}
+  NEXT_PUBLIC_API_HOST: api.${{ secrets.DOMAIN_NAME }}
   S3_PRIVATE_BUCKET: ${{ secrets.S3_PRIVATE_BUCKET }}
 
   # SENTRY

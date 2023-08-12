@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "deploy:dev": "sst deploy --stage dev",
-    "deploy:prod": "sst deploy --stage prod",
+    "deploy:dev": "STAGE=dev sst deploy --stage dev",
+    "deploy:prod": "STAGE=prod sst deploy --stage prod",
     "dev": "next dev",
     "lint": "next lint",
     "test": "jest",
