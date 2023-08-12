@@ -21,6 +21,7 @@
   "scripts": {
     "build": "turbo build",
     "deploy:dev": "turbo deploy:dev",
+    "deploy:prod": "turbo deploy:prod",
     "lint": "turbo lint",
     "test": "turbo test"
   },
