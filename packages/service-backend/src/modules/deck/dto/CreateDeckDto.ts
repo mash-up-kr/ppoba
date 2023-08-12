@@ -8,7 +8,6 @@ export class CreateDeckDto {
   name: string;
 
   @ArrayNotEmpty()
-  @IsEnum(DeckCategory, { each: true })
   @ApiProperty({ example: 'list of category' })
   category: DeckCategory[];
 }
