@@ -48,7 +48,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="flex justify-center items-start bg-black xl:gap-x-[107px]">
+      <body className="flex justify-center items-start xl:bg-black xl:gap-x-[107px]">
         <DesktopSideContents />
 
         <Provider>
