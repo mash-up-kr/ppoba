@@ -13,7 +13,6 @@ https://disquiet.io/product/ppoba
         <td><B> <a href="https://github.com/poiu694"><I>이상민</I></a><B></td>
         <td><B> <a href="https://github.com/swimjiy"><I>임지영</I></a><B></td>
 </table>
-</br>
 <table>
     <caption>NODE</caption>
         <td><B> <a href="https://github.com/minidonut"><I>정세훈</I></a><B></td>
