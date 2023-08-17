@@ -1,4 +1,5 @@
 # ppoba
+![Logo_Black ver](https://github.com/mash-up-kr/ppoba/assets/58875626/c81f015c-13cb-41cf-8f71-81eecbc1f2ec)
 
 ### Disquiet Link
 
