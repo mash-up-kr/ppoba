@@ -6,7 +6,7 @@ export type User = {
   // '10-19' | '20-29' | '30-39' | ...
   age: string;
 
-  gender: 'male' | 'female';
+  gender: 'male' | 'female' | 'unknown';
 
   createdAt: Date;
 

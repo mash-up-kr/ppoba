@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
@@ -75,6 +75,14 @@ export default function DeckDetail({ params }: Props): JSX.Element {
     redirect('/404')
   }
 
+  const previewDeckList = useMemo(() => {
+    if (cardListData?.result) {
+      return cardListData.result.slice(0, 3)
+    }
+
+    return []
+  }, [cardListData?.result])
+
   return (
     <div className="bg-light">
       {data?.result && cardListData?.result && (
@@ -101,7 +109,9 @@ export default function DeckDetail({ params }: Props): JSX.Element {
               const result = await share({
                 title: 'PPOBA - 뽀바',
                 text: '뽀바, 너만의 카드게임을 즐겨봐',
-                url: `https://dev.ppoba.app/deck/${params.id}`,
+                url: `https://${
+                  process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
+                }ppoba.app/deck/${params.id}`,
               })
               if (result === 'copiedToClipboard') {
                 alert('링크를 클립보드에 복사했습니다.')
@@ -154,8 +164,8 @@ export default function DeckDetail({ params }: Props): JSX.Element {
             {/* --- Deck Detail Card Section --- */}
             <div className="pb-[40px]">
               {/* Deck Card List */}
-              <div className="flex gap-x-[8px] px-[24px] -mt-[26px] overflow-x-hidden snap-x pb-[24px]">
-                {cardListData.result.map(card => {
+              <div className="flex gap-x-[8px] px-[24px] -mt-[26px] overflow-x-auto pb-[24px] scrollbar-hide">
+                {previewDeckList.map(card => {
                   return (
                     <div
                       key={card.id}

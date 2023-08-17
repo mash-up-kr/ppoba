@@ -15,6 +15,9 @@
     "deploy:dev": {
       "dependsOn": ["build"]
     },
+    "deploy:prod": {
+      "dependsOn": ["build"]
+    },
     "lint": {}
   }
 }

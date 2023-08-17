@@ -12,6 +12,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json --noEmit && npx webpack",
     "deploy:dev": "STAGE=dev make all",
+    "deploy:prod": "STAGE=prod make all",
     "dev": "ts-node src/entry.local.ts",
     "dev:debug": "node --require ts-node/register --inspect-brk src/entry.local.ts",
     "lint": "eslint . --ext .js,.ts",

@@ -89,11 +89,11 @@ export default function ConfirmDetailPage(): JSX.Element {
       {/* 게임 상세 타이틀 */}
       <div className="bg-grey-800 h-[218px] py-[72px]">
         <div className="flex flex-col gap-1 px-[32px] py-[20px]">
-          <div className="flex gap-[4.5px]">
+          <div className="flex gap-[4.5px] headline-4 text-white">
             <Icon type="cardcountWhite" width={20} height={20} />
-            50
+            {deck.cardList.length}
           </div>
-          <div className="headline-1 text-white">뉴 매시업 이미지 게임</div>
+          <div className="headline-1 text-white">{deck.name}</div>
         </div>
       </div>
       {/* 키워드 선택 */}

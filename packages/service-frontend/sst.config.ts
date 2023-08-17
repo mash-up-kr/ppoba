@@ -4,7 +4,7 @@ import { NextjsSite } from 'sst/constructs'
 export default {
   config(_input) {
     return {
-      name: 'ppoba-frontend',
+      name: `ppoba-frontend`,
       region: 'ap-northeast-2',
     }
   },
@@ -17,6 +17,7 @@ export default {
         },
         runtime: 'nodejs18.x',
         environment: {
+          NEXT_PUBLIC_STAGE: process.env.STAGE!,
           NEXT_PUBLIC_API_HOST: process.env.DOMAIN_NAME_API!,
           NEXT_PUBLIC_WEB_SENTRY_DSN: process.env.WEB_SENTRY_DSN!,
         },

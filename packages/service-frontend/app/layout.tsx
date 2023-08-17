@@ -13,6 +13,23 @@ export const metadata: Metadata = {
   title: 'PPOBA - 뽀바',
   description: '뽀바, 너만의 카드게임을 즐겨봐',
   themeColor: '#F7F7F7',
+  metadataBase: new URL(
+    `https://${
+      process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
+    }ppoba.app`,
+  ),
+  openGraph: {
+    title: 'PPOBA - 뽀바',
+    description: '뽀바, 너만의 카드게임을 즐겨봐',
+    images: `https://${
+      process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
+    }ppoba.app/opengraph-image.png`,
+    url: `https://${
+      process.env.NEXT_PUBLIC_STAGE === 'prod' ? '' : 'dev.'
+    }ppoba.app`,
+    locale: 'ko_KR',
+    type: 'website',
+  },
 }
 
 export default async function RootLayout({

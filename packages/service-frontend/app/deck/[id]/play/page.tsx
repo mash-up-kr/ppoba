@@ -1,9 +1,11 @@
 'use client'
 import { useCallback, useState } from 'react'
 
+import { useRecoilValue } from 'recoil'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import { Header } from '@/app/components'
+import { deckFormAtomState } from '@/store/deck'
 
 import Card from './Card'
 import { CardStyle } from './constant'
@@ -14,6 +16,7 @@ export default function DeckPlay(): JSX.Element {
   const [isShowBack, setIsShowBack] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [cards, setCard] = useState<PlayCard[]>([])
+  const deck = useRecoilValue(deckFormAtomState)
 
   const handleClickShuffleButton = useCallback(() => {
     // currentIndex부터 마지막카드까지만 섞는다.
@@ -38,7 +41,7 @@ export default function DeckPlay(): JSX.Element {
         {/* 게임 정보 */}
         <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
           <strong className="headline-1 text-grey-800">
-            뉴 매시업 이미지 게임
+            {deck.name}
           </strong>
           <p className="subtitle-3 text-grey-600">
             남은 카드 {cards.length - currentIndex}장
