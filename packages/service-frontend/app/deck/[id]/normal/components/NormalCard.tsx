@@ -84,16 +84,18 @@ const NormalCard = ({
   }
 
   function handleDragEnd(_: any, info: { offset: { x: number } }) {
-    if (info.offset.x < -125) {
+    if (info.offset.x < -40) {
       setExitX(-500)
       setIndex(index + 1)
     }
 
-    if (info.offset.x > 125) {
+    if (info.offset.x > 40) {
       setExitX(500)
       setIndex(index + 1)
     }
   }
+
+  console.log(x.get())
 
   useEffect(() => {
     if (cardLocation === 'front') {
