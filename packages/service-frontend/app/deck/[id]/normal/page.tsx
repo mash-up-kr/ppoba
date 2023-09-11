@@ -10,7 +10,6 @@ import { Card } from '@ppoba/types'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
-import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
 
 import NormalCard from './components/NormalCard'
@@ -96,24 +95,13 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
   return (
     <div className="text-grey-800">
-      <Header
-        rightIconType="close"
-        className="h-[60px]"
-        onClickRightIcon={() => {
-          if (curIndex === data?.result?.totalCardCount) {
-            router.push('')
-          } else {
-            setIsCloseOverlayOpen(true)
-          }
-        }}
-      />
-
       {cardListData?.result && (
         <>
           <GameLayout
             title={data?.result?.name ?? ''}
             length={cardListData.result.length - curIndex}
             triggerShuffle={triggerShuffle}
+            isFinishGame={curIndex === data?.result?.totalCardCount}
           >
             {/* Main Deck Layout */}
             <AnimatePresence initial={false}>

@@ -7,8 +7,6 @@ import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
 import { Button, SecondaryButton } from '@ppoba/ui'
 
-import Alert from '@/app/Alert'
-import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
 
 import TaroCardList from './components/TaroCardList'
@@ -56,7 +54,6 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
   const [cards, setCard] = useState<PlayCard[]>([])
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
   const [isExitAnimation, setIsExitAnimation] = useState(false)
-  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
   const [triggerShuffle, setTriggerShuffle] = useState(false)
 
   useEffect(() => {
@@ -136,21 +133,11 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
 
   return (
     <>
-      <Header
-        rightIconType="close"
-        className="h-[60px]"
-        onClickRightIcon={() => {
-          if (cards.length === 0) {
-            router.push('')
-          } else {
-            setIsCloseOverlayOpen(true)
-          }
-        }}
-      />
       <GameLayout
         title={data?.result?.name ?? ''}
         length={cards.length}
         triggerShuffle={triggerShuffle}
+        isFinishGame={cards.length === 0}
       >
         <div className="relative w-[270px] h-full mx-auto z-50">
           {/* 플레이 카드 */}
@@ -204,17 +191,6 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           </>
         )}
       </BottomCta>
-
-      {/* Overlay */}
-      {isCloseOverlayOpen && (
-        <Alert
-          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
-          closePhrase="계속하기"
-          confirmPhrase="그만둘래"
-          onClickClose={() => setIsCloseOverlayOpen(false)}
-          onClickConfirm={() => router.back()}
-        />
-      )}
     </>
   )
 }
