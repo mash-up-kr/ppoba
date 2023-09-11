@@ -11,6 +11,7 @@ import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
+import BottomCta from '@/app/components/common/BottomCta'
 import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import TaroCardList from './components/TaroCardList'
@@ -197,7 +198,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           }
         }}
       />
-      <div className="flex flex-col min-h-screen justify-around">
+      <div className="flex flex-col gap-[64px] min-h-screen">
         {/* 게임 정보 */}
         <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
           <strong className="headline-1 text-grey-800">
@@ -266,37 +267,29 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           )}
         </div>
 
-        {/* 버튼 */}
-        <div className="relative flex gap-[10px] justify-center px-[24px] z-50">
-          {cards.length === 0 ? (
-            // 남은 카드가 없는 경우
-            <motion.div
-              className="relative"
-              variants={animateVariants}
-              initial={'initial'}
-              animate={'animate'}
+      {/* 버튼 */}
+      <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[100]">
+        {cards.length === 0 && (
+          <Button size="medium" onClick={() => router.push('/')}>
+            리스트로 가기
+          </Button>
+        )}
+
+        {cards.length !== 0 && (
+          <>
+            <SecondaryButton
+              size="small"
+              rightIcon="shuffle"
+              onClick={() => setTriggerShuffle(true)}
             >
-              <Button size="medium" onClick={() => router.push('/')}>
-                리스트로 가기
-              </Button>
-            </motion.div>
-          ) : (
-            <>
-              {/* 카드가 남은 경우 */}
-              <SecondaryButton
-                size="small"
-                rightIcon="shuffle"
-                onClick={() => setTriggerShuffle(true)}
-              >
-                섞기
-              </SecondaryButton>
-              <Button size="large" onClick={handleClickNextButton}>
-                다음 카드 보기
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
+              섞기
+            </SecondaryButton>
+            <Button size="medium" onClick={handleClickNextButton}>
+              다음 카드 보기
+            </Button>
+          </>
+        )}
+      </BottomCta>
 
       {/* Overlay */}
       {isCloseOverlayOpen && (
