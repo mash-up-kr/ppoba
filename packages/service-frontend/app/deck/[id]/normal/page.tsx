@@ -13,22 +13,12 @@ import { Button, SecondaryButton } from '@ppoba/ui'
 import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
-import { OnboardingOverlay } from '@/app/components/overlay'
 import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import NormalCard from './components/NormalCard'
-import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
-import OnboardingSlideOverlay from './components/OnboardingSlideOverlay'
-import { GameLayout, GameTitle } from '../components'
+import { GameLayout } from '../components'
 import EmptyCard from '../play/EmptyCard'
 import { cardTypes } from '../play/generateCard'
-
-enum OnboardingState {
-  START,
-  FLIP,
-  SLIDE,
-  DONE,
-}
 
 interface Props {
   params: {
@@ -59,17 +49,16 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
     },
   )
 
-  const [onboardingState, setOnboardingState] = useState(OnboardingState.START)
   const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
 
   const variantsBackCard = {
     initial: { y: -100, opacity: 0 },
-    animate: { y: -32, opacity: 1, transition: { delay: 0.5 } },
+    animate: { y: -62, opacity: 1, transition: { delay: 0.5 } },
   }
 
   const variantsMiddleCard = {
     initial: { y: 0, opacity: 1 },
-    animate: { y: -16, opacity: 1 },
+    animate: { y: -26, opacity: 1 },
   }
 
   const variantsFrontCard = {
@@ -80,10 +69,6 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
       transition: { duration: 0.2 },
     }),
   }
-
-  useEffect(() => {
-    if (curIndex !== 0) setOnboardingState(OnboardingState.DONE)
-  }, [curIndex])
 
   useEffect(() => {
     if (triggerShuffle) {
@@ -127,113 +112,67 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
       {cardListData?.result && (
         <>
-          <GameLayout>
-            {/* Title Section */}
-            <GameTitle
-              title={data?.result?.name ?? ''}
-              length={cardListData.result.length - curIndex}
-            />
+          <GameLayout
+            title={data?.result?.name ?? ''}
+            length={cardListData.result.length - curIndex}
+          >
+            {/* Main Deck Layout */}
+            <AnimatePresence initial={false}>
+              {curIndex !== cardListData.result.length && (
+                <>
+                  <NormalCard
+                    key={curIndex + 2}
+                    index={curIndex + 2}
+                    setIndex={setCurIndex}
+                    cardLocation="back"
+                    cardVariants={variantsBackCard}
+                    canDrag={false}
+                    className="z-[30] opacity-50"
+                    type={types[(curIndex + 2) % types.length]}
+                    data={cardListData.result[curIndex + 2] ?? null}
+                  />
+                  <NormalCard
+                    key={curIndex + 1}
+                    index={curIndex + 1}
+                    setIndex={setCurIndex}
+                    cardLocation="middle"
+                    cardVariants={variantsMiddleCard}
+                    canDrag={false}
+                    className="z-[50]"
+                    type={types[(curIndex + 1) % types.length]}
+                    data={cardListData.result[curIndex + 1] ?? null}
+                  />
+                  <NormalCard
+                    key={curIndex}
+                    index={curIndex}
+                    setIndex={setCurIndex}
+                    cardLocation="front"
+                    cardVariants={variantsFrontCard}
+                    canDrag
+                    className="z-[100]"
+                    type={types[curIndex % types.length]}
+                    data={cardListData.result[curIndex] ?? null}
+                  />
+                </>
+              )}
 
-            {/* Shuffle Layout */}
-            <AnimatePresence>
-              {triggerShuffle && (
+              {curIndex === cardListData.result.length && (
                 <motion.div
                   initial="hidden"
                   animate="visible"
-                  exit="hidden"
                   variants={{
                     hidden: { opacity: 0 },
                     visible: { opacity: 1 },
                   }}
-                  style={{
-                    backdropFilter: 'blur(16px)',
-                  }}
-                  className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2 z-[200]"
+                  className="w-full px-[45px]"
                 >
-                  <Lottie animationData={loadingDeckLottie} />
+                  <EmptyCard />
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Main Deck Layout */}
-            <div
-              className="relative w-full h-[384px] text-center flex justify-center"
-              onClick={() => {
-                setOnboardingState(prev => {
-                  if (prev === OnboardingState.FLIP)
-                    return OnboardingState.SLIDE
-                  if (prev === OnboardingState.SLIDE)
-                    return OnboardingState.DONE
-                  return OnboardingState.DONE
-                })
-              }}
-            >
-              <AnimatePresence initial={false}>
-                {curIndex !== cardListData.result.length && (
-                  <>
-                    <NormalCard
-                      key={curIndex + 2}
-                      index={curIndex + 2}
-                      setIndex={setCurIndex}
-                      cardLocation="back"
-                      cardVariants={variantsBackCard}
-                      canDrag={false}
-                      className="z-[30] opacity-50"
-                      type={types[(curIndex + 2) % types.length]}
-                      data={cardListData.result[curIndex + 2] ?? null}
-                    />
-                    <NormalCard
-                      key={curIndex + 1}
-                      index={curIndex + 1}
-                      setIndex={setCurIndex}
-                      cardLocation="middle"
-                      cardVariants={variantsMiddleCard}
-                      canDrag={false}
-                      className="z-[50]"
-                      type={types[(curIndex + 1) % types.length]}
-                      data={cardListData.result[curIndex + 1] ?? null}
-                    />
-                    <NormalCard
-                      key={curIndex}
-                      index={curIndex}
-                      setIndex={setCurIndex}
-                      cardLocation="front"
-                      cardVariants={variantsFrontCard}
-                      canDrag={onboardingState !== OnboardingState.FLIP}
-                      className="z-[100]"
-                      type={types[curIndex % types.length]}
-                      data={cardListData.result[curIndex] ?? null}
-                    />
-                  </>
-                )}
-
-                {curIndex === cardListData.result.length && (
-                  <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                      hidden: { opacity: 0 },
-                      visible: { opacity: 1 },
-                    }}
-                    className="w-full px-[45px]"
-                  >
-                    <EmptyCard />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Onboarding Overlay - Flip */}
-              {onboardingState === OnboardingState.FLIP && (
-                <OnboardingFlipOverlay key={101} />
-              )}
-
-              {/* Onboarding Overlay - Slide */}
-              {onboardingState === OnboardingState.SLIDE && (
-                <OnboardingSlideOverlay key={102} />
-              )}
-            </div>
           </GameLayout>
-          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[100]">
+
+          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[50]">
             {curIndex === cardListData.result.length && (
               <Button size="medium" onClick={() => router.push('/')}>
                 리스트로 가기
@@ -261,11 +200,26 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
         </>
       )}
 
-      {/* Onboarding Overlay */}
-      <OnboardingOverlay
-        isOpen={onboardingState === OnboardingState.START}
-        onClickClose={() => setOnboardingState(OnboardingState.FLIP)}
-      />
+      {/* Shuffle Layout */}
+      <AnimatePresence>
+        {triggerShuffle && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1 },
+            }}
+            style={{
+              backdropFilter: 'blur(16px)',
+            }}
+            className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2 z-[200]"
+          >
+            <Lottie animationData={loadingDeckLottie} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Alerts */}
       {isCloseOverlayOpen && (
