@@ -191,6 +191,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
     <>
       <Header
         rightIconType="close"
+        className="h-[60px]"
         onClickRightIcon={() => {
           if (cards.length === 0) {
             router.push('')
@@ -199,7 +200,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           }
         }}
       />
-      <div className="flex flex-col gap-[64px] min-h-screen">
+      <GameLayout>
         {/* 게임 정보 */}
         <GameTitle title={data?.result?.name ?? ''} length={cards.length} />
 
@@ -256,6 +257,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
             </motion.div>
           )}
         </div>
+      </GameLayout>
 
       {/* 버튼 */}
       <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[100]">

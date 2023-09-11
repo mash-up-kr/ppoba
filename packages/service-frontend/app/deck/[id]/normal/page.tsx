@@ -19,7 +19,7 @@ import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 import NormalCard from './components/NormalCard'
 import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
 import OnboardingSlideOverlay from './components/OnboardingSlideOverlay'
-import { GameTitle } from '../components'
+import { GameLayout, GameTitle } from '../components'
 import EmptyCard from '../play/EmptyCard'
 import { cardTypes } from '../play/generateCard'
 
@@ -127,111 +127,112 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
 
       {cardListData?.result && (
         <>
-          <main className="min-h-screen flex items-center">
-            <div className="relative w-full flex flex-col items-center justify-center">
-              {/* Title Section */}
-              <GameTitle
-                title={data?.result?.name ?? ''}
-                length={cardListData.result.length - curIndex}
-              />
+          <GameLayout>
+            {/* Title Section */}
+            <GameTitle
+              title={data?.result?.name ?? ''}
+              length={cardListData.result.length - curIndex}
+            />
 
-              {/* Shuffle Layout */}
-              <AnimatePresence>
-                {triggerShuffle && (
+            {/* Shuffle Layout */}
+            <AnimatePresence>
+              {triggerShuffle && (
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: { opacity: 1 },
+                  }}
+                  style={{
+                    backdropFilter: 'blur(16px)',
+                  }}
+                  className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2 z-[200]"
+                >
+                  <Lottie animationData={loadingDeckLottie} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Main Deck Layout */}
+            <div
+              className="relative w-full h-[384px] text-center flex justify-center"
+              onClick={() => {
+                setOnboardingState(prev => {
+                  if (prev === OnboardingState.FLIP)
+                    return OnboardingState.SLIDE
+                  if (prev === OnboardingState.SLIDE)
+                    return OnboardingState.DONE
+                  return OnboardingState.DONE
+                })
+              }}
+            >
+              <AnimatePresence initial={false}>
+                {curIndex !== cardListData.result.length && (
+                  <>
+                    <NormalCard
+                      key={curIndex + 2}
+                      index={curIndex + 2}
+                      setIndex={setCurIndex}
+                      cardLocation="back"
+                      cardVariants={variantsBackCard}
+                      canDrag={false}
+                      className="z-[30] opacity-50"
+                      type={types[(curIndex + 2) % types.length]}
+                      data={cardListData.result[curIndex + 2] ?? null}
+                    />
+                    <NormalCard
+                      key={curIndex + 1}
+                      index={curIndex + 1}
+                      setIndex={setCurIndex}
+                      cardLocation="middle"
+                      cardVariants={variantsMiddleCard}
+                      canDrag={false}
+                      className="z-[50]"
+                      type={types[(curIndex + 1) % types.length]}
+                      data={cardListData.result[curIndex + 1] ?? null}
+                    />
+                    <NormalCard
+                      key={curIndex}
+                      index={curIndex}
+                      setIndex={setCurIndex}
+                      cardLocation="front"
+                      cardVariants={variantsFrontCard}
+                      canDrag={onboardingState !== OnboardingState.FLIP}
+                      className="z-[100]"
+                      type={types[curIndex % types.length]}
+                      data={cardListData.result[curIndex] ?? null}
+                    />
+                  </>
+                )}
+
+                {curIndex === cardListData.result.length && (
                   <motion.div
                     initial="hidden"
                     animate="visible"
-                    exit="hidden"
                     variants={{
                       hidden: { opacity: 0 },
                       visible: { opacity: 1 },
                     }}
-                    style={{
-                      backdropFilter: 'blur(16px)',
-                    }}
-                    className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2 z-[200]"
+                    className="w-full px-[45px]"
                   >
-                    <Lottie animationData={loadingDeckLottie} />
+                    <EmptyCard />
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Main Deck Layout */}
-              <div
-                className="relative w-full pt-[63px] text-center flex justify-center h-[481px] overflow-x-hidden"
-                onClick={() => {
-                  setOnboardingState(prev => {
-                    if (prev === OnboardingState.FLIP)
-                      return OnboardingState.SLIDE
-                    if (prev === OnboardingState.SLIDE)
-                      return OnboardingState.DONE
-                    return OnboardingState.DONE
-                  })
-                }}
-              >
-                <AnimatePresence initial={false}>
-                  {curIndex !== cardListData.result.length && (
-                    <>
-                      <NormalCard
-                        key={curIndex + 2}
-                        index={curIndex + 2}
-                        setIndex={setCurIndex}
-                        cardLocation="back"
-                        cardVariants={variantsBackCard}
-                        canDrag={false}
-                        type={types[(curIndex + 2) % types.length]}
-                        data={cardListData.result[curIndex + 2] ?? null}
-                      />
-                      <NormalCard
-                        key={curIndex + 1}
-                        index={curIndex + 1}
-                        setIndex={setCurIndex}
-                        cardLocation="middle"
-                        cardVariants={variantsMiddleCard}
-                        canDrag={false}
-                        type={types[(curIndex + 1) % types.length]}
-                        data={cardListData.result[curIndex + 1] ?? null}
-                      />
-                      <NormalCard
-                        key={curIndex}
-                        index={curIndex}
-                        setIndex={setCurIndex}
-                        cardLocation="front"
-                        cardVariants={variantsFrontCard}
-                        canDrag={onboardingState !== OnboardingState.FLIP}
-                        type={types[curIndex % types.length]}
-                        data={cardListData.result[curIndex] ?? null}
-                      />
-                    </>
-                  )}
+              {/* Onboarding Overlay - Flip */}
+              {onboardingState === OnboardingState.FLIP && (
+                <OnboardingFlipOverlay key={101} />
+              )}
 
-                  {curIndex === cardListData.result.length && (
-                    <motion.div
-                      initial="hidden"
-                      animate="visible"
-                      variants={{
-                        hidden: { opacity: 0 },
-                        visible: { opacity: 1 },
-                      }}
-                      className="w-full px-[45px]"
-                    >
-                      <EmptyCard />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Onboarding Overlay - Flip */}
-                {onboardingState === OnboardingState.FLIP && (
-                  <OnboardingFlipOverlay key={101} />
-                )}
-
-                {/* Onboarding Overlay - Slide */}
-                {onboardingState === OnboardingState.SLIDE && (
-                  <OnboardingSlideOverlay key={102} />
-                )}
-              </div>
+              {/* Onboarding Overlay - Slide */}
+              {onboardingState === OnboardingState.SLIDE && (
+                <OnboardingSlideOverlay key={102} />
+              )}
             </div>
-          </main>
+          </GameLayout>
           <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[100]">
             {curIndex === cardListData.result.length && (
               <Button size="medium" onClick={() => router.push('/')}>
