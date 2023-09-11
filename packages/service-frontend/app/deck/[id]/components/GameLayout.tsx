@@ -4,9 +4,11 @@ import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Lottie from 'lottie-react'
 import { useRouter } from 'next/navigation'
+import { Button, SecondaryButton } from '@ppoba/ui'
 
 import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
+import BottomCta from '@/app/components/common/BottomCta'
 import { OnboardingOverlay } from '@/app/components/overlay'
 import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
@@ -26,6 +28,8 @@ interface Props {
   length: number
   triggerShuffle: boolean
   isFinishGame: boolean
+  onClickShuffle: VoidFunction
+  onClickNextCard: VoidFunction
 }
 
 function GameLayout({
@@ -34,6 +38,8 @@ function GameLayout({
   triggerShuffle,
   isFinishGame,
   children,
+  onClickShuffle,
+  onClickNextCard,
 }: React.PropsWithChildren<Props>): JSX.Element {
   const router = useRouter()
   const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
@@ -104,6 +110,29 @@ function GameLayout({
             </motion.div>
           )}
         </AnimatePresence>
+
+        <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[50]">
+          {isFinishGame && (
+            <Button size="medium" onClick={() => router.push('/')}>
+              리스트로 가기
+            </Button>
+          )}
+
+          {!isFinishGame && (
+            <>
+              <SecondaryButton
+                size="small"
+                rightIcon="shuffle"
+                onClick={onClickShuffle}
+              >
+                섞기
+              </SecondaryButton>
+              <Button size="medium" onClick={onClickNextCard}>
+                다음 카드 보기
+              </Button>
+            </>
+          )}
+        </BottomCta>
 
         {/* Overlay */}
         {isCloseOverlayOpen && (

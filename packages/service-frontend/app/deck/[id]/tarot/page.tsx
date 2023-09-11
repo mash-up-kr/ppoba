@@ -5,9 +5,6 @@ import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
-import { Button, SecondaryButton } from '@ppoba/ui'
-
-import BottomCta from '@/app/components/common/BottomCta'
 
 import TaroCardList from './components/TaroCardList'
 import { GameLayout } from '../components'
@@ -138,6 +135,8 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
         length={cards.length}
         triggerShuffle={triggerShuffle}
         isFinishGame={cards.length === 0}
+        onClickShuffle={() => setTriggerShuffle(true)}
+        onClickNextCard={handleClickNextButton}
       >
         <div className="relative w-[270px] h-full mx-auto z-50">
           {/* 플레이 카드 */}
@@ -167,30 +166,6 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           )}
         </div>
       </GameLayout>
-
-      {/* 버튼 */}
-      <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[50]">
-        {cards.length === 0 && (
-          <Button size="medium" onClick={() => router.push('/')}>
-            리스트로 가기
-          </Button>
-        )}
-
-        {cards.length !== 0 && (
-          <>
-            <SecondaryButton
-              size="small"
-              rightIcon="shuffle"
-              onClick={() => setTriggerShuffle(true)}
-            >
-              섞기
-            </SecondaryButton>
-            <Button size="medium" onClick={handleClickNextButton}>
-              다음 카드 보기
-            </Button>
-          </>
-        )}
-      </BottomCta>
     </>
   )
 }

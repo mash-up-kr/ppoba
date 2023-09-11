@@ -4,13 +4,9 @@ import { useEffect, useState } from 'react'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
-import { redirect, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { api } from '@ppoba/api'
 import { Card } from '@ppoba/types'
-import { Button, SecondaryButton } from '@ppoba/ui'
-
-import Alert from '@/app/Alert'
-import BottomCta from '@/app/components/common/BottomCta'
 
 import NormalCard from './components/NormalCard'
 import { GameLayout } from '../components'
@@ -25,7 +21,6 @@ interface Props {
 
 export default function NormalPlayPage({ params }: Props): JSX.Element {
   const queryClient = useQueryClient()
-  const router = useRouter()
   const [types, setTypes] = useState(cardTypes)
   const [curIndex, setCurIndex] = useState(0)
   const [triggerShuffle, setTriggerShuffle] = useState(false)
@@ -45,8 +40,6 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
       refetchOnWindowFocus: false,
     },
   )
-
-  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
 
   const variantsBackCard = {
     initial: { y: -100, opacity: 0 },
@@ -102,6 +95,8 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
             length={cardListData.result.length - curIndex}
             triggerShuffle={triggerShuffle}
             isFinishGame={curIndex === data?.result?.totalCardCount}
+            onClickShuffle={() => setTriggerShuffle(true)}
+            onClickNextCard={() => setCurIndex(prev => prev + 1)}
           >
             {/* Main Deck Layout */}
             <AnimatePresence initial={false}>
@@ -158,44 +153,7 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
               )}
             </AnimatePresence>
           </GameLayout>
-
-          <BottomCta className="flex justify-center items-center bottom-[40px] gap-x-[10px] px-[24px] z-[50]">
-            {curIndex === cardListData.result.length && (
-              <Button size="medium" onClick={() => router.push('/')}>
-                리스트로 가기
-              </Button>
-            )}
-
-            {curIndex !== cardListData.result.length && (
-              <>
-                <SecondaryButton
-                  size="small"
-                  rightIcon="shuffle"
-                  onClick={() => setTriggerShuffle(true)}
-                >
-                  섞기
-                </SecondaryButton>
-                <Button
-                  size="medium"
-                  onClick={() => setCurIndex(prev => prev + 1)}
-                >
-                  다음 카드 보기
-                </Button>
-              </>
-            )}
-          </BottomCta>
         </>
-      )}
-
-      {/* Alerts */}
-      {isCloseOverlayOpen && (
-        <Alert
-          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
-          closePhrase="계속하기"
-          confirmPhrase="그만둘래"
-          onClickClose={() => setIsCloseOverlayOpen(false)}
-          onClickConfirm={() => router.back()}
-        />
       )}
     </div>
   )
