@@ -2,8 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { AnimatePresence, motion } from 'framer-motion'
-import Lottie from 'lottie-react'
+import { motion } from 'framer-motion'
 import { redirect, useRouter } from 'next/navigation'
 import { api } from '@ppoba/api'
 import { Button, SecondaryButton } from '@ppoba/ui'
@@ -11,7 +10,6 @@ import { Button, SecondaryButton } from '@ppoba/ui'
 import Alert from '@/app/Alert'
 import { Header } from '@/app/components'
 import BottomCta from '@/app/components/common/BottomCta'
-import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import TaroCardList from './components/TaroCardList'
 import { GameLayout } from '../components'
@@ -149,7 +147,11 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           }
         }}
       />
-      <GameLayout title={data?.result?.name ?? ''} length={cards.length}>
+      <GameLayout
+        title={data?.result?.name ?? ''}
+        length={cards.length}
+        triggerShuffle={triggerShuffle}
+      >
         <div className="relative w-[270px] h-full mx-auto z-50">
           {/* 플레이 카드 */}
           {cards.length > 0 ? (
@@ -213,27 +215,6 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
           onClickConfirm={() => router.back()}
         />
       )}
-
-      {/* Shuffle Layout */}
-      <AnimatePresence>
-        {triggerShuffle && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1 },
-            }}
-            style={{
-              backdropFilter: 'blur(16px)',
-            }}
-            className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2"
-          >
-            <Lottie animationData={loadingDeckLottie} />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   )
 }
