@@ -19,6 +19,7 @@ import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 import NormalCard from './components/NormalCard'
 import OnboardingFlipOverlay from './components/OnboardingFlipOverlay'
 import OnboardingSlideOverlay from './components/OnboardingSlideOverlay'
+import { GameTitle } from '../components'
 import EmptyCard from '../play/EmptyCard'
 import { cardTypes } from '../play/generateCard'
 
@@ -129,16 +130,10 @@ export default function NormalPlayPage({ params }: Props): JSX.Element {
           <main className="min-h-screen flex items-center">
             <div className="relative w-full flex flex-col items-center justify-center">
               {/* Title Section */}
-              {data?.result && (
-                <div>
-                  <h1 className="headline-2 text-black text-center">
-                    {data.result.name}
-                  </h1>
-                  <p className="headline-5 mt-[3px] text-grey-600 text-center">
-                    카드 {cardListData.result.length - curIndex}장 남았어!
-                  </p>
-                </div>
-              )}
+              <GameTitle
+                title={data?.result?.name ?? ''}
+                length={cardListData.result.length - curIndex}
+              />
 
               {/* Shuffle Layout */}
               <AnimatePresence>

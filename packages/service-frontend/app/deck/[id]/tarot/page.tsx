@@ -15,6 +15,7 @@ import BottomCta from '@/app/components/common/BottomCta'
 import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import TaroCardList from './components/TaroCardList'
+import { GameTitle } from '../components'
 import EmptyCard from '../play/EmptyCard'
 import { PlayCard, generateCards } from '../play/generateCard'
 
@@ -200,18 +201,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
       />
       <div className="flex flex-col gap-[64px] min-h-screen">
         {/* 게임 정보 */}
-        <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
-          <strong className="headline-1 text-grey-800">
-            {data?.result?.name ?? ''}
-          </strong>
-          <div className="flex mx-auto gap-[4px]">
-            <span className="subtitle-3 text-grey-600">카드</span>
-            <strong className="headline-5 text-grey-600">
-              {cards.length}장
-            </strong>
-            <span className="subtitle-3 text-grey-600">남았어!</span>
-          </div>
-        </div>
+        <GameTitle title={data?.result?.name ?? ''} length={cards.length} />
 
         <div className="relative w-[270px] mx-auto z-50">
           {/* 플레이 카드 */}
