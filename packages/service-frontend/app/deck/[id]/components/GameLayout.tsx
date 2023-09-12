@@ -63,7 +63,7 @@ function GameLayout({
         }}
       />
 
-      <main className="min-h-screen">
+      <main className="min-h-screen relative z-[505]">
         <div
           className="w-full flex flex-col gap-[63px] justify-center items-center"
           onClick={handleOnboardingState}
