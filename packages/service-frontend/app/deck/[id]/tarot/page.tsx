@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { redirect, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { api } from '@ppoba/api'
 
 import TaroCardList from './components/TaroCardList'
@@ -31,7 +31,6 @@ interface Props {
 }
 
 export default function TaroPlayPage({ params }: Props): JSX.Element {
-  const router = useRouter()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isShowBack, setIsShowBack] = useState(false)
   const { data, isError } = useQuery(
@@ -50,7 +49,8 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
   )
   const [cards, setCard] = useState<PlayCard[]>([])
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
-  const [isExitAnimation, setIsExitAnimation] = useState(false)
+  const [isRightExitAnimation, setIsRightExitAnimation] = useState(false)
+  const [isLeftExitAnimation, setIsLeftExitAnimation] = useState(false)
   const [triggerShuffle, setTriggerShuffle] = useState(false)
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
     if (isShowBack) {
-      setIsExitAnimation(true)
+      setIsLeftExitAnimation(true)
       return
     }
     setCurrentIndex(prev => Math.max(0, prev - 1))
@@ -70,7 +70,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
 
   const handleClickNextCard = useCallback(() => {
     if (isShowBack) {
-      setIsExitAnimation(true)
+      setIsRightExitAnimation(true)
       return
     }
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
@@ -84,7 +84,7 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
   const handleClickNextButton = useCallback(() => {
     if (isShowBack) {
       handleClickNextCard()
-      setIsExitAnimation(true)
+      setIsRightExitAnimation(true)
     } else {
       handleClickNextCard()
     }
@@ -92,21 +92,37 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
 
   useEffect(() => {
     // exit용 애니메이션
-    if (isExitAnimation) {
+    if (isRightExitAnimation) {
       setTimeout(() => {
         setIsShowBack(false)
-        setIsExitAnimation(false)
+        setIsRightExitAnimation(false)
         const nextCards = [...cards].filter(
           (_, index) => index !== currentIndex,
         )
         setCard(nextCards)
+
         if (nextCards.length <= currentIndex) {
           // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
           setCurrentIndex(nextCards.length - 1)
         }
       })
     }
-  }, [cards, currentIndex, isExitAnimation])
+  }, [cards, currentIndex, isRightExitAnimation])
+
+  useEffect(() => {
+    if (isLeftExitAnimation) {
+      // prev를 설정한 경우는 왼쪽으로 애니메이션을 준다
+      const targetIndex = currentIndex
+      setIsShowBack(false)
+      setIsLeftExitAnimation(false)
+      setCurrentIndex(prev => Math.max(prev - 1, 0))
+
+      setTimeout(() => {
+        const nextCards = [...cards].filter((_, index) => index !== targetIndex)
+        setCard(nextCards)
+      })
+    }
+  }, [cards, currentIndex, isLeftExitAnimation])
 
   useEffect(() => {
     if (triggerShuffle) {
@@ -144,7 +160,8 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
             <motion.div ref={containerRef} className="h-[360px] relative z-50">
               <TaroCardList
                 cards={cards}
-                isExitAnimation={isExitAnimation}
+                isRightExitAnimation={isRightExitAnimation}
+                isLeftExitAnimation={isLeftExitAnimation}
                 isShowBack={isShowBack}
                 currentIndex={currentIndex}
                 onClickPrevCard={handleClickPrevCard}
