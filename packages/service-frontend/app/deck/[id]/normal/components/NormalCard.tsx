@@ -41,6 +41,7 @@ const NormalCard = ({
   canDrag,
   cardLocation,
   cardVariants,
+  className,
   setIndex,
 }: {
   data: Card | null
@@ -49,6 +50,7 @@ const NormalCard = ({
   canDrag: boolean
   cardLocation: 'front' | 'middle' | 'back'
   cardVariants: Variants
+  className?: string
   setIndex: Dispatch<SetStateAction<number>>
 }): JSX.Element => {
   const [cardContent, setCardContent] = useState('')
@@ -134,7 +136,9 @@ const NormalCard = ({
       whileHover={{ cursor: 'grab' }}
       whileTap={{ cursor: 'grabbing' }}
       whileDrag={{ cursor: 'grabbing' }}
-      className={`absolute rounded-[24px] ${getCardSize(cardLocation)}`}
+      className={`absolute rounded-[24px] ${getCardSize(
+        cardLocation,
+      )} ${className}`}
     >
       <NormalCardFront
         indexString={indexString}

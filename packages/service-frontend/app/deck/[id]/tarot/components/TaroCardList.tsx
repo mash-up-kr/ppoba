@@ -61,7 +61,8 @@ interface Props {
   }[]
   isShowBack: boolean
   currentIndex: number
-  isExitAnimation: boolean
+  isLeftExitAnimation: boolean
+  isRightExitAnimation: boolean
   onClickPrevCard: VoidFunction
   onClickNextCard: VoidFunction
   onClickCurrentCard: VoidFunction
@@ -73,7 +74,8 @@ function TaroCardList({
   cards,
   isShowBack,
   currentIndex,
-  isExitAnimation,
+  isLeftExitAnimation,
+  isRightExitAnimation,
   onClickPrevCard,
   onClickNextCard,
   onClickCurrentCard,
@@ -81,19 +83,8 @@ function TaroCardList({
   setIsShowBack,
 }: Props): JSX.Element {
   const currentCard = cards[currentIndex]
-  const isRightAnimation = currentIndex !== cards.length - 1
-  const [isShowMain, setIsShowMain] = useState(true)
+  const isExitAnimation = isLeftExitAnimation || isRightExitAnimation
   const [exitX, setExitX] = useState(0)
-
-  useEffect(() => {
-    if (isExitAnimation && isRightAnimation) {
-      setIsShowMain(false)
-
-      setTimeout(() => {
-        setIsShowMain(true)
-      }, 50)
-    }
-  }, [isExitAnimation, isRightAnimation])
 
   function handleDragEnd(_: any, info: { offset: { x: number } }) {
     if (info.offset.x < -40) {
@@ -123,11 +114,11 @@ function TaroCardList({
         const inShow = currentIndex - 1 <= index && index <= currentIndex + 1
         return (
           inShow && (
-            <Fragment key={index}>
+            <Fragment key={card.id}>
               {/* prev */}
               {currentIndex - 1 === index && (
                 <motion.div
-                  key={index}
+                  key={card.id}
                   className={`flex w-[255px] h-[340px] absolute transition-all ease-out duration-150 z-[100] ${
                     isShowBack ? 'opacity-30' : 'opacity-50'
                   }`}
@@ -146,9 +137,9 @@ function TaroCardList({
               )}
 
               {/* main */}
-              {isShowMain && currentIndex === index && (
+              {currentIndex === index && (
                 <motion.div
-                  key={index}
+                  key={card.id}
                   className={`flex w-[270px] h-[360px] absolute duration-150 z-[50] ${
                     isShowBack ? 'opacity-100' : 'opacity-[0.98]'
                   }`}
@@ -163,7 +154,7 @@ function TaroCardList({
                   onClick={onClickCurrentCard}
                 >
                   <TaroCard
-                    key={`${index}-taro-card`}
+                    key={`${index}-${card.id}taro-card`}
                     exitX={exitX}
                     cardLocation="front"
                     cardVariants={{
@@ -189,12 +180,12 @@ function TaroCardList({
               {/* next */}
               {currentIndex + 1 === index && (
                 <motion.div
-                  key={index}
+                  key={card.id}
                   className={`flex w-[255px] h-[340px] absolute transition-all ease-out duration-150 z-[30] ${
                     isShowBack ? 'opacity-30' : 'opacity-80'
                   }`}
                   variants={animateVariants}
-                  initial="rightOutSide"
+                  initial={isLeftExitAnimation ? 'rightSide' : 'rightOutSide'}
                   animate="rightSide"
                   exit={'exit'}
                 >
@@ -215,10 +206,11 @@ function TaroCardList({
       <AnimatePresence>
         {isExitAnimation && (
           <motion.div
-            className={`flex w-[270px] h-[360px] absolute z-30 duration-150 opacity-100`}
+            className={`flex w-[270px] h-[360px] absolute z-[0] duration-150 opacity-100`}
             exit={{
               top: -300,
               opacity: 0,
+              zIndex: 0,
             }}
           >
             <Card

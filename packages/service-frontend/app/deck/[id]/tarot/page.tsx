@@ -2,18 +2,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { AnimatePresence, motion } from 'framer-motion'
-import Lottie from 'lottie-react'
-import Image from 'next/image'
-import { redirect, useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
+import { redirect } from 'next/navigation'
 import { api } from '@ppoba/api'
-import { Button, SecondaryButton } from '@ppoba/ui'
-
-import Alert from '@/app/Alert'
-import { Header } from '@/app/components'
-import loadingDeckLottie from '@/public/lottie/loadingDeckLottie.json'
 
 import TaroCardList from './components/TaroCardList'
+import { GameLayout } from '../components'
 import EmptyCard from '../play/EmptyCard'
 import { PlayCard, generateCards } from '../play/generateCard'
 
@@ -37,7 +31,6 @@ interface Props {
 }
 
 export default function TaroPlayPage({ params }: Props): JSX.Element {
-  const router = useRouter()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isShowBack, setIsShowBack] = useState(false)
   const { data, isError } = useQuery(
@@ -56,12 +49,8 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
   )
   const [cards, setCard] = useState<PlayCard[]>([])
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX)
-  const [isExitAnimation, setIsExitAnimation] = useState(false)
-  const [isShowNotification, setIsShowNotification] = useState(true)
-  const [isCloseOverlayOpen, setIsCloseOverlayOpen] = useState(false)
-  const [alertPhrase, setAlertPhrase] = useState<'touch' | 'slide' | 'none'>(
-    'touch',
-  )
+  const [isRightExitAnimation, setIsRightExitAnimation] = useState(false)
+  const [isLeftExitAnimation, setIsLeftExitAnimation] = useState(false)
   const [triggerShuffle, setTriggerShuffle] = useState(false)
 
   useEffect(() => {
@@ -70,70 +59,32 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
     }
   }, [cardListData])
 
-  const handleShowingEvent = useCallback(() => {
-    setAlertPhrase(prev => {
-      if (prev === 'touch') {
-        return 'slide'
-      }
-      if (prev === 'slide') {
-        return 'none'
-      }
-      return 'none'
-    })
-  }, [])
-
-  const handleNotification = useCallback(() => {
-    setIsShowNotification(() => {
-      if (alertPhrase === 'touch') {
-        return false
-      }
-      return true
-    })
-  }, [alertPhrase])
-
   // 카드를 직접 클릭
   const handleClickPrevCard = useCallback(() => {
-    handleNotification()
     if (isShowBack) {
-      setAlertPhrase('none')
-      setIsExitAnimation(true)
+      setIsLeftExitAnimation(true)
       return
     }
-    setIsShowNotification(() => {
-      if (alertPhrase === 'touch') {
-        return false
-      }
-      return true
-    })
     setCurrentIndex(prev => Math.max(0, prev - 1))
-  }, [alertPhrase, handleNotification, isShowBack])
+  }, [isShowBack])
+
   const handleClickNextCard = useCallback(() => {
-    handleNotification()
     if (isShowBack) {
-      setAlertPhrase('none')
-      setIsExitAnimation(true)
+      setIsRightExitAnimation(true)
       return
     }
-    setIsShowNotification(() => {
-      if (alertPhrase === 'touch') {
-        return false
-      }
-      return true
-    })
     setCurrentIndex(prev => Math.min(cards.length - 1, prev + 1))
-  }, [alertPhrase, cards.length, handleNotification, isShowBack])
+  }, [cards.length, isShowBack])
 
   const handleClickCurrentCard = useCallback(() => {
-    handleShowingEvent()
     setIsShowBack(true)
-  }, [handleShowingEvent])
+  }, [])
 
   // 하단 버튼
   const handleClickNextButton = useCallback(() => {
     if (isShowBack) {
-      setAlertPhrase('none')
       handleClickNextCard()
-      setIsExitAnimation(true)
+      setIsRightExitAnimation(true)
     } else {
       handleClickNextCard()
     }
@@ -141,29 +92,37 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
 
   useEffect(() => {
     // exit용 애니메이션
-    if (isExitAnimation) {
+    if (isRightExitAnimation) {
       setTimeout(() => {
         setIsShowBack(false)
-        setIsExitAnimation(false)
+        setIsRightExitAnimation(false)
         const nextCards = [...cards].filter(
           (_, index) => index !== currentIndex,
         )
         setCard(nextCards)
+
         if (nextCards.length <= currentIndex) {
           // 카드가 맨 마지막이였던 경우 인덱스를 재설정한다
           setCurrentIndex(nextCards.length - 1)
         }
       })
     }
-  }, [cards, currentIndex, isExitAnimation])
+  }, [cards, currentIndex, isRightExitAnimation])
 
   useEffect(() => {
-    if (!isShowNotification && alertPhrase === 'touch') {
+    if (isLeftExitAnimation) {
+      // prev를 설정한 경우는 왼쪽으로 애니메이션을 준다
+      const targetIndex = currentIndex
+      setIsShowBack(false)
+      setIsLeftExitAnimation(false)
+      setCurrentIndex(prev => Math.max(prev - 1, 0))
+
       setTimeout(() => {
-        setIsShowNotification(true)
-      }, 800)
+        const nextCards = [...cards].filter((_, index) => index !== targetIndex)
+        setCard(nextCards)
+      })
     }
-  }, [alertPhrase, isShowNotification])
+  }, [cards, currentIndex, isLeftExitAnimation])
 
   useEffect(() => {
     if (triggerShuffle) {
@@ -187,38 +146,22 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
 
   return (
     <>
-      <Header
-        rightIconType="close"
-        onClickRightIcon={() => {
-          if (cards.length === 0) {
-            router.push('')
-          } else {
-            setIsCloseOverlayOpen(true)
-          }
-        }}
-      />
-      <div className="flex flex-col min-h-screen justify-around">
-        {/* 게임 정보 */}
-        <div className="flex flex-col gap-[4px] pt-[52px] px-[8px] text-center">
-          <strong className="headline-1 text-grey-800">
-            {data?.result?.name ?? ''}
-          </strong>
-          <div className="flex mx-auto gap-[4px]">
-            <span className="subtitle-3 text-grey-600">카드</span>
-            <strong className="headline-5 text-grey-600">
-              {cards.length}장
-            </strong>
-            <span className="subtitle-3 text-grey-600">남았어!</span>
-          </div>
-        </div>
-
-        <div className="relative w-[270px] mx-auto z-50">
+      <GameLayout
+        title={data?.result?.name ?? ''}
+        length={cards.length}
+        triggerShuffle={triggerShuffle}
+        isFinishGame={cards.length === 0}
+        onClickShuffle={() => setTriggerShuffle(true)}
+        onClickNextCard={handleClickNextButton}
+      >
+        <div className="relative w-[270px] h-full mx-auto z-50">
           {/* 플레이 카드 */}
           {cards.length > 0 ? (
-            <motion.div ref={containerRef} className="h-[384px] relative z-50">
+            <motion.div ref={containerRef} className="h-[360px] relative z-50">
               <TaroCardList
                 cards={cards}
-                isExitAnimation={isExitAnimation}
+                isRightExitAnimation={isRightExitAnimation}
+                isLeftExitAnimation={isLeftExitAnimation}
                 isShowBack={isShowBack}
                 currentIndex={currentIndex}
                 onClickPrevCard={handleClickPrevCard}
@@ -227,24 +170,6 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
                 setCurrentIndex={setCurrentIndex}
                 setIsShowBack={setIsShowBack}
               />
-              {isShowNotification && alertPhrase === 'touch' && (
-                <div
-                  className="absolute flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]"
-                  onClick={handleClickCurrentCard}
-                >
-                  <span className="animate-ping-red rounded-full w-[40px] border-solid h-[40px] absolute content-[''] bg-alert-red z-[300]" />
-                  <span className="absolute rounded-full w-[40px] h-[40px] border-solid  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 content-[''] bg-alert-red z-[300]" />
-                  <Image
-                    src="/touch.png"
-                    alt="touch-image"
-                    width={20}
-                    height={20}
-                    style={{
-                      zIndex: 2000,
-                    }}
-                  />
-                </div>
-              )}
             </motion.div>
           ) : (
             <motion.div
@@ -256,79 +181,8 @@ export default function TaroPlayPage({ params }: Props): JSX.Element {
               <EmptyCard />
             </motion.div>
           )}
-
-          {isShowNotification && alertPhrase !== 'none' && (
-            <motion.div className="animate-top-down-bounce text-white absolute subtitle-3 whitespace-nowrap w-fit bottom-0 left-1/2 -translate-x-1/2 py-[10px] px-[20px] rounded-[19px] bg-[rgba(16,16,16,0.60)] z-[100] backdrop-blur-sm">
-              {alertPhrase === 'touch'
-                ? '터치하면 내용을 볼 수 있어!'
-                : '옆으로 넘겨서 다음 카드를 볼 수 있어'}
-            </motion.div>
-          )}
         </div>
-
-        {/* 버튼 */}
-        <div className="relative flex gap-[10px] justify-center px-[24px] z-50">
-          {cards.length === 0 ? (
-            // 남은 카드가 없는 경우
-            <motion.div
-              className="relative"
-              variants={animateVariants}
-              initial={'initial'}
-              animate={'animate'}
-            >
-              <Button size="medium" onClick={() => router.push('/')}>
-                리스트로 가기
-              </Button>
-            </motion.div>
-          ) : (
-            <>
-              {/* 카드가 남은 경우 */}
-              <SecondaryButton
-                size="small"
-                rightIcon="shuffle"
-                onClick={() => setTriggerShuffle(true)}
-              >
-                섞기
-              </SecondaryButton>
-              <Button size="large" onClick={handleClickNextButton}>
-                다음 카드 보기
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Overlay */}
-      {isCloseOverlayOpen && (
-        <Alert
-          alertPhrase={`아직 게임이 끝나지 않았어.\n정말 그만둘거야?`}
-          closePhrase="계속하기"
-          confirmPhrase="그만둘래"
-          onClickClose={() => setIsCloseOverlayOpen(false)}
-          onClickConfirm={() => router.back()}
-        />
-      )}
-
-      {/* Shuffle Layout */}
-      <AnimatePresence>
-        {triggerShuffle && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1 },
-            }}
-            style={{
-              backdropFilter: 'blur(16px)',
-            }}
-            className="fixed w-full max-w-[420px] top-0 z-[100] bg-[rgba(0,0,0,0.70)] h-full text-light flex justify-center items-center headline-2"
-          >
-            <Lottie animationData={loadingDeckLottie} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </GameLayout>
     </>
   )
 }
